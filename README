@@ -1,8 +1,6 @@
 
-WebDrive - Selenium 2 WebDriver support for play framework
-==========================================================
-WebDrive module provides Selenium 2 testing support for Play framework. You can use this
-module to test your application with any browsers supported by Selenium WebDriver.
+Play-behave - Base Play! module to allow super-awesome BDD testing through WebDriver
+====================================================================================
 
 Usage
 =====
@@ -10,9 +8,9 @@ See documentation/manual/home.textile for documentation.
 
 License
 =======
-WebDrive is licensed under Apache License version 2.0.
+Play-behave is licensed under Apache License version 2.0.
 
 Support
 =======
 This is a beta release. Please report any issues at
-https://github.com/rkaippully/play-webdrive.
+http://bitbucket.org/rugbyhead/play-behave/
