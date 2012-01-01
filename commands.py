@@ -21,10 +21,11 @@ import socket
 
 from play.utils import *
 
-COMMANDS = [ 'webdrive:test' , 'webdrive:remote' ]
+COMMANDS = [ 'behave:local' , 'behave:grid' ]
 
 HELP = {
-    'webdrive:test': 'Run tests using Selenium 2 WebDriver'
+    'behave:local': 'Run tests using local browsers',
+    'behave:grid': 'Run tests remotely using a Selenium 2 grid'
 }
 
 def execute(**kargs):
@@ -32,10 +33,10 @@ def execute(**kargs):
     app = kargs.get("app")
     args = kargs.get("args")
 
-    if command == 'webdrive:test':
+    if command == 'behave:local':
         test(app, args, False)
         
-    if command == 'webdrive:remote':
+    if command == 'behave:grid':
         test(app, args, True)
 
 def test(app, args, remote):
@@ -97,8 +98,11 @@ def test(app, args, remote):
     # Run WebDriverRunner
     if (remote):
     
+    	grid_hub_host = app.readConf('grid.hub.host')
+    	grid_hub_port = app.readConf('grid.hub.port')
+    
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("jenkins.wdstechnology.com", 80))
+        s.connect((grid_hub_host, grid_hub_port))
         ip_address = s.getsockname()[0]
     
         print "~~~~~~~~~~~~~~~~~~ WebDriver out of your house and running free on %s ~~~~~~~~~~ " %(app.readConf('webdrive.remoteUrl'),)

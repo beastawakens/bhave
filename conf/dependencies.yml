@@ -1,5 +1,6 @@
-self: play -> webdrive 0.2-wds-v4
+self: play -> behave 0.1
 
 require:
-    - play 1.2
+    - play 1.2.4
+    - play -> mockito 0.1
     - org.seleniumhq.selenium -> selenium-java 2.15.0
