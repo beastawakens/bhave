@@ -1,0 +1,117 @@
+/* colours:
+	lightest:  8B96C2
+	mid-light: 5D6582
+	mid:       545B75
+	mid-dark:  42475C
+	darkest:   262935
+ */
+
+body {
+	font-family: monospace;
+	margin: 25px;
+	background-color: #262935;
+	color: #262935;
+	font-weight: bold;
+	font-size: x-large;
+}
+
+h1 {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+div {
+	background-color: #8B96C2;
+	padding: 20px;
+	-webkit-border-top-right-radius: 40px;
+	-webkit-border-bottom-left-radius: 40px;
+	-moz-border-radius-topright: 40px;
+	-moz-border-radius-bottomleft: 40px;
+	border-top-right-radius: 40px;
+	border-bottom-left-radius: 40px;
+	transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    width: 75%;
+    margin-bottom: 20px;
+}
+div:HOVER {
+	box-shadow: 0 0 25px rgba(255, 0, 144, 1);
+    -webkit-box-shadow: 0 0 25px rgba(255, 0, 144, 1); 
+    -moz-box-shadow: 0 0 25px rgba(255, 0, 144, 1);
+    width: 95%; 
+}
+
+a {
+	text-decoration: none;
+	font-weight: bolder;
+	color: #545B75;
+	transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+}
+
+a:HOVER {
+	color: #8B96C2;
+	background-color: rgba(255, 0, 144, 0.45);
+	box-shadow: 0 0 15px rgba(255, 0, 144, 1);
+    -webkit-box-shadow: 0 0 15px rgba(255, 0, 144, 1); 
+    -moz-box-shadow: 0 0 15px rgba(255, 0, 144, 1); 
+}
+
+input {
+	background-color: #545B75;
+	border: none;
+	color: #8B96C2;
+	transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	border-top-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+input:FOCUS {
+	background-color: #ffffff;
+	border: none;
+	color: #545B75;
+	outline: none;
+	
+}
+button, select {
+	background-color: #8B96C2;
+	border: solid 2px;
+	color: #545B75;
+	transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -webkit-border-top-left-radius: 6px;
+	-webkit-border-bottom-right-radius: 6px;
+	-webkit-border-bottom-left-radius: 12px;
+	-moz-border-radius-topleft: 6px;
+	-moz-border-radius-bottomright: 6px;
+	-moz-border-radius-bottomleft: 12px;
+	border-top-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	border-bottom-left-radius: 12px;
+}
+button:HOVER, select:HOVER {
+	background-color: #ffffff;
+	color: #545B75;
+	outline: none;
+}
+button:FOCUS, select:FOCUS {
+	outline: none;
+	background-color: #42475C;
+	color: #ffffff;
+}
+button:ACTIVE, select:ACTIVE {
+	background-color: #42475C;
+	color: #ffffff;
+	outline: none;
+}
+option {
+	background-color: #262935;
+}

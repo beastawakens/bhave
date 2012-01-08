@@ -1,8 +1,8 @@
 #{extends 'behave-main.html' /}
-#{set title:'Behave yourself' /}
+#{set title:'Bhave yourself' /}
 
 <script>
-	var client, executor, driver, testModel;
+	var client, executor, driver, myTest;
 	
 	function forElementToBePresent(findBy) { 
 		return function() { 
@@ -34,7 +34,28 @@
 		this.language = ko.observable(language);
 		this.command = ko.observable(command);
 	}
-	
+
+	ko.bindingHandlers.slideVisible = {
+	    init: function(element, valueAccessor) {
+	        var shouldDisplay = valueAccessor();
+	        $(element).toggle(shouldDisplay);
+	    },
+	    update: function(element, valueAccessor) {
+	        var shouldDisplay = valueAccessor();
+	        shouldDisplay ? $(element).slideDown() : $(element).slideUp();
+	    } 
+	};
+
+	ko.bindingHandlers.fadeVisible = {
+	    init: function(element, valueAccessor) {
+	        var shouldDisplay = valueAccessor();
+	        $(element).toggle(shouldDisplay);
+	    },
+	    update: function(element, valueAccessor) {
+	        var shouldDisplay = valueAccessor();
+	        shouldDisplay ? $(element).fadeIn() : $(element).fadeOut();
+	    } 
+	};
 </script>
 <script>
 	var globalKeywords = {
@@ -52,17 +73,16 @@ $(document).ready(function() {
 	
 	webdriver.promise.Application.getInstance().on('uncaughtException', function(e) {
 		console.log('Oh dear: ' + e);
-		driver.quit();
     });
 	
-	testModel = function BehaveViewModel() {
+	myTest = function BehaveViewModel() {
 		var test = this;
 		test.driverServer = ko.observable("http://localhost:4444/wd/hub");
 		test.availableBrowsers = [
 				"firefox",
 				"chrome",
-				"internet explorer",
 				"opera",
+				"internet explorer",
 				"android"
 			];
 		test.driverBrowserName = ko.observable("firefox");
@@ -77,7 +97,7 @@ $(document).ready(function() {
 			new Behaviour("", "driver.wait(forTitle(toBe('webdriver rocks - Google Search')), 1000);"),
 			new Behaviour("", "var element = driver.findElement(webdriver.By.name('q'));"),
 			new Behaviour("", "driver.wait(forElementAttribute(element, 'name', toBe('q')), 1000);"),
-			new Behaviour("", "driver.quit();")
+			new Behaviour("", "driver.quit();")		
 		]);
 		
 		test.driverBuilder = ko.computed(function() {
@@ -102,6 +122,12 @@ $(document).ready(function() {
 				test.executorCreated(true);
 			}
 		}
+		
+		test.resetExecutor = function() {
+			executor = null;
+			test.executorCreated(false);
+			test.resetDriver();
+		}
 
 		test.getDriver = function() {
 			if (driver == null) {
@@ -111,6 +137,13 @@ $(document).ready(function() {
 				test.driverCreated(true);
 			}
 		}
+		
+		test.resetDriver = function() {
+			if (driver != null) {
+				driver = null;
+			}
+			test.driverCreated(false);
+		}
 
 		test.executorCreated = ko.observable(false);
 		test.driverCreated = ko.observable(false);
@@ -118,9 +151,13 @@ $(document).ready(function() {
 		test.run = function() {
 			console.log("running test");
 			console.log(test.getBehaviours());
+			test.running(true);
 			var exec = new Function(test.getBehaviours());
 			exec();
+			
 		}
+		
+		test.running = ko.observable(false);
 		
 		test.removeBehaviour = function(behaviour) {
 			test.behaviours.remove(behaviour)
@@ -138,20 +175,25 @@ $(document).ready(function() {
 		});
 	}
 	
-	ko.applyBindings(testModel());
+	ko.applyBindings(myTest());
 
 });
 </script>
 
-<div data-bind="visible: !executorCreated()">
-	<p>Server: <input size="30" data-bind="value: driverServer" /> <button data-bind="click: getExecutor">Initiate Session</button></p>
+<div>
+	<p data-bind="slideVisible: !executorCreated()">Server: <input size="30" data-bind="value: driverServer" /> <button data-bind="click: getExecutor">Choose server</button></p>
+	<button data-bind="click: resetExecutor, fadeVisible: executorCreated()">Choose Another Server</button>
+	<button data-bind="click: resetDriver, fadeVisible: driverCreated()">Create Another Browser</button>
+	<img src="@{'/public/images/running.gif'}" data-bind="fadeVisible: running()">
 </div>
 
-<div data-bind="visible: !driverCreated()">
-	<p>Browser: <select data-bind="options: availableBrowsers, value: driverBrowserName"></select></p>
-	<p>Chosen Browser: <span data-bind="text: driverBrowserName"></span></p>
-	<button data-bind="click: getDriver">Create Driver</button>
+
+<div data-bind="slideVisible: !driverCreated()">
+		<p>Browser: <select data-bind="options: availableBrowsers, value: driverBrowserName"></select></p>
+		<p>Chosen Browser: <span data-bind="text: driverBrowserName"></span></p>
+		<button data-bind="click: getDriver">Create Browser</button>
 </div>
+
 
 <div>
 	<h3>Behaviours</h3>
@@ -161,8 +203,8 @@ $(document).ready(function() {
 	    </tfoot>
 	    <tbody data-bind="foreach: behaviours">
 	        <tr>
-	            <td><input size="50"  data-bind="value: language" /></td>
-	            <td><input size="100"  data-bind="value: command" /></td>
+	            <td><input size="30"  data-bind="value: language" /></td>
+	            <td><input size="80"  data-bind="value: command" /></td>
 	            <td><button data-bind="click: removeBehaviour">Remove</button></td>
 	        </tr>    
 	    </tbody>
