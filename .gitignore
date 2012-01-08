@@ -8,4 +8,9 @@ eclipse/
 conf/application.conf
 conf/routes
 commands.pyc
+.buildpath
+chromedriver.log
+
+
+
 

@@ -1,4 +1,4 @@
-self: play -> behave 0.1
+self: play -> bhave 0.1
 
 require:
     - play 1.2.4

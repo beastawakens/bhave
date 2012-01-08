@@ -1,1 +1,171 @@
-Hello!
+#{extends 'behave-main.html' /}
+#{set title:'Behave yourself' /}
+
+<script>
+	var client, executor, driver, testModel;
+	
+	function forElementToBePresent(findBy) { 
+		return function() { 
+			return driver.isElementPresent(findBy); 
+		}; 
+	}
+	
+	function toBe(input) {
+		return input;
+	}
+	
+	function forElementAttribute(element, attribute, requiredValue) {
+		return function() {
+			return element.getAttribute(attribute).then(function(currentValue) {
+				return currentValue == requiredValue;
+			});
+		};
+	}
+	
+	function forTitle(requiredTitle) {
+		return function() {
+			return driver.getTitle().then(function(currentTitle) {
+				return currentTitle == requiredTitle;
+			});
+		}; 
+	}
+	
+	function Behaviour(language, command) {
+		this.language = ko.observable(language);
+		this.command = ko.observable(command);
+	}
+	
+</script>
+<script>
+	var globalKeywords = {
+		finish : "driver.quit();",
+	}
+	
+	var globalSynonyms = {
+		quit : globalKeywords.finish	
+	}
+
+</script>
+<script>
+
+$(document).ready(function() {
+	
+	webdriver.promise.Application.getInstance().on('uncaughtException', function(e) {
+		console.log('Oh dear: ' + e);
+		driver.quit();
+    });
+	
+	testModel = function BehaveViewModel() {
+		var test = this;
+		test.driverServer = ko.observable("http://localhost:4444/wd/hub");
+		test.availableBrowsers = [
+				"firefox",
+				"chrome",
+				"internet explorer",
+				"opera",
+				"android"
+			];
+		test.driverBrowserName = ko.observable("firefox");
+		test.driverVersion = function(){ return "";};
+		test.driverPlatform = function(){ return "ANY";};
+		test.driverJavascriptEnabled = function(){ return "true";};
+
+		test.behaviours = ko.observableArray([
+			new Behaviour("", "driver.get('http://www.google.com');"),
+			new Behaviour("", "driver.findElement(webdriver.By.name('q')).sendKeys('webdriver rocks');"),
+			new Behaviour("", "driver.findElement(webdriver.By.name('btnG')).click();"),
+			new Behaviour("", "driver.wait(forTitle(toBe('webdriver rocks - Google Search')), 1000);"),
+			new Behaviour("", "var element = driver.findElement(webdriver.By.name('q'));"),
+			new Behaviour("", "driver.wait(forElementAttribute(element, 'name', toBe('q')), 1000);"),
+			new Behaviour("", "driver.quit();")
+		]);
+		
+		test.driverBuilder = ko.computed(function() {
+			return "driver = webdriver.WebDriver.createSession(executor, {" +
+		    "'browserName': '" + test.driverBrowserName() + "'," +
+		    "'version': '" + test.driverVersion()  +"'," +
+		    "'platform': '" + test.driverPlatform() + "'," +
+		    "'javascriptEnabled': " + test.driverJavascriptEnabled() + "});";
+	    }, test);
+
+		test.executorBuilder = ko.computed(function() {
+			return "client = new webdriver.http.CorsClient('" + 
+					test.driverServer() +
+					"'); executor = new webdriver.http.Executor(client);";
+	    }, test);
+		
+		test.getExecutor = function() {
+			if (executor == null) {
+				console.log("creating executor");
+				var exec = new Function(test.executorBuilder());
+				exec();
+				test.executorCreated(true);
+			}
+		}
+
+		test.getDriver = function() {
+			if (driver == null) {
+				console.log("creating driver");
+				var exec = new Function(test.driverBuilder());
+				exec();
+				test.driverCreated(true);
+			}
+		}
+
+		test.executorCreated = ko.observable(false);
+		test.driverCreated = ko.observable(false);
+		
+		test.run = function() {
+			console.log("running test");
+			console.log(test.getBehaviours());
+			var exec = new Function(test.getBehaviours());
+			exec();
+		}
+		
+		test.removeBehaviour = function(behaviour) {
+			test.behaviours.remove(behaviour)
+		}
+		test.addBehaviour = function(behaviour) {
+			test.behaviours.push(new Behaviour(""));
+		}
+		
+		test.getBehaviours = ko.computed(function() {
+		   var behaviourString = "";
+		   for (var i = 0; i < test.behaviours().length; i++) {
+			   behaviourString += test.behaviours()[i].command();
+		   }
+		   return behaviourString;
+		});
+	}
+	
+	ko.applyBindings(testModel());
+
+});
+</script>
+
+<div data-bind="visible: !executorCreated()">
+	<p>Server: <input size="30" data-bind="value: driverServer" /> <button data-bind="click: getExecutor">Initiate Session</button></p>
+</div>
+
+<div data-bind="visible: !driverCreated()">
+	<p>Browser: <select data-bind="options: availableBrowsers, value: driverBrowserName"></select></p>
+	<p>Chosen Browser: <span data-bind="text: driverBrowserName"></span></p>
+	<button data-bind="click: getDriver">Create Driver</button>
+</div>
+
+<div>
+	<h3>Behaviours</h3>
+	<table>
+	    <tfoot>
+	    	<tr><td></td><td></td><td><button data-bind="click: addBehaviour">Add</button></td></tr>
+	    </tfoot>
+	    <tbody data-bind="foreach: behaviours">
+	        <tr>
+	            <td><input size="50"  data-bind="value: language" /></td>
+	            <td><input size="100"  data-bind="value: command" /></td>
+	            <td><button data-bind="click: removeBehaviour">Remove</button></td>
+	        </tr>    
+	    </tbody>
+	</table>
+	<button data-bind="click: run">Run Test</button>
+</div>
