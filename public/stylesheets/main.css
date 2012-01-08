@@ -32,6 +32,7 @@ div {
 	transition: all 0.5s ease-in-out;
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
     width: 75%;
     margin-bottom: 20px;
 }
@@ -49,6 +50,7 @@ a {
 	transition: all 0.5s ease-in-out;
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
 }
 
 a:HOVER {
@@ -66,10 +68,13 @@ input {
 	transition: all 0.5s ease-in-out;
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
     -webkit-border-top-right-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
 	-moz-border-radius-topright: 3px;
 	-moz-border-radius-bottomleft: 3px;
+	-o-border-radius-topright: 3px;
+	-o-border-radius-bottomleft: 3px;
 	border-top-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
@@ -87,12 +92,16 @@ button, select {
 	transition: all 0.5s ease-in-out;
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
     -webkit-border-top-left-radius: 6px;
 	-webkit-border-bottom-right-radius: 6px;
 	-webkit-border-bottom-left-radius: 12px;
 	-moz-border-radius-topleft: 6px;
 	-moz-border-radius-bottomright: 6px;
 	-moz-border-radius-bottomleft: 12px;
+	-o-border-radius-topleft: 6px;
+	-o-border-radius-bottomright: 6px;
+	-o-border-radius-bottomleft: 12px;
 	border-top-left-radius: 6px;
 	border-bottom-right-radius: 6px;
 	border-bottom-left-radius: 12px;
