@@ -77,7 +77,7 @@ $(document).ready(function() {
 	
 	myTest = function BehaveViewModel() {
 		var test = this;
-		test.driverServer = ko.observable("http://localhost:4444/wd/hub");
+		test.driverServer = ko.observable("http://localhost:9001/wd/hub");
 		test.availableBrowsers = [
 				"firefox",
 				"chrome",
@@ -85,10 +85,15 @@ $(document).ready(function() {
 				"internet explorer",
 				"android"
 			];
+		test.availablePlatforms = [
+				"ANY",
+				"LINUX",
+				"WINDOWS"
+			];
 		test.driverBrowserName = ko.observable("firefox");
-		test.driverVersion = function(){ return "";};
-		test.driverPlatform = function(){ return "ANY";};
-		test.driverJavascriptEnabled = function(){ return "true";};
+		test.driverVersion = ko.observable("");
+		test.driverPlatform = ko.observable("ANY");
+		test.driverJavascriptEnabled = ko.observable("true");
 
 		test.behaviours = ko.observableArray([
 			new Behaviour("", "driver.get('http://www.google.com');"),
@@ -115,12 +120,10 @@ $(document).ready(function() {
 	    }, test);
 		
 		test.getExecutor = function() {
-			if (executor == null) {
-				console.log("creating executor");
-				var exec = new Function(test.executorBuilder());
-				exec();
-				test.executorCreated(true);
-			}
+			console.log("creating executor");
+			var exec = new Function(test.executorBuilder());
+			exec();
+			test.executorCreated(true);
 		}
 		
 		test.resetExecutor = function() {
@@ -130,12 +133,11 @@ $(document).ready(function() {
 		}
 
 		test.getDriver = function() {
-			if (driver == null) {
-				console.log("creating driver");
-				var exec = new Function(test.driverBuilder());
-				exec();
-				test.driverCreated(true);
-			}
+			test.getExecutor();
+			console.log("creating driver");
+			var exec = new Function(test.driverBuilder());
+			exec();
+			test.driverCreated(true);
 		}
 		
 		test.resetDriver = function() {
@@ -149,12 +151,12 @@ $(document).ready(function() {
 		test.driverCreated = ko.observable(false);
 		
 		test.run = function() {
+			test.getDriver();
 			console.log("running test");
 			console.log(test.getBehaviours());
 			test.running(true);
 			var exec = new Function(test.getBehaviours());
 			exec();
-			
 		}
 		
 		test.running = ko.observable(false);
@@ -181,19 +183,13 @@ $(document).ready(function() {
 </script>
 
 <div>
-	<p data-bind="slideVisible: !executorCreated()">Server: <input size="30" data-bind="value: driverServer" /> <button data-bind="click: getExecutor">Choose server</button></p>
-	<button data-bind="click: resetExecutor, fadeVisible: executorCreated()">Choose Another Server</button>
-	<button data-bind="click: resetDriver, fadeVisible: driverCreated()">Create Another Browser</button>
+	Server: <input size="30" data-bind="value: driverServer" /><br/>
+	Browser: <select data-bind="options: availableBrowsers, value: driverBrowserName"></select>
+	Version: <input size="2" data-bind="value: driverVersion()"/>
+	Platform: <select data-bind="options: availablePlatforms, value: driverPlatform"></select>
+	JS Enabled: <input type="checkbox" data-bind="checked: driverJavascriptEnabled"/>
 	<img src="@{'/public/images/running.gif'}" data-bind="fadeVisible: running()">
 </div>
-
-
-<div data-bind="slideVisible: !driverCreated()">
-		<p>Browser: <select data-bind="options: availableBrowsers, value: driverBrowserName"></select></p>
-		<p>Chosen Browser: <span data-bind="text: driverBrowserName"></span></p>
-		<button data-bind="click: getDriver">Create Browser</button>
-</div>
-
 
 <div>
 	<h3>Behaviours</h3>

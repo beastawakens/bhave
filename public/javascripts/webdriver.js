@@ -1840,9 +1840,14 @@ webdriver.promise.Deferred = function() {
     for(h = c;e.length;) {
       b(e.shift())
     }
-    !f && g == webdriver.promise.Deferred.State.REJECTED && setTimeout(function() {
-      f || webdriver.promise.Application.getInstance().abortCurrentFrame_(h)
-    }, 0)
+    if(!f && g == webdriver.promise.Deferred.State.REJECTED) {
+      var d = webdriver.promise.Application.getInstance();
+      d.pendingRejections_ += 1;
+      setTimeout(function() {
+        d.pendingRejections_ -= 1;
+        f || d.abortCurrentFrame_(h)
+      }, 0)
+    }
   }
   function b(a) {
     var b = g == webdriver.promise.Deferred.State.RESOLVED ? a.callback : a.errback;
@@ -1975,6 +1980,7 @@ webdriver.promise.Application.EventType = {IDLE:"idle", SCHEDULE_TASK:"scheduleT
 webdriver.promise.Application.EVENT_LOOP_FREQUENCY = 10;
 webdriver.promise.Application.prototype.shutdownId_ = null;
 webdriver.promise.Application.prototype.eventLoopId_ = null;
+webdriver.promise.Application.prototype.pendingRejections_ = 0;
 webdriver.promise.Application.prototype.reset = function() {
   this.frames_ = [];
   this.clearHistory();
@@ -2076,23 +2082,25 @@ webdriver.promise.Application.prototype.cancelEventLoop_ = function() {
   }
 };
 webdriver.promise.Application.prototype.runEventLoop_ = function() {
-  var a = goog.array.peek(this.frames_);
-  if(!a.pendingTask) {
-    var b = a.queue.shift();
-    if(b) {
-      this.history_.push(b.description);
-      a.isActive = !0;
-      a.pendingTask = b;
-      var c = this.executeAsap_(b.execute);
-      webdriver.promise.asap(c, function(c) {
-        a.pendingTask = null;
-        b.resolve(c)
-      }, function(c) {
-        a.pendingTask = null;
-        b.reject(c)
-      })
-    }else {
-      a.isWaiting ? a.isActive = !1 : (this.frames_.pop(), a.resolve())
+  if(!this.pendingRejections_) {
+    var a = goog.array.peek(this.frames_);
+    if(!a.pendingTask) {
+      var b = a.queue.shift();
+      if(b) {
+        this.history_.push(Array(this.frames_.length).join("..") + b.description);
+        a.isActive = !0;
+        a.pendingTask = b;
+        var c = this.executeAsap_(b.execute);
+        webdriver.promise.asap(c, function(c) {
+          a.pendingTask = null;
+          b.resolve(c)
+        }, function(c) {
+          a.pendingTask = null;
+          b.reject(c)
+        })
+      }else {
+        a.isWaiting ? a.isActive = !1 : (this.frames_.pop(), a.resolve())
+      }
     }
   }
 };
@@ -3721,6 +3729,10 @@ webdriver.WebDriver.prototype.findElements = function(a) {
   }
 };
 goog.exportProperty(webdriver.WebDriver.prototype, "findElements", webdriver.WebDriver.prototype.findElements);
+webdriver.WebDriver.prototype.takeScreenshot = function() {
+  return this.schedule(new webdriver.Command(webdriver.CommandName.SCREENSHOT), "WebDriver.takeScreenshot()")
+};
+goog.exportProperty(webdriver.WebDriver.prototype, "takeScreenshot", webdriver.WebDriver.prototype.takeScreenshot);
 webdriver.WebDriver.prototype.manage = function() {
   return new webdriver.WebDriver.Options(this)
 };
@@ -3925,7 +3937,7 @@ webdriver.WebElement.prototype.getTagName = function() {
 };
 goog.exportSymbol("webdriver.WebElement.prototype.getTagName", webdriver.WebElement.prototype.getTagName);
 webdriver.WebElement.prototype.getCssValue = function(a) {
-  return this.schedule_((new webdriver.Command(webdriver.CommandName.GET_ELEMENT_VALUE_OF_CSS_PROPERTY)).setParameter("name", a), "WebElement.getCssValue(" + a + ")")
+  return this.schedule_((new webdriver.Command(webdriver.CommandName.GET_ELEMENT_VALUE_OF_CSS_PROPERTY)).setParameter("propertyName", a), "WebElement.getCssValue(" + a + ")")
 };
 goog.exportSymbol("webdriver.WebElement.prototype.getCssValue", webdriver.WebElement.prototype.getCssValue);
 webdriver.WebElement.prototype.getAttribute = function(a) {
@@ -4057,7 +4069,7 @@ webdriver.http.Executor.COMMAND_MAP_ = function() {
   c("DELETE", "/session/:sessionId/cookie")).put(webdriver.CommandName.DELETE_COOKIE, c("DELETE", "/session/:sessionId/cookie/:name")).put(webdriver.CommandName.FIND_ELEMENT, a("/session/:sessionId/element")).put(webdriver.CommandName.FIND_ELEMENTS, a("/session/:sessionId/elements")).put(webdriver.CommandName.GET_ACTIVE_ELEMENT, a("/session/:sessionId/element/active")).put(webdriver.CommandName.FIND_CHILD_ELEMENT, a("/session/:sessionId/element/:id/element")).put(webdriver.CommandName.FIND_CHILD_ELEMENTS, 
   a("/session/:sessionId/element/:id/elements")).put(webdriver.CommandName.CLEAR_ELEMENT, a("/session/:sessionId/element/:id/clear")).put(webdriver.CommandName.CLICK_ELEMENT, a("/session/:sessionId/element/:id/click")).put(webdriver.CommandName.SEND_KEYS_TO_ELEMENT, a("/session/:sessionId/element/:id/value")).put(webdriver.CommandName.SUBMIT_ELEMENT, a("/session/:sessionId/element/:id/submit")).put(webdriver.CommandName.GET_ELEMENT_TEXT, b("/session/:sessionId/element/:id/text")).put(webdriver.CommandName.GET_ELEMENT_TAG_NAME, 
   b("/session/:sessionId/element/:id/name")).put(webdriver.CommandName.IS_ELEMENT_SELECTED, b("/session/:sessionId/element/:id/selected")).put(webdriver.CommandName.IS_ELEMENT_ENABLED, b("/session/:sessionId/element/:id/enabled")).put(webdriver.CommandName.IS_ELEMENT_DISPLAYED, b("/session/:sessionId/element/:id/displayed")).put(webdriver.CommandName.GET_ELEMENT_LOCATION, b("/session/:sessionId/element/:id/location")).put(webdriver.CommandName.GET_ELEMENT_SIZE, b("/session/:sessionId/element/:id/size")).put(webdriver.CommandName.GET_ELEMENT_ATTRIBUTE, 
-  b("/session/:sessionId/element/:id/attribute/:name")).put(webdriver.CommandName.GET_ELEMENT_VALUE_OF_CSS_PROPERTY, b("/session/:sessionId/element/:id/css/:name")).put(webdriver.CommandName.ELEMENT_EQUALS, b("/session/:sessionId/element/:id/equals/:other")).put(webdriver.CommandName.SWITCH_TO_WINDOW, a("/session/:sessionId/window")).put(webdriver.CommandName.SWITCH_TO_FRAME, a("/session/:sessionId/frame")).put(webdriver.CommandName.GET_PAGE_SOURCE, b("/session/:sessionId/source")).put(webdriver.CommandName.GET_TITLE, 
+  b("/session/:sessionId/element/:id/attribute/:name")).put(webdriver.CommandName.GET_ELEMENT_VALUE_OF_CSS_PROPERTY, b("/session/:sessionId/element/:id/css/:propertyName")).put(webdriver.CommandName.ELEMENT_EQUALS, b("/session/:sessionId/element/:id/equals/:other")).put(webdriver.CommandName.SWITCH_TO_WINDOW, a("/session/:sessionId/window")).put(webdriver.CommandName.SWITCH_TO_FRAME, a("/session/:sessionId/frame")).put(webdriver.CommandName.GET_PAGE_SOURCE, b("/session/:sessionId/source")).put(webdriver.CommandName.GET_TITLE, 
   b("/session/:sessionId/title")).put(webdriver.CommandName.EXECUTE_SCRIPT, a("/session/:sessionId/execute")).put(webdriver.CommandName.EXECUTE_ASYNC_SCRIPT, a("/session/:sessionId/execute_async")).put(webdriver.CommandName.SCREENSHOT, b("/session/:sessionId/screenshot")).put(webdriver.CommandName.SET_SCRIPT_TIMEOUT, a("/session/:sessionId/timeouts/async_script")).put(webdriver.CommandName.IMPLICITLY_WAIT, a("/session/:sessionId/timeouts/implicit_wait")).build()
 }();
 webdriver.http.headersToString_ = function(a) {
