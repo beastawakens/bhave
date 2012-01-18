@@ -21,7 +21,7 @@
  */
 body {
 	font-family: monospace;
-	margin: 25px;
+	margin: 0px 25px 25px 25px;
 	background-color: #262935;
 	color: #262935;
 	font-weight: bold;
@@ -68,7 +68,11 @@ a {
 }
 
 a:HOVER {
-	
+	color: #8B96C2;
+	background-color: rgba(255, 0, 144, 0.45);
+	box-shadow: 0 0 15px rgba(255, 0, 144, 1);
+    -webkit-box-shadow: 0 0 15px rgba(255, 0, 144, 1); 
+    -moz-box-shadow: 0 0 15px rgba(255, 0, 144, 1); 
 }
 
 input {
@@ -241,4 +245,32 @@ li[id]:target a {
 	-moz-box-shadow: 0 1px 8px #000;
 	box-shadow: 0 1px 8px #000;
 	-webkit-animation: supersize .8s cubic-bezier(0, 0, 0, 1);
+}
+
+#header {
+	-webkit-border-top-right-radius: 0px;
+	-moz-border-radius-topright: 0px;
+	border-top-right-radius: 0px;
+	-webkit-border-bottom-right-radius: 40px;
+	-moz-border-radius-bottomright: 40px;
+	border-bottom-right-radius: 40px;
+	width: 95%;
+	margin-top: -40px;
+	position: relative;
+}
+#header:AFTER {
+	content: ' ';
+	height: 0;
+	position: absolute;
+	width: 0;
+	border: 10px solid transparent;
+	border-top-color: #8B96C2;
+	top: 100%;
+	left: 10px;
+	left: 50%;
+	margin-left: -10px;
+}
+
+#header:HOVER {
+	margin-top: 0px;
 }

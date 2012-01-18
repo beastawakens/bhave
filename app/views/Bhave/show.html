@@ -1,181 +1,14 @@
 #{extends 'bhave-main.html' /}
-#{set title:'Bhave: ' + test.id + '. ' + test.name /}
+#{set title:'Bhave: ' + testId + '. ' + testName /}
 
 #{globalVars /}	
 #{waitFunctions /}	
 #{knockoutHandlers /}	
-
-
+#{dictionary /}	
+#{supportingFunctions /}	
+	
 <script>
-	var globalVerbs = {
-		finish : "myTest.driver.quit();",
-		load : "myTest.driver.get(~~~);"
-	}
 	
-	var globalSynonyms = {
-		quit : globalVerbs.finish,
-		open : globalVerbs.load
-	}
-
-</script>
-<script>
-
-	function Bhaviour(language, command) {
-		this.language = ko.observable(language);
-		this.command = ko.observable(command);
-	}
-	
-	function Screenshot(png) {
-		this.source = 'data:image/png;base64,' + png;
-		this.locator = 'screenshot_' + Math.random();
-		this.href = '#' + this.locator;
-	}
-	
-	
-	function Test() {
-		var test = this;
-		test.driverServer = ko.observable("http://localhost:9001/wd/hub");
-		test.availableBrowsers = [
-				"firefox",
-				"chrome",
-				"opera",
-				"internet explorer",
-				"android"
-			];
-		test.availablePlatforms = [
-				"ANY",
-				"LINUX",
-				"WINDOWS"
-			];
-		test.driverBrowserName = ko.observable("firefox");
-		test.driverVersion = ko.observable("");
-		test.driverPlatform = ko.observable("ANY");
-		test.driverJavascriptEnabled = ko.observable("true");
-		
-		test.id = ko.observable();
-		test.name = ko.observable("Testing test");
-		test.editName = function() {
-			test.editingName(true);
-		};
-		test.saveName = function() {
-			test.editingName(false);
-		};
-		test.editingName = ko.observable(false);
-		
-		test.bhaviours = ko.observableArray([
-			new Bhaviour("", "myTest.driver.get('http://localhost:9000/dummy');"),
-			new Bhaviour("", "screenshot = myTest.driver.takeScreenshot();"),
-			new Bhaviour("", "myTest.driver.quit();")		
-//			new Bhaviour("", "myTest.driver.get('http://www.google.com');"),
-//			new Bhaviour("", "myTest.driver.findElement(webdriver.By.name('q')).sendKeys('webdriver rocks');"),
-//			new Bhaviour("", "myTest.driver.findElement(webdriver.By.name('btnG')).click();"),
-//			new Bhaviour("", "myTest.driver.wait(forTitle(toBe('webdriver rocks - Google Search')), 1000);"),
-//			new Bhaviour("", "screenshot = myTest.driver.takeScreenshot();"),
-//			new Bhaviour("", "myTest.driver.quit();")		
-		]);
-		
-		test.driver;
-		test.executor;
-		test.client;
-		
-		test.driverBuilder = function() {
-			test.driver = webdriver.WebDriver.createSession(test.executor, {
-				'browserName': test.driverBrowserName(),
-				'version': test.driverVersion(),
-				'platform': test.driverPlatform(),
-				'javascriptEnabled': test.driverJavascriptEnabled()
-			});
-	    };
-
-		test.executorBuilder = function() {
-	    	test.client = new webdriver.http.CorsClient(test.driverServer());
-	    	test.executor = new webdriver.http.Executor(test.client);
-		};
-
-		test.getExecutor = function() {
-			console.log("creating executor");
-			test.executorBuilder();
-			test.executorCreated(true);
-		}
-		
-		test.resetExecutor = function() {
-			executor = null;
-			test.executorCreated(false);
-			test.resetDriver();
-		}
-
-		test.getDriver = function() {
-			test.getExecutor();
-			console.log("creating driver");
-			test.driverBuilder();
-			test.driverCreated(true);
-		}
-		
-		test.resetDriver = function() {
-			if (driver != null) {
-				driver = null;
-			}
-			test.driverCreated(false);
-		}
-
-		test.executorCreated = ko.observable(false);
-		test.driverCreated = ko.observable(false);
-		
-		test.run = function() {
-			test.getDriver();
-			console.log("running test");
-			test.running(true);
-			test.runBhaviours();
-			test.updateScreenshot();
-		}
-		
-		test.screenshots = ko.observableArray([]);
-		
-		test.updateScreenshot = function() {
-			screenshot.then(function(png) {
-				console.log("making image");
-				test.screenshots.push(new Screenshot(png));
-			});
-		}
-		
-		test.running = ko.observable(false);
-		
-		test.removeBhaviour = function(bhaviour) {
-			test.bhaviours.remove(bhaviour)
-		}
-		test.addBhaviour = function(bhaviour) {
-			test.bhaviours.push(new Bhaviour(""));
-		}
-		
-		test.runBhaviours = function() {
-			var bhaviourString = "";
-			for (var i = 0; i < test.bhaviours().length; i++) {
-				bhaviourString += test.bhaviours()[i].command();
-			}
-			console.log(bhaviourString);
-			var exec = new Function(bhaviourString);
-			exec();
-		};
-		test.saveTest = function() {
-	        $.ajax("/@bhave", {
-	            data: ko.toJSON({
-	            	id: test.id,
-	            	name: test.name,
-	            	bhaviours: test.bhaviours,
-	            	screenshots: test.screenshots	
-	            }),
-	            type: "post", contentType: "application/json",
-	            success: function(result) { test.id(result) }
-	        });
-	    };
-	    $.getJSON("/@bhave/load/"+${test.id}, function(allData) {
-			test.id(allData.id);
-			test.name(allData.name);
-			test.bhaviours(allData.bhaviours);
-			test.screenshots(allData.screenshots);
-	    }); 
-	}
-
 	webdriver.promise.Application.getInstance().on('uncaughtException', function(e) {
 		screenshot = myTest.driver.takeScreenshot();
 		myTest.driver.quit();
@@ -183,8 +16,17 @@
     });
 	
 	$(document).ready(function() {
-		myTest = new Test();
-		ko.applyBindings(myTest);
+	    $.getJSON("/@bhave/load/"+${testId}, function(testData) {
+	    	myTest = ko.mapping.fromJS(testData);
+		    $.getJSON("/@bhave/loadEnv", function(envData) {
+		    	ko.mapping.fromJS(envData, myTest);
+		    	
+		    	#{testFunctions /}
+		    	
+				ko.applyBindings(myTest);
+		    });
+	    }); 
+		
 	});
 </script>
 

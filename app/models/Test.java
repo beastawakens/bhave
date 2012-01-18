@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,9 +15,15 @@ import play.db.jpa.Model;
 public class Test extends Model {
 
 	public String name;
+	public ArrayList<Long> screenshotIds;
+
 	@OneToMany(cascade=CascadeType.ALL)
 	public List<Bhaviour> bhaviours;
-	@OneToMany(cascade=CascadeType.ALL)
-	public List<Screenshot> screenshots;
+	
+	public Test(String name, ArrayList<Long> screenshotIds, ArrayList<Bhaviour> bhaviours) {
+		this.name = name;
+		this.screenshotIds = screenshotIds;
+		this.bhaviours = bhaviours;
+	}
 	
 }

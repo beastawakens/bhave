@@ -4,24 +4,24 @@
 	Version: <input size="2" data-bind="value: driverVersion()"/>
 	Platform: <select data-bind="options: availablePlatforms, value: driverPlatform"></select>
 	JS Enabled: <input type="checkbox" data-bind="checked: driverJavascriptEnabled"/>
-	<img src="@{'/public/images/running.gif'}" data-bind="fadeVisible: running()">
+	<img src="@{'/public/images/running.gif'}">
 </div>
 
-<div data-bind="visible: screenshots().length > 0">
+<div data-bind="visible: screenshotIds().length > 0">
 	<nav>
-		<ul data-bind="foreach: screenshots">
+		<ul data-bind="foreach: screenshotIds">
 			<li>
-				<a data-bind="attr: {href: href}">
-					<img class="screenshotThumbnail" data-bind="attr: {src: source}"/>
+				<a data-bind="attr: {href: '#'+$data}">
+					<img class="screenshotThumbnail" data-bind="attr: {src: '/@bhave/screenshot/load/'+$data}"/>
 				</a>
 			</li>
 		</ul>
 	</nav>
 	
-	<ul data-bind="foreach: screenshots">
-		<li data-bind="attr: {id: locator}">
+	<ul data-bind="foreach: screenshotIds">
+		<li data-bind="attr: {id: $data}">
 			<a href="#home">
-				<img class="screenshotLarge" data-bind="attr: {src: source}"/>
+				<img class="screenshotLarge" data-bind="attr: {src: '/@bhave/screenshot/load/'+$data}"/>
 			</a>		
 		</li>
 	</ul>
@@ -29,7 +29,7 @@
 
 <div>
 	<h3>
-		<span data-bind="text: id"></span><span data-bind="visible: id() != null">. </span><span data-bind="text: name, visible: !editingName()"></span>
+		<span data-bind="text: id"></span><span data-bind="visible: id() != null">. </span><span data-bind="text: name"></span>
 		<button data-bind="click: editName, visible: !editingName()">edit</button>
 		<input data-bind="value: name, visible: editingName()"></span>
 		<button data-bind="click: saveName, visible: editingName()">save</button>

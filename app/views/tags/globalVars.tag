@@ -1,3 +1,3 @@
 <script>
-	var myTest, screenshot;
+	var myTest, myEnv, myRunner, myEditor, myEcosystem, screenshot;
 </script>

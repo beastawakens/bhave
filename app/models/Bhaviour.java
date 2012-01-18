@@ -8,7 +8,12 @@ import play.db.jpa.Model;
 @Entity
 public class Bhaviour extends Model {
 
-	public String language;
+	public Bhaviour(String language, String command) {
+		this.language = language;
+		this.command = command;
+	}
+	
 	public String command;
+	public String language;
 	
 }
