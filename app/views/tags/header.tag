@@ -5,3 +5,5 @@
 	&sect;
 	<a href="http://bhave.org" target="_blank">Help</a>
 </div>
+
+<div id="headerBuffer"></div>

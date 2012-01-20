@@ -46,15 +46,16 @@ div {
 	-webkit-transition: all 0.5s ease-in-out;
 	-moz-transition: all 0.5s ease-in-out;
 	-o-transition: all 0.5s ease-in-out;
-	width: 75%;
+	width: 95%;
 	margin-bottom: 20px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 div:HOVER {
 	box-shadow: 0 0 25px rgba(255, 0, 144, 1);
 	-webkit-box-shadow: 0 0 25px rgba(255, 0, 144, 1);
 	-moz-box-shadow: 0 0 25px rgba(255, 0, 144, 1);
-	width: 95%;
 }
 
 a {
@@ -177,13 +178,36 @@ ul {
 nav {
 	width: 100%;
 	left: 0;
-	top: 50%;
+	height: 150px;
+}
+
+nav ul {
+	float: left;
+	width: 100%;
+	
 }
 
 nav li {
-	display: inline;
+	display: inline-block!important;
 	list-style-type: none;
 	margin: 0 5px;
+}
+
+nav div {
+	width: 150px;
+	display: inline;
+	text-align: center;
+	float: left;
+	transition: none;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-o-transition: none;
+}
+nav div:HOVER {
+	width: 150px;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
 }
 
 nav img {
@@ -262,26 +286,59 @@ nav a:active img {
 	-moz-border-radius-bottomright: 40px;
 	border-bottom-right-radius: 40px;
 	width: 95%;
-	margin-top: -40px;
-	position: relative;
+	margin-top: -45px;
+	position: fixed;
 	text-align: center;
+	border: 2px solid black;
 }
-#header:AFTER {
+#header:AFTER, #header:BEFORE {
 	content: ' ';
 	height: 0;
 	position: absolute;
 	width: 0;
+	top: 100%;
+}
+
+#header:AFTER {
 	border: 10px solid transparent;
 	border-top-color: #8B96C2;
-	top: 100%;
-	left: 10px;
-	left: 50%;
-	margin-left: -10px;
+	right: 44px;
+	
+}
+#header:BEFORE {
+	border: 14px solid transparent;
+	border-top-color: black;
+	right: 40px;
 }
 
 #header:HOVER {
-	margin-top: 0px;
+	margin-top: -2px;
 }
+
+#headerBuffer {
+	position: relative;
+	height: 0px;
+	background: none;
+	z-index: -1000px;
+	transition: none;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-o-transition: none;
+	width: 0px;
+}
+#headerBuffer:HOVER {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+}
+
+
+#nameEdit {
+	font-family: monospace;
+	font-weight: bold;
+	font-size: x-large;
+}
+
 .deleteTest {
 	margin-left: 50px;
 }

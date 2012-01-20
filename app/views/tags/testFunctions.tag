@@ -1,9 +1,22 @@
-myTest.editName = function() {
-  		myTest.editingName(true);
+myTest.editName = function(data, event) {
+	if (event.type == 'dblclick') {
+	  	myTest.editingName(true);
+	}
+	if (event.type == 'blur') {
+		myTest.editingName(false);
+	}	
+	if (event.type == 'keypress') {
+		if (event.keyCode == '13') {
+			if (data.name() == null || data.name().trim() == '') {
+				data.name('Test');
+			}
+			myTest.editingName(false);
+		}
+	}
+
+	return true;
 };
-myTest.saveName = function() {
-	myTest.editingName(false);
-};
+
 myTest.editingName = ko.observable(false);
   	
 myTest.removeBhaviour = function(bhaviour) {
@@ -46,6 +59,7 @@ myTest.deleteScreenshot = function(id) {
 		success: function() {
 			console.log("screenshot " + id + " removed");
 			$('#screenshotSmall_'+id).fadeOut('slow', function() {
+				console.log("screenshot " + id + " faded out");
 				$('#screenshotSmall_'+id).remove();
 				$('#'+id).remove();
 				myTest.screenshots.remove(id);

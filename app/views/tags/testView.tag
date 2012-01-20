@@ -11,10 +11,13 @@
 	<nav>
 		<ul class="smallScreenshots" data-bind="foreach: screenshots">
 			<li data-bind="attr: {id: 'screenshotSmall_'+$data}">
-				<a data-bind="attr: {href: '#'+$data}">
-					<img class="screenshotThumbnail" data-bind="attr: {src: '/@bhave/screenshot/'+$parent.id()+'/'+$data}"/>
-				</a>
-				<button data-bind="click: $parent.deleteScreenshot, text: 'Delete ' + $parent.id() + '/' + $data"></button>
+				<div>
+					<a data-bind="attr: {href: '#'+$data}">
+						<img class="screenshotThumbnail" data-bind="attr: {src: '/@bhave/screenshot/'+$parent.id()+'/'+$data}"/>
+					</a>
+					<br/>
+					<button data-bind="click: $parent.deleteScreenshot, text: 'Delete'"></button>
+				</div>
 			</li>
 		</ul>
 	</nav>
@@ -30,10 +33,8 @@
 
 <div>
 	<h3>
-		<span data-bind="text: id"></span><span data-bind="visible: id() != null">. </span><span data-bind="text: name"></span>
-		<button data-bind="click: editName, visible: !editingName()">edit</button>
-		<input data-bind="value: name, visible: editingName()"></span>
-		<button data-bind="click: saveName, visible: editingName()">save</button>
+		<span data-bind="text: id"></span> - </span><span data-bind="text: name, event: {dblclick: editName}, visible: !editingName()"></span>
+		<input id="nameEdit" data-bind="value: name, valueUpdate: 'afterkeydown', visible: editingName, hasfocus: editingName, event: {blur: editName, keypress: editName} "/>
 	</h3>
 	<table>
 	    <tfoot>
