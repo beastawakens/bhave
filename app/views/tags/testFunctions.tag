@@ -10,7 +10,8 @@ myTest.removeBhaviour = function(bhaviour) {
 	myTest.bhaviours.remove(bhaviour)
 }
 myTest.addBhaviour = function(bhaviour) {
-	myTest.bhaviours.push(new Bhaviour(""));
+	myTest.bhaviours.push(new Bhaviour("", ""));
+	
 }
 
 myTest.run = function() {
@@ -25,7 +26,9 @@ myTest.saveScreenshot = function(dataURI) {
 	var fd = new FormData(document.forms[0]);
 	var xhr = new XMLHttpRequest();
 	fd.append("screenshot.source", blob);
-	xhr.open('POST', '/@bhave/screenshot/save', false);
+	fd.append("screenshot.name", myTest.name() + ' - ' + new Date().toUTCString() );
+	fd.append("screenshot.testId", myTest.id());
+	xhr.open('POST', '/@bhave/screenshot', false);
 	xhr.send(fd);
 	
 	if (xhr.status === 200) {
@@ -36,15 +39,31 @@ myTest.saveScreenshot = function(dataURI) {
 	}
 }
 
-myTest.saveTest = function() {
+myTest.deleteScreenshot = function(id) {
+	console.log('deleting screenshot ' + id + ' from test ' + myTest.id());
+	$.ajax("/@bhave/screenshot/"+myTest.id() +'/' + id, {
+		type: "DELETE",
+		success: function() {
+			console.log("screenshot " + id + " removed");
+			$('#screenshotSmall_'+id).fadeOut('slow', function() {
+				$('#screenshotSmall_'+id).remove();
+				$('#'+id).remove();
+				myTest.screenshots.remove(id);
+			});
+		}
+	});
+}
 
+myTest.saveTest = function() {
+	var mapping = {
+	    'ignore': ["driverServer", "driverVersion", "driverPlatform", "driverJavascriptEnabled", "availableBrowsers", "availablePlatforms", "driverBrowserName"]
+	}
+
+	var unmapped = ko.mapping.toJSON(myTest, mapping);
+	
+	console.log(unmapped);
 	$.ajax("/@bhave", {
-		data: ko.toJSON({
-			id: myTest.id,
-			name: myTest.name,
-			bhaviours: myTest.bhaviours,
-			screenshotIds: myTest.screenshotIds
-		}),
+		data: unmapped,
 		type: "post", contentType: "application/json",
 		success: function(result) { myTest.id(result) }
 	});
@@ -65,10 +84,8 @@ myTest.getDriver = function() {
 myTest.updateScreenshot = function() {
 	if (screenshot != undefined) {
 		screenshot.then(function(png) {
-			console.log("making image");
-			
-			var id = myTest.saveScreenshot('data:image/png;base64,' + png);
-			myTest.screenshotIds.push(id);
+			var screenshot = ko.mapping.fromJSON(myTest.saveScreenshot('data:image/png;base64,' + png));
+			myTest.screenshots.push(screenshot.id());
 		});
 	}
 }

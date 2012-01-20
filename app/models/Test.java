@@ -15,14 +15,15 @@ import play.db.jpa.Model;
 public class Test extends Model {
 
 	public String name;
-	public ArrayList<Long> screenshotIds;
+	
+	public ArrayList<Long> screenshots;
 
 	@OneToMany(cascade=CascadeType.ALL)
 	public List<Bhaviour> bhaviours;
 	
-	public Test(String name, ArrayList<Long> screenshotIds, ArrayList<Bhaviour> bhaviours) {
+	public Test(String name, ArrayList<Long> screenshots, ArrayList<Bhaviour> bhaviours) {
 		this.name = name;
-		this.screenshotIds = screenshotIds;
+		this.screenshots = screenshots;
 		this.bhaviours = bhaviours;
 	}
 	

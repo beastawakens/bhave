@@ -1,5 +1,5 @@
 #{extends 'bhave-main.html' /}
-#{set title:'Bhave: ' + testId + '. ' + testName /}
+#{set title:'Bhave: new test' /}
 
 #{globalVars /}	
 #{waitFunctions /}	
@@ -16,7 +16,7 @@
     });
 	
 	$(document).ready(function() {
-	    $.getJSON("/@bhave/load/"+${testId}, function(testData) {
+	    $.getJSON("/@bhave/test/new", function(testData) {
 	    	myTest = ko.mapping.fromJS(testData);
 		    $.getJSON("/@bhave/loadEnv", function(envData) {
 		    	ko.mapping.fromJS(envData, myTest);

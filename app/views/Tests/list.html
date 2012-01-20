@@ -1,0 +1,28 @@
+#{extends 'bhave-main.html' /}
+#{set title:'Bhave yourself' /}
+
+<script>
+function deleteTest(id) {
+	console.log("removing " + id);
+	$.ajax("/@bhave/test/"+id, {
+		type: "POST",
+		success: function() {
+			console.log("test " + id + " removed");
+			$('#test_'+id).fadeOut('slow', function() {
+				$('#test_'+id).remove();
+			});
+		}
+	});
+}
+
+</script>
+
+#{if tests.size > 0}
+	<div>
+		<ul>
+			#{list items:tests, as:'test'}
+			    <li id="test_${test.id}"><a href="@{Tests.show(test.id)}">${test.name}</a><button class="deleteTest" onclick="deleteTest(${test.id})">Delete</button></li>
+			#{/list}
+		</ul>
+	</div>
+#{/if}

@@ -42,8 +42,7 @@
 	function Screenshot(png) {
 		this.id;
 		this.source = 'data:image/png;base64,' + png;
-		this.locator = 'screenshot_' + Math.random();
-		this.href = '#' + this.locator;
+		
 	}
 	
 </script>

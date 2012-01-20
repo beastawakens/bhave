@@ -1,11 +1,27 @@
 <script>
-	var globalVerbs = {
-		finish : "myTest.driver.quit();",
-		load : "myTest.driver.get(~~~);"
+
+function Dictionary() {
+	this.globalVerbs = {
+		quit : "myTest.driver.quit()",
+		get : "myTest.driver.get(~~~)",
+		getCurrentUrl : "myTest.driver.getCurrentUrl()",
+		goBack : "myTest.driver.goBack()",
+		goForward : "myTest.driver.goForward()",
+		refresh : "myTest.driver.refresh()",
+		findElement : "myTest.driver.findElement(~~~)",
+		clickElement : globalVerbs.findElement + ".click()",
+		typeElement :  globalVerbs.findElement + ".sendKeys(~~~)"
 	}
 	
-	var globalSynonyms = {
-		quit : globalVerbs.finish,
-		open : globalVerbs.load
+	this.globalSynonyms = {
+		finish : globalVerbs.quit,
+		open : globalVerbs.get,
+		load : globalVerbs.get
 	}
+}
+
+
+
 </script>
+
+
