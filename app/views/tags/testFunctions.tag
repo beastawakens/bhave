@@ -23,7 +23,7 @@ myTest.removeBhaviour = function(bhaviour) {
 	myTest.bhaviours.remove(bhaviour)
 }
 myTest.addBhaviour = function(bhaviour) {
-	myTest.bhaviours.push(new Bhaviour("", ""));
+	myTest.bhaviours.push(new Bhaviour([], "", ""));
 	
 }
 

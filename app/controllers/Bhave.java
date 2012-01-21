@@ -4,6 +4,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.BObject;
+import models.BSubject;
+import models.BVerb;
 import models.Bhaviour;
 import models.Environment;
 import models.Screenshot;

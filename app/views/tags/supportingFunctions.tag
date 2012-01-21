@@ -34,7 +34,8 @@
 	    return bb.getBlob(mimeString);
 	}
 
-	function Bhaviour(language, command) {
+	function Bhaviour(syntax, language, command) {
+		this.syntax = ko.observableArray(syntax);
 		this.language = ko.observable(language);
 		this.command = ko.observable(command);
 	}

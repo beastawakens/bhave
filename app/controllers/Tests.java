@@ -1,8 +1,10 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
+import models.BTerm;
 import models.Bhaviour;
 import models.Screenshot;
 import models.Test;
@@ -44,9 +46,9 @@ public class Tests extends Controller {
 	
 	public static void loadNewTest() {
 		Test test = new Test("New test", new ArrayList<Long>(), new ArrayList<Bhaviour>());
-		test.bhaviours.add(new Bhaviour("", "myTest.driver.get('http://www.google.com');"));
-		test.bhaviours.add(new Bhaviour("", "screenshot = myTest.driver.takeScreenshot();"));
-		test.bhaviours.add(new Bhaviour("", "myTest.driver.quit();"));
+		test.bhaviours.add(new Bhaviour(new LinkedList<BTerm>(), "", "myTest.driver.get('http://www.google.com');"));
+		test.bhaviours.add(new Bhaviour(new LinkedList<BTerm>(), "", "screenshot = myTest.driver.takeScreenshot();"));
+		test.bhaviours.add(new Bhaviour(new LinkedList<BTerm>(), "", "myTest.driver.quit();"));
 		test.save();
 		renderJSON(test);
 	}
