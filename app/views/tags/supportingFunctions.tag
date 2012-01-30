@@ -43,7 +43,17 @@
 	function Screenshot(png) {
 		this.id;
 		this.source = 'data:image/png;base64,' + png;
-		
 	}
+
+	function Dictionary() {
+		var self = this;
+	}
+
+	webdriver.promise.Application.getInstance().on('uncaughtException', function(e) {
+		screenshot = myTest.driver.takeScreenshot();
+		myTest.driver.quit();
+		console.log('Oh dear: ' + e);
+    });
+	
 	
 </script>

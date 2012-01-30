@@ -1,0 +1,37 @@
+terms.BVerb(load):
+    name: "Load"
+    command: "myTest.driver.get(~@~);"
+    type: Verb
+terms.BConjunction(then):
+    name: "Then"
+    type: Conjunction
+terms.BArticle(the):
+    name: "The"
+    type: Article
+terms.BVerb(screenshot):
+    name: "Take screenshot"
+    command: "screenshot = myTest.driver.takeScreenshot();"
+    type: Verb
+terms.BVerb(finish):
+    name: "Finish"
+    command: "myTest.driver.quit();"
+    type: Verb
+terms.BObject(google):
+    name: "Google"
+    objectType: Page
+    value: "http://www.google.com/"
+    type: Object
+terms.BSynonym(quit):
+    name: "Quit"
+    to: 5
+    type: Synonym
+terms.BSynonym(loadGoogleAndTakeScreenshot):
+    name: "Take screenshot of Google"
+    to: [1,6,4]
+    type: Synonym
+terms.BConjunction(First):
+    name: "First"
+    type: Conjunction
+terms.BConjunction(And):
+    name: "And"
+    type: Conjunction

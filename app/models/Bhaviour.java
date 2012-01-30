@@ -1,16 +1,20 @@
 package models;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
+import models.terms.BTerm;
 import play.db.jpa.Model;
 
 @Entity
 public class Bhaviour extends Model {
 
-	public Bhaviour(LinkedList<BTerm> syntax, String language, String command) {
+	public Bhaviour(ArrayList<BTerm> syntax, String language, String command) {
 		this.syntax = syntax;
 		this.language = language;
 		this.command = command;
@@ -18,7 +22,9 @@ public class Bhaviour extends Model {
 	
 	public String command;
 	public String language;
-	public LinkedList<BTerm> syntax;
+	
+	@ManyToMany
+	public List<BTerm> syntax;
 	
 	
 }

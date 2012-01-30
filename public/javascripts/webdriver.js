@@ -781,13 +781,13 @@ goog.string.getRandomString = function() {
 };
 goog.string.compareVersions = function(a, b) {
   for(var c = 0, d = goog.string.trim(String(a)).split("."), e = goog.string.trim(String(b)).split("."), f = Math.max(d.length, e.length), g = 0;c == 0 && g < f;g++) {
-    var h = d[g] || "", i = e[g] || "", j = RegExp("(\\d*)(\\D*)", "g"), m = RegExp("(\\d*)(\\D*)", "g");
+    var h = d[g] || "", j = e[g] || "", k = RegExp("(\\d*)(\\D*)", "g"), i = RegExp("(\\d*)(\\D*)", "g");
     do {
-      var k = j.exec(h) || ["", "", ""], l = m.exec(i) || ["", "", ""];
-      if(k[0].length == 0 && l[0].length == 0) {
+      var l = k.exec(h) || ["", "", ""], m = i.exec(j) || ["", "", ""];
+      if(l[0].length == 0 && m[0].length == 0) {
         break
       }
-      var c = k[1].length == 0 ? 0 : parseInt(k[1], 10), n = l[1].length == 0 ? 0 : parseInt(l[1], 10), c = goog.string.compareElements_(c, n) || goog.string.compareElements_(k[2].length == 0, l[2].length == 0) || goog.string.compareElements_(k[2], l[2])
+      var c = l[1].length == 0 ? 0 : parseInt(l[1], 10), n = m[1].length == 0 ? 0 : parseInt(m[1], 10), c = goog.string.compareElements_(c, n) || goog.string.compareElements_(l[2].length == 0, m[2].length == 0) || goog.string.compareElements_(l[2], m[2])
     }while(c == 0)
   }
   return c
@@ -997,15 +997,6 @@ GET_ELEMENT_TEXT:"getElementText", GET_ELEMENT_TAG_NAME:"getElementTagName", IS_
 SET_SCRIPT_TIMEOUT:"setScriptTimeout", GET_ALERT:"getAlert", ACCEPT_ALERT:"acceptAlert", DISMISS_ALERT:"dismissAlert", GET_ALERT_TEXT:"getAlertText", SET_ALERT_VALUE:"setAlertValue"};
 webdriver.CommandExecutor = function() {
 };
-goog.debug = {};
-goog.debug.Error = function(a) {
-  this.stack = Error().stack || "";
-  if(a) {
-    this.message = String(a)
-  }
-};
-goog.inherits(goog.debug.Error, Error);
-goog.debug.Error.prototype.name = "CustomError";
 goog.object = {};
 goog.object.forEach = function(a, b, c) {
   for(var d in a) {
@@ -1205,13 +1196,17 @@ goog.object.createSet = function() {
 var bot = {ErrorCode:{SUCCESS:0, NO_SUCH_ELEMENT:7, NO_SUCH_FRAME:8, UNKNOWN_COMMAND:9, UNSUPPORTED_OPERATION:9, STALE_ELEMENT_REFERENCE:10, ELEMENT_NOT_VISIBLE:11, INVALID_ELEMENT_STATE:12, UNKNOWN_ERROR:13, ELEMENT_NOT_SELECTABLE:15, JAVASCRIPT_ERROR:17, XPATH_LOOKUP_ERROR:19, TIMEOUT:21, NO_SUCH_WINDOW:23, INVALID_COOKIE_DOMAIN:24, UNABLE_TO_SET_COOKIE:25, MODAL_DIALOG_OPENED:26, NO_MODAL_DIALOG_OPEN:27, SCRIPT_TIMEOUT:28, INVALID_ELEMENT_COORDINATES:29, INVALID_SELECTOR_ERROR:32, SQL_DATABASE_ERROR:33, 
 MOVE_TARGET_OUT_OF_BOUNDS:34, IME_ENGINE_ACTIVATION_FAILED:35, IME_NOT_AVAILABLE:36}};
 bot.Error = function(a, b) {
-  goog.debug.Error.call(this, b);
   this.code = a;
-  this.name = bot.Error.NAMES_[a] || bot.Error.NAMES_[bot.ErrorCode.UNKNOWN_ERROR]
+  this.message = b || "";
+  this.name = bot.Error.NAMES_[a] || bot.Error.NAMES_[bot.ErrorCode.UNKNOWN_ERROR];
+  var c = Error(this.message);
+  c.name = this.name;
+  this.stack = c.stack || ""
 };
-goog.inherits(bot.Error, goog.debug.Error);
-bot.Error.NAMES_ = goog.object.transpose({NoSuchElementError:bot.ErrorCode.NO_SUCH_ELEMENT, NoSuchFrameError:bot.ErrorCode.NO_SUCH_FRAME, UnknownCommandError:bot.ErrorCode.UNKNOWN_COMMAND, StaleElementReferenceError:bot.ErrorCode.STALE_ELEMENT_REFERENCE, ElementNotVisibleError:bot.ErrorCode.ELEMENT_NOT_VISIBLE, InvalidElementStateError:bot.ErrorCode.INVALID_ELEMENT_STATE, UnknownError:bot.ErrorCode.UNKNOWN_ERROR, ElementNotSelectableError:bot.ErrorCode.ELEMENT_NOT_SELECTABLE, XPathLookupError:bot.ErrorCode.XPATH_LOOKUP_ERROR, 
-NoSuchWindowError:bot.ErrorCode.NO_SUCH_WINDOW, InvalidCookieDomainError:bot.ErrorCode.INVALID_COOKIE_DOMAIN, UnableToSetCookieError:bot.ErrorCode.UNABLE_TO_SET_COOKIE, ModalDialogOpenedError:bot.ErrorCode.MODAL_DIALOG_OPENED, NoModalDialogOpenError:bot.ErrorCode.NO_MODAL_DIALOG_OPEN, ScriptTimeoutError:bot.ErrorCode.SCRIPT_TIMEOUT, InvalidSelectorError:bot.ErrorCode.INVALID_SELECTOR_ERROR, SqlDatabaseError:bot.ErrorCode.SQL_DATABASE_ERROR, MoveTargetOutOfBoundsError:bot.ErrorCode.MOVE_TARGET_OUT_OF_BOUNDS});
+goog.inherits(bot.Error, Error);
+bot.Error.NAMES_ = goog.object.create(bot.ErrorCode.NO_SUCH_ELEMENT, "NoSuchElementError", bot.ErrorCode.NO_SUCH_FRAME, "NoSuchFrameError", bot.ErrorCode.UNKNOWN_COMMAND, "UnknownCommandError", bot.ErrorCode.STALE_ELEMENT_REFERENCE, "StaleElementReferenceError", bot.ErrorCode.ELEMENT_NOT_VISIBLE, "ElementNotVisibleError", bot.ErrorCode.INVALID_ELEMENT_STATE, "InvalidElementStateError", bot.ErrorCode.UNKNOWN_ERROR, "UnknownError", bot.ErrorCode.ELEMENT_NOT_SELECTABLE, "ElementNotSelectableError", 
+bot.ErrorCode.XPATH_LOOKUP_ERROR, "XPathLookupError", bot.ErrorCode.NO_SUCH_WINDOW, "NoSuchWindowError", bot.ErrorCode.INVALID_COOKIE_DOMAIN, "InvalidCookieDomainError", bot.ErrorCode.UNABLE_TO_SET_COOKIE, "UnableToSetCookieError", bot.ErrorCode.MODAL_DIALOG_OPENED, "ModalDialogOpenedError", bot.ErrorCode.NO_MODAL_DIALOG_OPEN, "NoModalDialogOpenError", bot.ErrorCode.SCRIPT_TIMEOUT, "ScriptTimeoutError", bot.ErrorCode.INVALID_SELECTOR_ERROR, "InvalidSelectorError", bot.ErrorCode.SQL_DATABASE_ERROR, 
+"SqlDatabaseError", bot.ErrorCode.MOVE_TARGET_OUT_OF_BOUNDS, "MoveTargetOutOfBoundsError");
 bot.Error.prototype.isAutomationError = !0;
 if(goog.DEBUG) {
   bot.Error.prototype.toString = function() {
@@ -1352,6 +1347,15 @@ webdriver.EventEmitter.prototype.removeAllListeners = function(a) {
   return this
 };
 goog.exportProperty(webdriver.EventEmitter.prototype, "removeAllListeners", webdriver.EventEmitter.prototype.removeAllListeners);
+goog.debug = {};
+goog.debug.Error = function(a) {
+  this.stack = Error().stack || "";
+  if(a) {
+    this.message = String(a)
+  }
+};
+goog.inherits(goog.debug.Error, Error);
+goog.debug.Error.prototype.name = "CustomError";
 goog.asserts = {};
 goog.asserts.ENABLE_ASSERTS = goog.DEBUG;
 goog.asserts.AssertionError = function(a, b) {
@@ -1472,8 +1476,8 @@ goog.array.filter = goog.NATIVE_ARRAY_PROTOTYPES && goog.array.ARRAY_PROTOTYPE_.
 } : function(a, b, c) {
   for(var d = a.length, e = [], f = 0, g = goog.isString(a) ? a.split("") : a, h = 0;h < d;h++) {
     if(h in g) {
-      var i = g[h];
-      b.call(c, i, h, a) && (e[f++] = i)
+      var j = g[h];
+      b.call(c, j, h, a) && (e[f++] = j)
     }
   }
   return e
@@ -1655,9 +1659,9 @@ goog.array.binarySelect = function(a, b, c) {
 };
 goog.array.binarySearch_ = function(a, b, c, d, e) {
   for(var f = 0, g = a.length, h;f < g;) {
-    var i = f + g >> 1, j;
-    j = c ? b.call(e, a[i], i, a) : b(d, a[i]);
-    j > 0 ? f = i + 1 : (g = i, h = !j)
+    var j = f + g >> 1, k;
+    k = c ? b.call(e, a[j], j, a) : b(d, a[j]);
+    k > 0 ? f = j + 1 : (g = j, h = !k)
   }
   return h ? f : ~f
 };
@@ -1810,6 +1814,13 @@ webdriver.promise = {};
 webdriver.promise.Promise = function() {
 };
 goog.exportSymbol("webdriver.promise.Promise", webdriver.promise.Promise);
+webdriver.promise.Promise.prototype.cancel = function() {
+  throw new TypeError('Unimplemented function: "cancel"');
+};
+goog.exportProperty(webdriver.promise.Promise.prototype, "cancel", webdriver.promise.Promise.prototype.cancel);
+webdriver.promise.Promise.prototype.isPending = function() {
+  throw new TypeError('Unimplemented function: "isPending"');
+};
 webdriver.promise.Promise.prototype.then = function() {
   throw new TypeError('Unimplemented function: "then"');
 };
@@ -1831,49 +1842,59 @@ webdriver.promise.Promise.prototype.addCallbacks = function(a, b, c) {
   return this.then(goog.bind(a, c), goog.bind(b, c))
 };
 goog.exportProperty(webdriver.promise.Promise.prototype, "addCallbacks", webdriver.promise.Promise.prototype.addCallbacks);
-webdriver.promise.Deferred = function() {
-  function a(a, c) {
-    if(g != webdriver.promise.Deferred.State.PENDING) {
+webdriver.promise.Deferred = function(a) {
+  function b() {
+    return k == webdriver.promise.Deferred.State.PENDING
+  }
+  function c(a, c) {
+    if(!b()) {
       throw Error("This Deferred has already been resolved.");
     }
-    g = a;
-    for(h = c;e.length;) {
-      b(e.shift())
+    k = a;
+    for(i = c;h.length;) {
+      d(h.shift())
     }
-    if(!f && g == webdriver.promise.Deferred.State.REJECTED) {
-      var d = webdriver.promise.Application.getInstance();
-      d.pendingRejections_ += 1;
+    if(!j && k == webdriver.promise.Deferred.State.REJECTED) {
+      var e = webdriver.promise.Application.getInstance();
+      e.pendingRejections_ += 1;
       setTimeout(function() {
-        d.pendingRejections_ -= 1;
-        f || d.abortCurrentFrame_(h)
+        e.pendingRejections_ -= 1;
+        j || e.abortCurrentFrame_(i)
       }, 0)
     }
   }
-  function b(a) {
-    var b = g == webdriver.promise.Deferred.State.RESOLVED ? a.callback : a.errback;
-    b ? (b = webdriver.promise.Application.getInstance().executeAsap_(goog.partial(b, h)), webdriver.promise.asap(b, a.deferred.resolve, a.deferred.reject)) : g == webdriver.promise.Deferred.State.REJECTED ? a.deferred.reject(h) : a.deferred.resolve(h)
+  function d(a) {
+    var b = k == webdriver.promise.Deferred.State.RESOLVED ? a.callback : a.errback;
+    b ? (b = webdriver.promise.Application.getInstance().executeAsap_(goog.partial(b, i)), webdriver.promise.asap(b, a.deferred.resolve, a.deferred.reject)) : k == webdriver.promise.Deferred.State.REJECTED ? a.deferred.reject(i) : a.deferred.resolve(i)
   }
-  function c(b) {
-    webdriver.promise.isPromise(b) && b !== j ? b instanceof webdriver.promise.Deferred ? b.then(goog.partial(a, webdriver.promise.Deferred.State.RESOLVED), goog.partial(a, webdriver.promise.Deferred.State.REJECTED)) : webdriver.promise.when(b, c, d) : a(webdriver.promise.Deferred.State.RESOLVED, b)
+  function e(a) {
+    webdriver.promise.isPromise(a) && a !== l ? a instanceof webdriver.promise.Deferred ? a.then(goog.partial(c, webdriver.promise.Deferred.State.RESOLVED), goog.partial(c, webdriver.promise.Deferred.State.REJECTED)) : webdriver.promise.when(a, e, f) : c(webdriver.promise.Deferred.State.RESOLVED, a)
   }
-  function d(b) {
-    webdriver.promise.isPromise(b) && h !== j ? h instanceof webdriver.promise.Deferred ? h.then(goog.partial(a, webdriver.promise.Deferred.State.REJECTED), goog.partial(a, webdriver.promise.Deferred.State.REJECTED)) : webdriver.promise.when(b, d, d) : a(webdriver.promise.Deferred.State.REJECTED, b)
+  function f(a) {
+    webdriver.promise.isPromise(a) && i !== l ? i instanceof webdriver.promise.Deferred ? i.then(goog.partial(c, webdriver.promise.Deferred.State.REJECTED), goog.partial(c, webdriver.promise.Deferred.State.REJECTED)) : webdriver.promise.when(a, f, f) : c(webdriver.promise.Deferred.State.REJECTED, a)
+  }
+  function g(c) {
+    if(!b()) {
+      throw Error("This Deferred has already been resolved.");
+    }
+    a && (c = a(c) || c);
+    b() && f(c)
   }
   webdriver.promise.Promise.call(this);
-  var e = [], f = !1, g = webdriver.promise.Deferred.State.PENDING, h;
-  this.then = function(a, c) {
-    f = !0;
-    var d = {callback:a, errback:c, deferred:new webdriver.promise.Deferred};
-    g == webdriver.promise.Deferred.State.PENDING ? e.push(d) : b(d);
-    return d.deferred.promise
+  var h = [], j = !1, k = webdriver.promise.Deferred.State.PENDING, i;
+  this.then = function(a, b) {
+    j = !0;
+    var c = {callback:a, errback:b, deferred:new webdriver.promise.Deferred(g)};
+    k == webdriver.promise.Deferred.State.PENDING ? h.push(c) : d(c);
+    return c.deferred.promise
   };
-  var i = new webdriver.promise.Promise;
-  i.then = this.then;
-  var j = this;
-  this.promise = i;
+  var l = this;
+  this.promise = new webdriver.promise.Promise;
   this.promise.then = this.then;
-  this.resolve = this.callback = c;
-  this.reject = this.errback = d
+  this.promise.cancel = this.cancel = g;
+  this.promise.isPending = this.isPending = b;
+  this.resolve = this.callback = e;
+  this.reject = this.errback = f
 };
 goog.inherits(webdriver.promise.Deferred, webdriver.promise.Promise);
 goog.exportSymbol("webdriver.promise.Deferred", webdriver.promise.Deferred);
@@ -1883,9 +1904,11 @@ webdriver.promise.isPromise = function(a) {
 };
 goog.exportSymbol("webdriver.promise.isPromise", webdriver.promise.isPromise);
 webdriver.promise.delayed = function(a) {
-  var b = new webdriver.promise.Deferred;
-  setTimeout(b.resolve, a);
-  return b.promise
+  var b, c = new webdriver.promise.Deferred(function() {
+    clearTimeout(b)
+  });
+  b = setTimeout(c.resolve, a);
+  return c.promise
 };
 goog.exportSymbol("webdriver.promise.delayed", webdriver.promise.delayed);
 webdriver.promise.resolved = function(a) {
@@ -1901,7 +1924,9 @@ webdriver.promise.rejected = function(a) {
 };
 goog.exportSymbol("webdriver.promise.rejected", webdriver.promise.rejected);
 webdriver.promise.checkedNodeCall = function(a) {
-  var b = new webdriver.promise.Deferred, c = !1;
+  var b = new webdriver.promise.Deferred(function() {
+    throw Error("This Deferred may not be cancelled");
+  }), c = !1;
   try {
     a(function(a, d) {
       c || (c = !0, a ? b.reject(a) : b.resolve(d))
@@ -1916,7 +1941,9 @@ webdriver.promise.when = function(a, b, c) {
   if(a instanceof webdriver.promise.Promise) {
     return a.then(b, c)
   }
-  var d = new webdriver.promise.Deferred;
+  var d = new webdriver.promise.Deferred(function() {
+    throw Error("This Deferred may not be cancelled");
+  });
   webdriver.promise.asap(a, d.resolve, d.reject);
   return d.then(b, c)
 };
@@ -1956,17 +1983,27 @@ webdriver.promise.fullyResolveKeys_ = function(a, b, c) {
   if(!b) {
     return webdriver.promise.resolved(a)
   }
-  var d = 0, e = !1, f = new webdriver.promise.Deferred;
-  c(a, function(c, h) {
-    var i = goog.typeOf(c);
-    i != "array" && i != "object" ? ++d == b && f.resolve(a) : webdriver.promise.fullyResolved(c).then(function(c) {
-      a[h] = c;
-      ++d == b && f.resolve(a)
-    }, function(a) {
-      e || (e = !0, f.reject(a))
-    })
+  var d = 0, e = !1, f = !1, g = new webdriver.promise.Deferred(function() {
+    f = !0
   });
-  return f.promise
+  c(a, function(c, j) {
+    function k() {
+      ++d == b && !f && g.resolve(a)
+    }
+    if(!f) {
+      var i = goog.typeOf(c);
+      if(i != "array" && i != "object") {
+        return k()
+      }
+      webdriver.promise.fullyResolved(c).then(function(b) {
+        a[j] = b;
+        k()
+      }, function(a) {
+        !e && !f && (e = !0, g.reject(a))
+      })
+    }
+  });
+  return g.promise
 };
 webdriver.promise.Application = function() {
   webdriver.EventEmitter.call(this);
@@ -2016,36 +2053,42 @@ webdriver.promise.Application.prototype.schedule = function(a, b) {
 goog.exportProperty(webdriver.promise.Application.prototype, "schedule", webdriver.promise.Application.prototype.schedule);
 webdriver.promise.Application.prototype.scheduleAndWaitForIdle = function(a, b) {
   function c() {
-    h = setTimeout(function() {
-      g.removeListener(webdriver.promise.Application.EventType.SCHEDULE_TASK, d);
-      g.removeListener(webdriver.promise.Application.EventType.UNCAUGHT_EXCEPTION, e);
-      g.waitingForIdle_ = null;
-      f.resolve()
+    g = setTimeout(function() {
+      f.removeListener(webdriver.promise.Application.EventType.SCHEDULE_TASK, d);
+      f.removeListener(webdriver.promise.Application.EventType.UNCAUGHT_EXCEPTION, e);
+      f.waitingForIdle_ = null;
+      h.resolve()
     }, 0);
-    g.once(webdriver.promise.Application.EventType.SCHEDULE_TASK, d)
+    f.once(webdriver.promise.Application.EventType.SCHEDULE_TASK, d)
   }
   function d() {
-    clearTimeout(h);
-    g.once(webdriver.promise.Application.EventType.IDLE, c)
+    clearTimeout(g);
+    f.once(webdriver.promise.Application.EventType.IDLE, c)
   }
   function e(a) {
-    clearTimeout(h);
-    g.removeListener(webdriver.promise.Application.EventType.IDLE, c);
-    g.removeListener(webdriver.promise.Application.EventType.SCHEDULE_TASK, d);
+    clearTimeout(g);
+    f.removeListener(webdriver.promise.Application.EventType.IDLE, c);
+    f.removeListener(webdriver.promise.Application.EventType.SCHEDULE_TASK, d);
     setTimeout(function() {
-      g.waitingForIdle_ = null;
-      f.reject(a)
+      f.waitingForIdle_ = null;
+      h.reject(a)
     }, 0)
   }
   if(this.waitingForIdle_) {
     throw Error("Whoops! It looks like another task is already waiting this application to go idle: " + this.waitingForIdle_);
   }
   this.waitingForIdle_ = a;
-  var f = new webdriver.promise.Deferred, g = this, h;
-  g.schedule(a, b);
-  g.once(webdriver.promise.Application.EventType.IDLE, c);
-  g.once(webdriver.promise.Application.EventType.UNCAUGHT_EXCEPTION, e);
-  return f.promise
+  var f = this, g, h = new webdriver.promise.Deferred(function() {
+    f.waitingForIdle_ = null;
+    clearTimeout(g);
+    f.removeListener(webdriver.promise.Application.EventType.IDLE, c);
+    f.removeListener(webdriver.promise.Application.EventType.SCHEDULE_TASK, d);
+    f.removeListener(webdriver.promise.Application.EventType.UNCAUGHT_EXCEPTION, e)
+  });
+  f.schedule(a, b);
+  f.once(webdriver.promise.Application.EventType.IDLE, c);
+  f.once(webdriver.promise.Application.EventType.UNCAUGHT_EXCEPTION, e);
+  return h.promise
 };
 goog.exportProperty(webdriver.promise.Application.prototype, "scheduleAndWaitForIdle", webdriver.promise.Application.prototype.scheduleAndWaitForIdle);
 webdriver.promise.Application.prototype.scheduleTimeout = function(a, b) {
@@ -2058,16 +2101,16 @@ webdriver.promise.Application.prototype.scheduleWait = function(a, b, c, d, e) {
   var f = Math.min(c, 100), g = !!e, h = this;
   return this.schedule(a, function() {
     function a() {
-      var l = h.executeAsap_(b);
-      return webdriver.promise.when(l, function(b) {
+      var m = h.executeAsap_(b);
+      return webdriver.promise.when(m, function(b) {
         var h = goog.now() - e;
-        g != !!b ? (k.isWaiting = !1, m.resolve()) : h >= c ? m.reject(Error((d ? d + "\n" : "") + "Wait timed out after " + h + "ms")) : setTimeout(a, f)
-      }, m.reject)
+        g != !!b ? (l.isWaiting = !1, i.resolve()) : h >= c ? i.reject(Error((d ? d + "\n" : "") + "Wait timed out after " + h + "ms")) : setTimeout(a, f)
+      }, i.reject)
     }
-    var e = goog.now(), m = new webdriver.promise.Deferred, k = goog.array.peek(h.frames_);
-    k.isWaiting = !0;
+    var e = goog.now(), i = new webdriver.promise.Deferred, l = goog.array.peek(h.frames_);
+    l.isWaiting = !0;
     a();
-    return m.promise
+    return i.promise
   })
 };
 goog.exportProperty(webdriver.promise.Application.prototype, "scheduleWait", webdriver.promise.Application.prototype.scheduleWait);
@@ -2084,45 +2127,54 @@ webdriver.promise.Application.prototype.cancelEventLoop_ = function() {
 webdriver.promise.Application.prototype.runEventLoop_ = function() {
   if(!this.pendingRejections_) {
     var a = goog.array.peek(this.frames_);
-    if(!a.pendingTask) {
-      var b = a.queue.shift();
-      if(b) {
-        this.history_.push(Array(this.frames_.length).join("..") + b.description);
-        a.isActive = !0;
-        a.pendingTask = b;
-        var c = this.executeAsap_(b.execute);
-        webdriver.promise.asap(c, function(c) {
-          a.pendingTask = null;
-          b.resolve(c)
-        }, function(c) {
-          a.pendingTask = null;
-          b.reject(c)
-        })
-      }else {
-        a.isWaiting ? a.isActive = !1 : (this.frames_.pop(), a.resolve())
+    if(a) {
+      if(!a.pendingTask) {
+        var b = a.queue.shift();
+        if(b) {
+          this.history_.push(Array(this.frames_.length).join("..") + b.description);
+          a.isActive = !0;
+          a.pendingTask = b;
+          var c = this.executeAsap_(b.execute);
+          webdriver.promise.asap(c, function(c) {
+            a.pendingTask = null;
+            b.resolve(c)
+          }, function(c) {
+            a.pendingTask = null;
+            b.reject(c)
+          })
+        }else {
+          a.isWaiting ? a.isActive = !1 : (this.frames_.pop(), a.resolve())
+        }
       }
+    }else {
+      this.commenceShutdown_()
     }
   }
 };
 webdriver.promise.Application.prototype.executeAsap_ = function(a) {
-  var b = goog.array.peek(this.frames_);
-  if(!b || !b.isActive) {
-    try {
-      return a()
-    }catch(c) {
-      return webdriver.promise.rejected(c)
+  var b;
+  try {
+    var c = goog.array.peek(this.frames_);
+    if(!c || c.isActive) {
+      b = new webdriver.promise.Application.Frame_, this.frames_.push(b)
     }
-  }else {
-    b = new webdriver.promise.Application.Frame_;
-    this.frames_.push(b);
-    try {
-      var d = a();
-      return b.queue.length ? b.then(function() {
-        return d
-      }) : (this.frames_.pop(), d)
-    }catch(e) {
-      return this.frames_.pop(), webdriver.promise.rejected(e)
+    var d = a();
+    if(!b) {
+      return d
     }
+    if(!b.queue.length) {
+      return this.frames_.pop(), d
+    }
+    return b.then(function() {
+      return d
+    }, function(a) {
+      if(d instanceof webdriver.promise.Promise && d.isPending()) {
+        return d.cancel(a), d
+      }
+      throw a;
+    })
+  }catch(e) {
+    return b && this.frames_.pop(), webdriver.promise.rejected(e)
   }
 };
 webdriver.promise.Application.prototype.commenceShutdown_ = function() {
@@ -3897,7 +3949,7 @@ webdriver.WebElement.prototype.findElement = function(a) {
   if(a.using == "js") {
     return this.driver_.findElement.apply(this.driver_, arguments)
   }
-  var b = this.schedule_((new webdriver.Command(webdriver.CommandName.FIND_ELEMENT)).setParameter("using", a.using).setParameter("value", a.value), "WebElement.findElement(" + a + ")");
+  var b = this.schedule_((new webdriver.Command(webdriver.CommandName.FIND_CHILD_ELEMENT)).setParameter("using", a.using).setParameter("value", a.value), "WebElement.findElement(" + a + ")");
   return new webdriver.WebElement(this.driver_, b)
 };
 goog.exportSymbol("webdriver.WebElement.prototype.findElement", webdriver.WebElement.prototype.findElement);
@@ -3916,7 +3968,7 @@ webdriver.WebElement.prototype.findElements = function(a) {
   if(a.using == "js") {
     return this.driver_.findElements.apply(this.driver_, arguments)
   }
-  return this.schedule_((new webdriver.Command(webdriver.CommandName.FIND_ELEMENTS)).setParameter("using", a.using).setParameter("value", a.value), "WebElement.findElements(" + a + ")")
+  return this.schedule_((new webdriver.Command(webdriver.CommandName.FIND_CHILD_ELEMENTS)).setParameter("using", a.using).setParameter("value", a.value), "WebElement.findElements(" + a + ")")
 };
 goog.exportSymbol("webdriver.WebElement.prototype.findElements", webdriver.WebElement.prototype.findElements);
 webdriver.WebElement.prototype.click = function() {

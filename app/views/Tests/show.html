@@ -5,29 +5,30 @@
 #{waitFunctions /}	
 #{knockoutHandlers /}	
 #{dictionary /}	
+#{translate /}	
 #{supportingFunctions /}	
+#{testFunctions /}
 	
 <script>
-	
-	webdriver.promise.Application.getInstance().on('uncaughtException', function(e) {
-		screenshot = myTest.driver.takeScreenshot();
-		myTest.driver.quit();
-		console.log('Oh dear: ' + e);
-    });
-	
 	$(document).ready(function() {
-	    $.getJSON("/@bhave/test/"+${testId}, function(testData) {
-	    	myTest = ko.mapping.fromJS(testData);
-		    $.getJSON("/@bhave/loadEnv", function(envData) {
-		    	ko.mapping.fromJS(envData, myTest);
-		    	
-		    	#{testFunctions /}
-		    	
+		
+		myDictionary = new Dictionary();
+	    $.getJSON("@{Bhave.getDictionary()}", function(dictionary) {
+	    	ko.mapping.fromJS(dictionary, {}, myDictionary);
+	    }); 
+
+	    myTest = new Test();
+	    $.getJSON("@{Tests.get(testId)}", function(testData) {
+	    	ko.mapping.fromJS(testData, {}, myTest);
+		    $.getJSON("@{Bhave.getEnv()}", function(envData) {
+		    	ko.mapping.fromJS(envData, {}, myTest);
 				ko.applyBindings(myTest);
+				applyTranslation();
 		    });
 	    }); 
-		
 	});
 </script>
 
+#{envView /}
+#{screenshotView /}
 #{testView /}

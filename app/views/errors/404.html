@@ -1,11 +1,6 @@
-<!DOCTYPE html>
+#{extends 'bhave-main.html' /}
+#{set title:'Bhave: ' + testId + '. ' + testName /}
 
-<html>
-    <head>
-        <title>Not found</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=${_response_encoding}"/>    
-    </head>
-    <body>
         #{if play.mode.name() == 'DEV'}
             #{404 result /}
         #{/if}
@@ -15,5 +10,4 @@
                 ${result.message}
             </p>
         #{/else}
-    </body>
-</html>
+

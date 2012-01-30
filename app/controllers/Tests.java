@@ -4,12 +4,18 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import models.BTerm;
 import models.Bhaviour;
 import models.Screenshot;
 import models.Test;
+import models.terms.BObject;
+import models.terms.BTerm;
+import models.terms.BVerb;
+import models.terms.BObject.BObjectType;
+
+import bhave.BTermDeserializer;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import play.mvc.Controller;
 
@@ -21,12 +27,14 @@ public class Tests extends Controller {
 	}
 	
 	public static void newTest() {
-		render();
+		Test test = createNewTest();
+		redirect("Tests.show", test.id);
 	}
 	
 	public static void save(String body) {
 		System.out.println(body);
-		Test test = new Gson().fromJson(body, Test.class);
+		Gson gson = new GsonBuilder().registerTypeAdapter(BTerm.class, new BTermDeserializer()).create();
+		Test test = gson.fromJson(body, Test.class);
 		if (test.id != null) {
 			test = test.merge();
 		}
@@ -44,16 +52,27 @@ public class Tests extends Controller {
 		render();
 	}
 	
-	public static void loadNewTest() {
-		Test test = new Test("New test", new ArrayList<Long>(), new ArrayList<Bhaviour>());
-		test.bhaviours.add(new Bhaviour(new LinkedList<BTerm>(), "", "myTest.driver.get('http://www.google.com');"));
-		test.bhaviours.add(new Bhaviour(new LinkedList<BTerm>(), "", "screenshot = myTest.driver.takeScreenshot();"));
-		test.bhaviours.add(new Bhaviour(new LinkedList<BTerm>(), "", "myTest.driver.quit();"));
-		test.save();
+	public static void init() {
+		Test test = createNewTest();
 		renderJSON(test);
 	}
 	
-	public static void deleteTest(long id) {
+	private static Test createNewTest() {
+		Test test = new Test("New test", new ArrayList<Long>(), new ArrayList<Bhaviour>());
+		
+		//1,4
+		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "myTest.driver.get('http://www.google.com');"));
+		
+		//6
+		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "screenshot = myTest.driver.takeScreenshot();"));
+		
+		//3
+		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "myTest.driver.quit();"));
+		test.save();
+		return test;
+	}
+	
+	public static void delete(long id) {
 		Test test = Test.findById(id);
 		if (test != null) {
 			test.delete();
@@ -63,7 +82,7 @@ public class Tests extends Controller {
 		}
 	}
 
-	public static void loadTest(long id) {
+	public static void get(long id) {
 		Test test = Test.findById(id);
 		renderJSON(test);
 	}

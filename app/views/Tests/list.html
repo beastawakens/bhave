@@ -3,9 +3,11 @@
 
 <script>
 function deleteTest(id) {
-	console.log("removing " + id);
-	$.ajax("/@bhave/test/"+id, {
-		type: "POST",
+	
+	var deleteTestUrl = #{jsAction @Tests.delete(':id') /} 
+	
+	$.ajax(deleteTestUrl({id: id}), {
+		type: "DELETE",
 		success: function() {
 			console.log("test " + id + " removed");
 			$('#test_'+id).fadeOut('slow', function() {
@@ -18,10 +20,10 @@ function deleteTest(id) {
 </script>
 
 #{if tests.size > 0}
-	<div>
+	<div id="testsContainer" class="glow">
 		<ul>
 			#{list items:tests, as:'test'}
-			    <li id="test_${test.id}"><a href="@{Tests.show(test.id)}">${test.name}</a><button class="deleteTest" onclick="deleteTest(${test.id})">Delete</button></li>
+			    <li class="testRow" id="test_${test.id}"><a href="@{Tests.show(test.id)}">${test.name}</a><button class="deleteTest" onclick="deleteTest(${test.id})">Delete</button></li>
 			#{/list}
 		</ul>
 	</div>
