@@ -405,5 +405,16 @@ nav a:active img {
 
 .termWrapper:HOVER .termDelete {
 	display:inline;
-}  
+}
 
+#syntax_input {
+	display: none;
+}
+
+.testTable {
+	width: 100%;
+}
+
+.syntaxCell {
+	width: 50%;
+}

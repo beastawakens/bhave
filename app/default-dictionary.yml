@@ -1,6 +1,6 @@
 terms.BVerb(load):
     name: "Load"
-    command: "myTest.driver.get(~@~);"
+    command: "myTest.driver.get(~~@~~);"
     type: Verb
 terms.BConjunction(then):
     name: "Then"
