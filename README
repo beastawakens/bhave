@@ -1,5 +1,5 @@
 
-Play-behave - Base Play! module to allow super-awesome BDD testing through WebDriver
+Bhave - Base Play! module to allow super-awesome BDD testing through WebDriver
 ====================================================================================
 
 Usage
@@ -8,7 +8,7 @@ See documentation/manual/home.textile for documentation.
 
 License
 =======
-Play-behave is licensed under Apache License version 2.0.
+Bhave is licensed under Mozilla Public License version 2.0.
 
 Support
 =======
