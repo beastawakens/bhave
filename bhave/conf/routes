@@ -1,0 +1,30 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                      Bhave.index
+GET     /@bhave                                Tests.list
+*       /dummy                                 Bhave.dummy
+
+POST    /@bhave/screenshot                     Screenshots.saveScreenshot
+GET     /@bhave/screenshot/{testId}/{id}       Screenshots.loadScreenshot
+DELETE  /@bhave/screenshot/{testId}/{id}       Screenshots.deleteScreenshot
+
+POST    /@bhave/bhaviour                       Bhaviours.save
+GET     /@bhave/bhaviour/new                   Bhaviours.create
+GET     /@bhave/bhaviour/{id}                  Bhaviours.get
+DELETE  /@bhave/bhaviour/{id}                  Bhaviours.delete
+
+POST    /@bhave                                Tests.save
+GET     /@bhave/new                            Tests.newTest
+GET     /@bhave/test/new                       Tests.init
+GET     /@bhave/test/{id}                      Tests.get
+DELETE  /@bhave/test/{id}                      Tests.delete
+
+GET     /@bhave/term/{id}                      Terms.get
+DELETE  /@bhave/term/{id}                      Terms.delete
+
+GET     /@bhave/env                            Bhave.getEnv
+GET     /@bhave/dictionary                     Bhave.getDictionary
+GET     /@bhave/{id}                           Tests.show

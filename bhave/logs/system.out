@@ -1,0 +1,26 @@
+12:42:57,459 INFO  ~ Starting /home/ed/play-behave-workspace/bhave
+12:42:57,464 INFO  ~ Module mockito is available (/home/ed/play-1.2.4/modules/mockito-0.1)
+12:42:58,209 WARN  ~ You're running Play! in DEV mode
+~
+~ Go to http://localhost:9000/@tests to run the tests
+~
+12:42:58,301 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
+12:42:58,851 WARN  ~ No secret key defined. Sessions will not be encrypted
+12:43:02,736 ERROR ~ 
+
+@69a1l3kog
+Internal Server Error (500) for request GET /@tests.list
+
+JPA error
+A JPA error occurred (Cannot start a JPA manager without a properly configured database): No datasource configured
+
+play.exceptions.JPAException: Cannot start a JPA manager without a properly configured database
+	at play.db.jpa.JPAPlugin.onApplicationStart(JPAPlugin.java:115)
+	at play.plugins.PluginCollection.onApplicationStart(PluginCollection.java:480)
+	at play.Play.start(Play.java:515)
+	at play.Play.detectChanges(Play.java:618)
+	at play.Invoker$Invocation.init(Invoker.java:198)
+	at Invocation.HTTP Request(Play!)
+Caused by: java.lang.NullPointerException: No datasource configured
+	... 6 more
+@KILLED

@@ -17,10 +17,14 @@ import play.vfs.VirtualFile;
 public class SeleniumServerStop extends Job {
 
 	public void doJob() {
-		try {
-			SeleniumHolder.server.stop();
-		} catch (Exception e) {
-			e.printStackTrace();
+		Boolean localServerEnabled = Boolean.parseBoolean(Play.configuration.getProperty("bhave.local.selenium.server.on", "true"));
+		
+		if (localServerEnabled) {
+			try {
+				SeleniumHolder.server.stop();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
