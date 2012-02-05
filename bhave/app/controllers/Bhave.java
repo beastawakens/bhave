@@ -1,7 +1,3 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/. */
-
 package controllers;
 
 import java.io.InputStream;
@@ -15,6 +11,7 @@ import models.Screenshot;
 import models.Test;
 import models.terms.BObject;
 import models.terms.BSubject;
+import models.terms.BTerm;
 import models.terms.BVerb;
 import play.mvc.Controller;
 
@@ -32,7 +29,7 @@ public class Bhave extends Controller {
 	}
 
 	public static void getDictionary() {
-		Dictionary dictionary = new Dictionary();
+		Dictionary dictionary = new Dictionary(BTerm.<BTerm>findAll());
 		renderJSON(dictionary);
 	}
 

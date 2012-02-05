@@ -1,4 +1,7 @@
+package unit;
 import org.junit.*;
+import org.junit.Test;
+
 import java.util.*;
 import play.test.*;
 import models.*;

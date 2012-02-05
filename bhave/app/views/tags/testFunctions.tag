@@ -91,7 +91,7 @@
 			if (xhr.status === 200) {
 				return xhr.responseText;
 			} else {
-				console.log('something went wrong saving screenshot')
+				alert('Something went wrong saving screenshot')
 				return '';
 			}
 		}

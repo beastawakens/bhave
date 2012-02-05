@@ -6,6 +6,7 @@ import java.util.List;
 import models.terms.BTerm;
 import models.terms.BObject.BObjectType;
 
+import play.db.jpa.JPABase;
 import play.db.jpa.Model;
 
 public class Dictionary extends Model {
@@ -14,7 +15,11 @@ public class Dictionary extends Model {
 	public List<BTerm> terms;
 	
 	public Dictionary() {
-		this.terms = BTerm.findAll();
+
+	}
+
+	public Dictionary(List<BTerm> findAll) {
+		this.terms = findAll;
 	}
 
 }

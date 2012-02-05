@@ -14,11 +14,7 @@ public class BTermDeserializer implements JsonDeserializer<BTerm>{
 
 	@Override
 	public BTerm deserialize(JsonElement json, Type typeOf, JsonDeserializationContext context) throws JsonParseException {
-		
-		
 		Long id = Long.valueOf(json.getAsJsonObject().get("id").getAsString());
-		System.out.println("BTerm: " + id);
-		
 		return BTerm.findById(id);
 	}
 }

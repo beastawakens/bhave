@@ -12,13 +12,13 @@ public class Screenshots extends Controller {
 		screenshot.save();
 		Test test = Test.findById(screenshot.testId);
 		if (test != null) {
-			if (!test.screenshots.contains(screenshot.id)) {
-				test.screenshots.add(screenshot.id);
-				test = test.merge();
-				test.save();
-			}
+			test.screenshots.add(screenshot.id);
+			test = test.merge();
+			test.save();
+			renderJSON(screenshot);
+		} else {
+			notFound();
 		}
-		renderJSON(screenshot);
 	} 
 	
 	public static void deleteScreenshot(Long testId, Long id) {
