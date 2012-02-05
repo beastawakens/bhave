@@ -9,6 +9,6 @@ commands.pyc
 .buildpath
 chromedriver.log
 bhave-test/test-result/
-
+bhave-test/logs/
 
 

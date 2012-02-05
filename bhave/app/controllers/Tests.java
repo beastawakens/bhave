@@ -32,7 +32,6 @@ public class Tests extends Controller {
 	}
 	
 	public static void save(String body) {
-		System.out.println(body);
 		Gson gson = new GsonBuilder().registerTypeAdapter(BTerm.class, new BTermDeserializer()).create();
 		Test test = gson.fromJson(body, Test.class);
 		if (test.id != null) {
@@ -52,6 +51,7 @@ public class Tests extends Controller {
 		render();
 	}
 	
+	//TODO: is anything using this anymore? delete it when test coverage is good.
 	public static void init() {
 		Test test = createNewTest();
 		renderJSON(test);

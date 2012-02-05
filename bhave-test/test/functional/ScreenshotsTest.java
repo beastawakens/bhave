@@ -65,7 +65,7 @@ public class ScreenshotsTest extends FunctionalTest {
 		parameters.put("screenshot.testId", screenshotTestId);
 		parameters.put("screenshot.source", screenshotBlob);
 		
-		Response response = POST("/@bhave/screenshot", parameters, files);
+		POST("/@bhave/screenshot", parameters, files);
 		
 		test.refresh();
 		Screenshot screenshot = Screenshot.find("byName", screenshotName).first();
