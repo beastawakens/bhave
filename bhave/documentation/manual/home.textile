@@ -45,7 +45,7 @@ What port your local Selenium server should start on.
 
 bc. bhave.chrome.driver.path=
 
-If you want to run tests in Chrome locally, then ChromeDriver (http://code.google.com/p/chromedriver/) needs to be on the path or specified here.
+If you want to run tests in Chrome locally, then ChromeDriver ("http://code.google.com/p/chromedriver/":http://code.google.com/p/chromedriver/) needs to be on the path or specified here.
 
 To persist your data, you'll need to tell Play! to use a 'real' database, rather than the in-memory one by default.  For performance/architectural reasons, you may want to use a MySQL/Postgres/Oracle database, see Play! documentation for configuring this easily.  For testing/development purposes, a simple file-system based h2 database is fine.  Change this line:
 
