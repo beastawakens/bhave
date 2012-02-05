@@ -53,7 +53,19 @@
 		screenshot = myTest.driver.takeScreenshot();
 		myTest.driver.quit();
 		console.log('Oh dear: ' + e);
+		myTest.running(false);
+		myTest.lastSuccess(-1);
     });
+
+	webdriver.promise.Application.getInstance().addListener('idle', function() { 
+		myTest.running(false);
+		myTest.lastSuccess(1);
+	}, false);
+
+	webdriver.promise.Application.getInstance().addListener('scheduleTask', function() { 
+		myTest.lastSuccess(0);
+		myTest.running(true);
+	}, false);
 	
 	
 </script>

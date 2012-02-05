@@ -28,7 +28,6 @@
 		});
 
 		myTest.removeTerm = function(termId, bhaviourId) {
-			console.log(termId + ' ' + bhaviourId);
 			for (var i = 0; i<myTest.bhaviours().length; i++) {
 				if (myTest.bhaviours()[i].id() == bhaviourId) {
 					myTest.bhaviours()[i].syntax.remove(function(item) {
@@ -70,10 +69,12 @@
 				applyTranslation();
 		    });
 		}
+
+		myTest.running = ko.observable(false);
+		myTest.lastSuccess = ko.observable(0);
 		
 		myTest.run = function() {
 			myTest.getDriver();
-			console.log("running test");
 			myTest.runBhaviours();
 			myTest.updateScreenshot();
 		}
@@ -97,15 +98,12 @@
 		}
 		
 		myTest.deleteScreenshot = function(id) {
-			console.log('deleting screenshot ' + id + ' from test ' + myTest.id());
 			var deleteScreenshotUrl = #{jsAction @Screenshots.deleteScreenshot(':testId', ':id') /}
 			
 			$.ajax(deleteScreenshotUrl({testId: myTest.id(), id: id}), {
 				type: "DELETE",
 				success: function() {
-					console.log("screenshot " + id + " removed");
 					$('#screenshotSmall_'+id).fadeOut('slow', function() {
-						console.log("screenshot " + id + " faded out");
 						$('#screenshotSmall_'+id).remove();
 						$('#'+id).remove();
 						myTest.screenshots.remove(id);
@@ -121,7 +119,6 @@
 		
 			var unmapped = ko.mapping.toJSON(myTest, mapping);
 			
-			console.log(unmapped);
 			$.ajax("@{Tests.save}", {
 				data: unmapped,
 				type: "post", contentType: "application/json",
@@ -155,10 +152,10 @@
 			for (var i = 0; i < myTest.bhaviours().length; i++) {
 				bhaviourString += myTest.bhaviours()[i].command();
 			}
-			console.log(bhaviourString);
 			var exec = new Function(bhaviourString);
 			exec();
 		};
+
 
 	}
 

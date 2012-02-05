@@ -2,8 +2,11 @@ package models;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+
 import play.db.jpa.Model;
 
+@Entity
 public class Environment extends Model {
 
 	public String driverServer = "http://localhost:9001/wd/hub";
