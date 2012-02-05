@@ -1,65 +1,70 @@
-h1. WebDrive - Selenium 2 WebDriver support for Play framework
+h1. Bhave - Web-based BDD framework based on Play!, WebDriver/Selenium2 and Knockout.js
 
-_Written by Raghu Kaippully_
+_Written by Ed Southey_
 
-p. WebDrive module provides Selenium 2 testing support for Play framework. You can use this module to test your application with any browsers supported by "Selenium WebDriver":http://seleniumhq.org/docs/03_webdriver.html.
+p. Bhave allows you to easily create 'Acceptance Tests' of your web-accessible application, by turning natural language constructs into WebDriver commands to drive a real browser to interact with your application.
 
 h2. Motivation
 
-p. Play framework lets you write tests with Selenium. The tests can be automatically run with the @play auto-test@ command. The selenium tests are run using "HtmlUnit":http://htmlunit.sourceforge.net/. While this works great for simple web pages it may not be suited for all - especially with complex JavaScript. Besides, you may want to test the pages using multiple browsers.
-
-p. WebDrive lets you run your existing selenium tests on browsers of your choice. You save selenium tests under the @tests@ directory with a @.test.html@ extension as mentioned in Play documentation. WebDrive can run these tests on any of the supported browsers.
+p. BDD rocks.  I won't go into details on BDD specifics (Google is your friend).  Selenese is all very well and good, but it still requires intimate knowledge of the syntax.  Guiding the user through syntax or allowing them to create their own opens the door to a wider range of people being able to write and more importantly read the tests.
 
 h2. Installation
 
 
 * Use the standard Play module installation command:
 
-bc. play install webdrive 0.2
+bc. play install bhave 0.1
 
 * Add the dependency to your project:
 
 bc. require:
-    - play -> webdrive 0.2:
+    - play -> bhave 0.1:
         transitive: false
 
-WebDrive has a lot of dependencies and we don't want those jars to be copied over to the application's lib directory. That is why we specified @transitive: false@.
+Bhave has a dependencies on Selenium and we don't want those jars to be copied over to the application's lib directory. That is why we specified @transitive: false@.
 
 * Run
 
 bc. play dependencies --sync
 
+h2. Set Up
+
+In your routes file you should include the following line to allow access through to the underlying Bhave module views etc:
+
+bc. *   /   module:bhave
+
+In your @application.conf@ there are three properties that can/should be included:
+
+bc. bhave.local.selenium.server.on=true
+
+Whether to fire up a local Selenium server on startup.  This is useful when you are developing/debugging.  If you have a Selenium Grid or external Selenium Servers, then this is unnecessary.
+
+bc. bhave.local.selenium.server.port=9001
+
+What port your local Selenium server should start on.
+
+bc. bhave.chrome.driver.path=
+
+If you want to run tests in Chrome locally, then ChromeDriver (http://code.google.com/p/chromedriver/) needs to be on the path or specified here.
+
+To persist your data, you'll need to tell Play! to use a 'real' database, rather than the in-memory one by default.  For performance/architectural reasons, you may want to use a MySQL/Postgres/Oracle database, see Play! documentation for configuring this easily.  For testing/development purposes, a simple file-system based h2 database is fine.  Change this line:
+
+bc. #db=mem
+
+to 
+
+bc. db=fs
+
+
 h2. Usage
 
-In @application.conf@ you mention the list of browsers to run tests on:
+Fire up your application with:
 
-bc. webdrive.classes=ie,chrome,firefox
+bc. play run
 
-Below is a list of all supported driver names:
-
-|_. Name   |_. WebDriver class                             |
-| htmlunit | org.openqa.selenium.htmlunit.HtmlUnitDriver   |
-| andriod  | org.openqa.selenium.android.AndroidDriver     |
-| chrome   | org.openqa.selenium.chrome.ChromeDriver       |
-| firefox  | org.openqa.selenium.firefox.FirefoxDriver     |
-| ie       | org.openqa.selenium.ie.InternetExplorerDriver |
-| iphone   | org.openqa.selenium.iphone.IPhoneDriver       |
-
-You can use the fully qualified class name instead of the simple names if you wish.
-
-Optionally, you may also specify number of seconds WebDrive waits for each test before marking it as @ERROR@:
-
-bc. webdrive.timeout=300
-
-If you do not specify any value WebDrive uses a default value of 120 seconds.
-
-Tests are run using the command:
-
-bc. play webdrive:test
-
-Test results are available under @test-result@ folder. Results for each browser driver will be stored in separate folders inside @test-result@. If a test fails, a file named @result.failed@ will be created in the folder for that driver and also in @test-result@ folder. If all tests pass, a file named @result.passed@ will be created instead. You can also check the return code of the command to check whether the tests ran successfully.
+Then simply access your application on http://localhost:9000/ (by default) and start creating tests!
 
 h2. Project Information
 
-Source code: "https://github.com/rkaippully/play-webdrive":https://github.com/rkaippully/play-webdrive
-Issue tracking: "https://github.com/rkaippully/play-webdrive/issues":https://github.com/rkaippully/play-webdrive/issues
+Source code: "https://github.com/rugbyhead/bhave":https://github.com/rugbyhead/bhave
+Issue tracking: "https://github.com/rugbyhead/bhave/issues":https://github.com/rugbyhead/bhave/issues
