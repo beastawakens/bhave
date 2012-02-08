@@ -14,7 +14,7 @@ terms.BVerb(screenshot):
     type: Verb
 terms.BVerb(finish):
     name: "Finish"
-    command: "myTest.driver.quit();"
+    command: "myTest.driver.quit().then(function() {myTest.pass(~~id~~);}, function() {myTest.fail(~~id~~);});"
     type: Verb
 terms.BObject(google):
     name: "Google"

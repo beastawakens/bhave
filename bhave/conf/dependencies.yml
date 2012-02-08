@@ -2,5 +2,5 @@ self: play -> bhave 0.1
 
 require:
     - play 1.2.4
-    - org.seleniumhq.selenium -> selenium-java 2.18.0
-    - org.seleniumhq.selenium -> selenium-server 2.18.0
+    - org.seleniumhq.selenium -> selenium-java 2.19.0
+    - org.seleniumhq.selenium -> selenium-server 2.19.0

@@ -67,7 +67,7 @@ public class Tests extends Controller {
 		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "myTest.driver.takeScreenshot().then(function(png){var screenshot=ko.mapping.fromJSON(myTest.saveScreenshot('data:image/png;base64,'+png));myTest.screenshots.push(screenshot.id());myTest.pass(~~id~~);},function(){myTest.fail(~~id~~);});"));
 		
 		//3
-		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "myTest.driver.quit();"));
+		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "myTest.driver.quit().then(function() {myTest.pass(~~id~~);}, function() {myTest.fail(~~id~~);});"));
 		test.save();
 		return test;
 	}

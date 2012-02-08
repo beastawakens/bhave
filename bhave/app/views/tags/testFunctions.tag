@@ -147,18 +147,19 @@
 			exec();
 		};
 
-		myTest.failedTerms = ko.observableArray([]);
+		myTest.failedTerms = ko.observableArray();
 
 		myTest.fail = function(termId) {
 			myTest.lastSuccess(TestState.FAIL);
-			myTest.failedTerms().push(termId);
+			myTest.failedTerms.push(termId);
 		}
 
-		myTest.passingTerms = ko.observableArray([]);
+		myTest.passingTerms = ko.observableArray();
 
 		myTest.pass = function(termId) {
-			myTest.passingTerms().push(termId);
+			myTest.passingTerms.push(termId);
 		}
+
 	}
 
 </script>

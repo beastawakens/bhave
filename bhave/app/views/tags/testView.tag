@@ -20,8 +20,8 @@
 		            								'term_Conjunction': type() == 'Conjunction',
 		            								'term_Article': type() == 'Article',
 		            								'term_Synonym': type() == 'Synonym',
-		            								'passingTerm': $root.passingTerms.indexOf(id) > -1,
-		            								'failingTerm': $root.passingTerms.indexOf(id) > -1,
+		            								'passingTerm': $root.passingTerms.indexOf(id()) > -1,
+		            								'failingTerm': $root.failedTerms.indexOf(id()) > -1,
 		            								'term': true
 		            							}">
 		            	</span>

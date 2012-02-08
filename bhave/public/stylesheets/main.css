@@ -403,7 +403,7 @@ nav a:active img {
 }
 
 .passingTerm {
-	background: red !important;
+	background: green !important;
 }
 
 .failingTerm {
