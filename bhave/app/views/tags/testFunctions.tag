@@ -72,11 +72,11 @@
 
 		myTest.running = ko.observable(false);
 		myTest.lastSuccess = ko.observable(0);
+		myTest.failureMessage = ko.observable();
 		
 		myTest.run = function() {
 			myTest.getDriver();
 			myTest.runBhaviours();
-			myTest.updateScreenshot();
 		}
 		
 		myTest.saveScreenshot = function(dataURI) {
@@ -138,15 +138,6 @@
 			});
 		}
 		
-		myTest.updateScreenshot = function() {
-			if (screenshot != undefined) {
-				screenshot.then(function(png) {
-					var screenshot = ko.mapping.fromJSON(myTest.saveScreenshot('data:image/png;base64,' + png));
-					myTest.screenshots.push(screenshot.id());
-				});
-			}
-		}
-		
 		myTest.runBhaviours = function() {
 			var bhaviourString = "";
 			for (var i = 0; i < myTest.bhaviours().length; i++) {
@@ -156,7 +147,18 @@
 			exec();
 		};
 
+		myTest.failedTerms = ko.observableArray([]);
 
+		myTest.fail = function(termId) {
+			myTest.lastSuccess(TestState.FAIL);
+			myTest.failedTerms().push(termId);
+		}
+
+		myTest.passingTerms = ko.observableArray([]);
+
+		myTest.pass = function(termId) {
+			myTest.passingTerms().push(termId);
+		}
 	}
 
 </script>

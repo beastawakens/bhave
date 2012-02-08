@@ -8,7 +8,7 @@ public class Terms extends Controller {
 	public static void get(Long id) {
 		BTerm term = BTerm.findById(id);
 		if (term != null) {
-			renderJSON(term);
+			renderJSON(term.createTestCopy());
 		} else {
 			notFound();
 		}

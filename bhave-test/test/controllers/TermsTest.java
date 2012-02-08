@@ -1,6 +1,7 @@
-package functional;
+package controllers;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class TermsTest extends FunctionalTest {
 	}
 	
 	@Test
-	public void getReturnsTermAsJsonForValidId() throws Exception {
+	public void getReturnsTermCopyAsJsonForValidId() throws Exception {
 		BObject term = new BObject("termName", BObjectType.Element, "termValue");
 		term.save();
 		
@@ -49,6 +50,8 @@ public class TermsTest extends FunctionalTest {
         	assertThat(returnedTerm.name, is("termName"));
         	assertThat(returnedTerm.value, is("termValue"));
         	assertThat(returnedTerm.objectType, is(BObjectType.Element));
+        	assertThat(returnedTerm.id, is(not(term.id)));
+        	assertThat(returnedTerm.testCopy, is(true));
         } catch (JsonSyntaxException jse) {
         	fail();
         }

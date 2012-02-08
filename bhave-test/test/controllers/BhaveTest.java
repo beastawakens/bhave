@@ -1,4 +1,4 @@
-package functional;
+package controllers;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -10,7 +10,10 @@ import models.terms.BTerm;
 import org.junit.Before;
 import org.junit.Test;
 
+import bhave.BTermDeserializer;
+
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import play.mvc.Http.Response;
@@ -54,16 +57,21 @@ public class BhaveTest extends FunctionalTest {
     }
 
     @Test
-    public void getDictionaryShouldReturnFullDictionaryAsJson() {
-    	Dictionary currentDictionary = new Dictionary(BTerm.<BTerm>findAll());
+    public void getDictionaryShouldReturnFullDictionaryAsJsonNotIncludingCopies() {
+    	Fixtures.loadModels("default-dictionary.yml");
+    	BTerm termCopy = ((BTerm)BTerm.findAll().get(0)).createTestCopy();
+    	Dictionary currentDictionary = new Dictionary(BTerm.find("byTestCopyIsNull").<BTerm>fetch());
     	Response response = GET("/@bhave/dictionary");
     	assertIsOk(response);
     	assertContentType("application/json", response);
-    	Gson gson = new Gson();
+    	GsonBuilder gson = new GsonBuilder();
+    	gson.registerTypeAdapter(BTerm.class, new BTermDeserializer());
     	Dictionary returnedDictionary;
     	try {
-    		returnedDictionary = gson.fromJson(getContent(response), Dictionary.class);
+    		System.out.println(getContent(response));
+    		returnedDictionary = gson.create().fromJson(getContent(response), Dictionary.class);
     		assertEquals(currentDictionary.terms, returnedDictionary.terms);
+    		assertThat(returnedDictionary.terms.contains(termCopy), is(false));
     	} catch (JsonSyntaxException jse) {
     		fail();
     	}

@@ -49,21 +49,29 @@
 		var self = this;
 	}
 
+	TestState = {
+		FAIL: -1,
+		PENDING: 0,
+		SUCCESS: 1
+	}
+
 	webdriver.promise.Application.getInstance().on('uncaughtException', function(e) {
-		screenshot = myTest.driver.takeScreenshot();
-		myTest.driver.quit();
-		console.log('Oh dear: ' + e);
+		myTest.lastSuccess(TestState.FAIL);
+		myTest.failureMessage('Oh dear: ' + e);
 		myTest.running(false);
-		myTest.lastSuccess(-1);
     });
 
 	webdriver.promise.Application.getInstance().addListener('idle', function() { 
 		myTest.running(false);
-		myTest.lastSuccess(1);
+		if (myTest.lastSuccess() == TestState.PENDING) {
+//			console.log(webdriver.promise.Application.getInstance().getHistory());
+			myTest.lastSuccess(TestState.SUCCESS);
+		}
 	}, false);
 
 	webdriver.promise.Application.getInstance().addListener('scheduleTask', function() { 
-		myTest.lastSuccess(0);
+//		console.log(webdriver.promise.Application.getInstance().getSchedule());
+		myTest.lastSuccess(TestState.PENDING);
 		myTest.running(true);
 	}, false);
 	

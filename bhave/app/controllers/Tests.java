@@ -61,10 +61,10 @@ public class Tests extends Controller {
 		Test test = new Test("New test", new ArrayList<Long>(), new ArrayList<Bhaviour>());
 		
 		//1,4
-		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "myTest.driver.get('http://www.google.com');"));
+		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "myTest.driver.get('http://www.google.com').then(function() {myTest.pass(~~id~~);}, function() {myTest.fail(~~id~~);});"));
 		
 		//6
-		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "screenshot = myTest.driver.takeScreenshot();"));
+		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "myTest.driver.takeScreenshot().then(function(png){var screenshot=ko.mapping.fromJSON(myTest.saveScreenshot('data:image/png;base64,'+png));myTest.screenshots.push(screenshot.id());myTest.pass(~~id~~);},function(){myTest.fail(~~id~~);});"));
 		
 		//3
 		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "myTest.driver.quit();"));

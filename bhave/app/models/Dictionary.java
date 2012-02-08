@@ -14,7 +14,11 @@ import play.db.jpa.Model;
 @Entity
 public class Dictionary extends Model {
 	
-	public static final String VALUE_SUBSTITUTION = "~@~";
+	public static final String TERM_ID_SUBSTITUTION = "~~id~~";
+	public static final String PAGE_SUBSTITUTION = "~~page~~";
+	public static final String ELEMENT_SUBSTITUTION = "~~element~~";
+	public static final String ATTRIBUTE_SUBSTITUTION = "~~attribute~~";
+	
 	public ArrayList<BTerm> terms;
 	
 	public Dictionary() {

@@ -4,6 +4,9 @@
 	Version: <input size="2" data-bind="value: driverVersion()"/>
 	Platform: <select data-bind="options: availablePlatforms, value: driverPlatform"></select>
 	JS Enabled: <input type="checkbox" data-bind="checked: driverJavascriptEnabled"/>
-	<img data-bind="visible: running()" src="@{'/public/images/running.gif'}">
-	<span data-bind="visible: lastSuccess() != 0, text: (lastSuccess()==1) ? 'All Good' : 'FAIL' "></span>
+	<span data-bind="visible: lastSuccess() != TestState.PENDING, text: (lastSuccess()==TestState.SUCCESS) ? 'All Good' : failureMessage() "></span>
+</div>
+
+<div data-bind="visible: running()" class="throbber">
+	<img src="@{'/public/images/throbber.gif'}">
 </div>

@@ -1,6 +1,6 @@
 terms.BVerb(load):
     name: "Load"
-    command: "myTest.driver.get(~~page~~).then(function() {myTest.pass(~~id~~);}, function() {myTest.fail(~~id~~);});"
+    command: "myTest.driver.get(~~@~~).then(function() {console.log('success');}, function() {console.log('failure');});"
     type: Verb
 terms.BConjunction(then):
     name: "Then"
@@ -10,7 +10,7 @@ terms.BArticle(the):
     type: Article
 terms.BVerb(screenshot):
     name: "Take screenshot"
-    command: "myTest.driver.takeScreenshot().then(function(png){var screenshot=ko.mapping.fromJSON(myTest.saveScreenshot('data:image/png;base64,'+png));myTest.screenshots.push(screenshot.id());myTest.pass(~~id~~);},function(){myTest.fail(~~id~~);});"
+    command: "myTest.driver.takeScreenshot().then(function(png) {var screenshot = ko.mapping.fromJSON(myTest.saveScreenshot('data:image/png;base64,' + png));myTest.screenshots.push(screenshot.id());console.log('success');}, function() {console.log('failure');});"
     type: Verb
 terms.BVerb(finish):
     name: "Finish"

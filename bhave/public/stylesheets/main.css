@@ -311,6 +311,9 @@ nav a:active img {
 	background: none;
 	z-index: -1000px;
 	width: 0px;
+	padding: 20px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #nameEdit {
@@ -399,6 +402,14 @@ nav a:active img {
 	white-space: nowrap;
 }
 
+.passingTerm {
+	background: red !important;
+}
+
+.failingTerm {
+	background: red !important;
+}
+
 .termWrapper:HOVER {
 	margin-right: -32px;
 }
@@ -417,4 +428,19 @@ nav a:active img {
 
 .syntaxCell {
 	width: 50%;
+}
+
+.throbber {
+	margin-left: -40px;
+	margin-top: -7px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	border: 14px solid white;
+	-webkit-border-radius: 40px;
+	-moz-border-radius: 40px;
+	border-radius: 40px;
+	box-shadow: 0 0 100px rgba(255, 0, 144, 1);
+	-webkit-box-shadow: 0 0 100px rgba(255, 0, 144, 1);
+	-moz-box-shadow: 0 0 100px rgba(255, 0, 144, 1);
 }

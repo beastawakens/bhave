@@ -6,4 +6,4 @@
 	<a href="http://bhave.org" target="_blank">Help</a>
 </div>
 
-<div class="glow" id="headerBuffer"></div>
+<div id="headerBuffer"></div>
