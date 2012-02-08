@@ -75,6 +75,8 @@
 		myTest.failureMessage = ko.observable();
 		
 		myTest.run = function() {
+			myTest.failedTerms([]);
+			myTest.passingTerms([]);
 			myTest.getDriver();
 			myTest.runBhaviours();
 		}

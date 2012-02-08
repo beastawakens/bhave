@@ -787,7 +787,7 @@ goog.string.compareVersions = function(a, b) {
       if(l[0].length == 0 && m[0].length == 0) {
         break
       }
-      var c = l[1].length == 0 ? 0 : parseInt(l[1], 10), n = m[1].length == 0 ? 0 : parseInt(m[1], 10), c = goog.string.compareElements_(c, n) || goog.string.compareElements_(l[2].length == 0, m[2].length == 0) || goog.string.compareElements_(l[2], m[2])
+      var c = l[1].length == 0 ? 0 : parseInt(l[1], 10), o = m[1].length == 0 ? 0 : parseInt(m[1], 10), c = goog.string.compareElements_(c, o) || goog.string.compareElements_(l[2].length == 0, m[2].length == 0) || goog.string.compareElements_(l[2], m[2])
     }while(c == 0)
   }
   return c
@@ -974,27 +974,34 @@ var webdriver = {CommandResponse:{}, Command:function(a) {
   this.name_ = a;
   this.parameters_ = {}
 }};
+goog.exportSymbol("webdriver.Command", webdriver.Command);
 webdriver.Command.prototype.getName = function() {
   return this.name_
 };
+goog.exportProperty(webdriver.Command.prototype, "getName", webdriver.Command.prototype.getName);
 webdriver.Command.prototype.setParameter = function(a, b) {
   this.parameters_[a] = b;
   return this
 };
+goog.exportProperty(webdriver.Command.prototype, "setParameter", webdriver.Command.prototype.setParameter);
 webdriver.Command.prototype.setParameters = function(a) {
   this.parameters_ = a;
   return this
 };
+goog.exportProperty(webdriver.Command.prototype, "setParameters", webdriver.Command.prototype.setParameters);
 webdriver.Command.prototype.getParameter = function(a) {
   return this.parameters_[a]
 };
+goog.exportProperty(webdriver.Command.prototype, "getParameter", webdriver.Command.prototype.getParameter);
 webdriver.Command.prototype.getParameters = function() {
   return this.parameters_
 };
+goog.exportProperty(webdriver.Command.prototype, "getParameters", webdriver.Command.prototype.getParameters);
 webdriver.CommandName = {GET_SERVER_STATUS:"status", NEW_SESSION:"newSession", GET_SESSIONS:"getSessions", DESCRIBE_SESSION:"getSessionCapabilities", CLOSE:"close", QUIT:"quit", GET_CURRENT_URL:"getCurrentUrl", GET:"get", GO_BACK:"goBack", GO_FORWARD:"goForward", REFRESH:"refresh", ADD_COOKIE:"addCookie", GET_COOKIE:"getCookie", GET_ALL_COOKIES:"getCookies", DELETE_COOKIE:"deleteCookie", DELETE_ALL_COOKIES:"deleteAllCookies", GET_ACTIVE_ELEMENT:"getActiveElement", FIND_ELEMENT:"findElement", FIND_ELEMENTS:"findElements", 
 FIND_CHILD_ELEMENT:"findChildElement", FIND_CHILD_ELEMENTS:"findChildElements", CLEAR_ELEMENT:"clearElement", CLICK_ELEMENT:"clickElement", SEND_KEYS_TO_ELEMENT:"sendKeysToElement", SUBMIT_ELEMENT:"submitElement", TOGGLE_ELEMENT:"toggleElement", GET_CURRENT_WINDOW_HANDLE:"getCurrentWindowHandle", GET_WINDOW_HANDLES:"getWindowHandles", SWITCH_TO_WINDOW:"switchToWindow", SWITCH_TO_FRAME:"switchToFrame", GET_PAGE_SOURCE:"getPageSource", GET_TITLE:"getTitle", EXECUTE_SCRIPT:"executeScript", EXECUTE_ASYNC_SCRIPT:"executeAsyncScript", 
 GET_ELEMENT_TEXT:"getElementText", GET_ELEMENT_TAG_NAME:"getElementTagName", IS_ELEMENT_SELECTED:"isElementSelected", IS_ELEMENT_ENABLED:"isElementEnabled", IS_ELEMENT_DISPLAYED:"isElementDisplayed", GET_ELEMENT_LOCATION:"getElementLocation", GET_ELEMENT_SIZE:"getElementSize", GET_ELEMENT_ATTRIBUTE:"getElementAttribute", GET_ELEMENT_VALUE_OF_CSS_PROPERTY:"getElementValueOfCssProperty", ELEMENT_EQUALS:"elementEquals", SCREENSHOT:"screenshot", DIMISS_ALERT:"dimissAlert", IMPLICITLY_WAIT:"implicitlyWait", 
 SET_SCRIPT_TIMEOUT:"setScriptTimeout", GET_ALERT:"getAlert", ACCEPT_ALERT:"acceptAlert", DISMISS_ALERT:"dismissAlert", GET_ALERT_TEXT:"getAlertText", SET_ALERT_VALUE:"setAlertValue"};
+goog.exportSymbol("webdriver.CommandName", webdriver.CommandName);
 webdriver.CommandExecutor = function() {
 };
 goog.object = {};
@@ -1249,7 +1256,7 @@ webdriver.FirefoxDomExecutor.prototype.execute = function(a, b) {
   }
   this.pendingCommand_ = {name:a.getName(), callback:b};
   var c = a.getParameters();
-  c.id && c.id.ELEMENT && (c.id = c.id.ELEMENT);
+  c.id && c.id.ELEMENT && a.getName() != webdriver.CommandName.SWITCH_TO_FRAME && (c.id = c.id.ELEMENT);
   c = goog.json.serialize({name:a.getName(), sessionId:{value:c.sessionId}, parameters:c});
   this.docElement_.setAttribute(webdriver.FirefoxDomExecutor.Attribute_.COMMAND, c);
   c = this.doc_.createEvent("Event");
@@ -2101,16 +2108,29 @@ webdriver.promise.Application.prototype.scheduleWait = function(a, b, c, d, e) {
   var f = Math.min(c, 100), g = !!e, h = this;
   return this.schedule(a, function() {
     function a() {
-      var m = h.executeAsap_(b);
-      return webdriver.promise.when(m, function(b) {
-        var h = goog.now() - e;
-        g != !!b ? (l.isWaiting = !1, i.resolve()) : h >= c ? i.reject(Error((d ? d + "\n" : "") + "Wait timed out after " + h + "ms")) : setTimeout(a, f)
-      }, i.reject)
+      var i = h.executeAsap_(b);
+      return webdriver.promise.when(i, function(b) {
+        e();
+        var h = goog.now() - o;
+        g != !!b ? (p.isWaiting = !1, n.resolve()) : h >= c ? n.reject(Error((d ? d + "\n" : "") + "Wait timed out after " + h + "ms")) : setTimeout(a, f)
+      }, function(a) {
+        e();
+        n.reject(a)
+      })
     }
-    var e = goog.now(), i = new webdriver.promise.Deferred, l = goog.array.peek(h.frames_);
-    l.isWaiting = !0;
+    function e() {
+      if(h.history_.length != l) {
+        var a = goog.array.splice(h.history_, l, h.history_.length - l).join("\n");
+        !m || a != m.value ? (m = {value:a, count:1}, l += 2) : (h.history_.pop(), h.history_.pop(), m.count++);
+        var b = Array(i).join("..");
+        h.history_.push(b + "wait loop x" + m.count);
+        h.history_.push(a)
+      }
+    }
+    var i = h.frames_.length, l = h.history_.length, m, o = goog.now(), n = new webdriver.promise.Deferred, p = goog.array.peek(h.frames_);
+    p.isWaiting = !0;
     a();
-    return i.promise
+    return n.promise
   })
 };
 goog.exportProperty(webdriver.promise.Application.prototype, "scheduleWait", webdriver.promise.Application.prototype.scheduleWait);
@@ -2152,29 +2172,29 @@ webdriver.promise.Application.prototype.runEventLoop_ = function() {
   }
 };
 webdriver.promise.Application.prototype.executeAsap_ = function(a) {
-  var b;
+  var b, c;
   try {
-    var c = goog.array.peek(this.frames_);
-    if(!c || c.isActive) {
-      b = new webdriver.promise.Application.Frame_, this.frames_.push(b)
+    var d = goog.array.peek(this.frames_);
+    if(!d || d.isActive || d.isWaiting) {
+      b = new webdriver.promise.Application.Frame_, c = this.frames_.push(b)
     }
-    var d = a();
+    var e = a();
     if(!b) {
-      return d
+      return e
     }
-    if(!b.queue.length) {
-      return this.frames_.pop(), d
+    if(!b.queue.length && c == this.frames_.length) {
+      return this.frames_.pop(), e
     }
     return b.then(function() {
-      return d
+      return e
     }, function(a) {
-      if(d instanceof webdriver.promise.Promise && d.isPending()) {
-        return d.cancel(a), d
+      if(e instanceof webdriver.promise.Promise && e.isPending()) {
+        return e.cancel(a), e
       }
       throw a;
     })
-  }catch(e) {
-    return b && this.frames_.pop(), webdriver.promise.rejected(e)
+  }catch(f) {
+    return b && this.frames_.pop(), webdriver.promise.rejected(f)
   }
 };
 webdriver.promise.Application.prototype.commenceShutdown_ = function() {
@@ -3565,19 +3585,21 @@ webdriver.WebDriver = function(a, b) {
 };
 goog.exportSymbol("webdriver.WebDriver", webdriver.WebDriver);
 webdriver.WebDriver.attachToSession = function(a, b) {
-  return webdriver.WebDriver.acquireSession_(a, (new webdriver.Command(webdriver.CommandName.DESCRIBE_SESSION)).setParameter("sessionId", b))
+  return webdriver.WebDriver.acquireSession_(a, (new webdriver.Command(webdriver.CommandName.DESCRIBE_SESSION)).setParameter("sessionId", b), "WebDriver.attachToSession()")
 };
 goog.exportProperty(webdriver.WebDriver, "attachToSession", webdriver.WebDriver.attachToSession);
 webdriver.WebDriver.createSession = function(a, b) {
-  return webdriver.WebDriver.acquireSession_(a, (new webdriver.Command(webdriver.CommandName.NEW_SESSION)).setParameter("desiredCapabilities", b))
+  return webdriver.WebDriver.acquireSession_(a, (new webdriver.Command(webdriver.CommandName.NEW_SESSION)).setParameter("desiredCapabilities", b), "WebDriver.createSession()")
 };
 goog.exportProperty(webdriver.WebDriver, "createSession", webdriver.WebDriver.createSession);
-webdriver.WebDriver.acquireSession_ = function(a, b) {
-  var c = goog.bind(a.execute, a, b), c = webdriver.promise.checkedNodeCall(c).then(function(a) {
-    webdriver.error.checkResponse(a);
-    return new webdriver.Session(a.sessionId, a.value)
+webdriver.WebDriver.acquireSession_ = function(a, b, c) {
+  var d = goog.bind(a.execute, a, b), b = webdriver.promise.Application.getInstance().schedule(c, function() {
+    return webdriver.promise.checkedNodeCall(d).then(function(a) {
+      webdriver.error.checkResponse(a);
+      return new webdriver.Session(a.sessionId, a.value)
+    })
   });
-  return new webdriver.WebDriver(c, a)
+  return new webdriver.WebDriver(b, a)
 };
 webdriver.WebDriver.toWireValue_ = function(a) {
   switch(goog.typeOf(a)) {
@@ -3637,7 +3659,7 @@ webdriver.WebDriver.prototype.getCapability = function(a) {
 };
 goog.exportProperty(webdriver.WebDriver.prototype, "getCapability", webdriver.WebDriver.prototype.getCapability);
 webdriver.WebDriver.prototype.quit = function() {
-  this.schedule(new webdriver.Command(webdriver.CommandName.QUIT), "WebDriver.quit()").addBoth(function() {
+  return this.schedule(new webdriver.Command(webdriver.CommandName.QUIT), "WebDriver.quit()").addBoth(function() {
     delete this.session_
   }, this)
 };
