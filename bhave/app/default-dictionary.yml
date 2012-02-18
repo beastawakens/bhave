@@ -35,3 +35,29 @@ terms.BConjunction(First):
 terms.BConjunction(And):
     name: "And"
     type: Conjunction
+terms.BConjunction(Into):
+    name: "Into"
+    type: Conjunction
+terms.BVerb(type):
+    name: "Type"
+    command: "~~element~~.sendKeys('~~value~~').then(function() {myTest.pass(~~id~~);}, function() {myTest.fail(~~id~~);});"
+    type: Verb
+terms.BVerb(click):
+    name: "Click"
+    command: "~~element~~.click().then(function() {myTest.pass(~~id~~);}, function() {myTest.fail(~~id~~);});"
+    type: Verb
+terms.BObject(searchBox):
+    name: "Search Box"
+    objectType: Element
+    value: "myTest.driver.findElement(webdriver.By.name('q'))"
+    type: Object
+terms.BObject(searchButton):
+    name: "Search Button"
+    objectType: Element
+    value: "myTest.driver.findElement(webdriver.By.name('btnG'))"
+    type: Object
+terms.BObject(bhaveValue):
+    name: "\"bhave\""
+    objectType: Value
+    value: "bhave"
+    type: Object

@@ -21,11 +21,11 @@ import socket
 
 from play.utils import *
 
-COMMANDS = [ 'behave:local' , 'behave:grid' ]
+COMMANDS = [ 'bhave:local' , 'bhave:grid' ]
 
 HELP = {
-    'behave:local': 'Run tests using local browsers',
-    'behave:grid': 'Run tests remotely using a Selenium 2 grid'
+    'bhave:local': 'Run tests using local browsers',
+    'bhave:grid': 'Run tests remotely using a Selenium 2 grid'
 }
 
 def execute(**kargs):
@@ -33,10 +33,10 @@ def execute(**kargs):
     app = kargs.get("app")
     args = kargs.get("args")
 
-    if command == 'behave:local':
+    if command == 'bhave:local':
         test(app, args, False)
         
-    if command == 'behave:grid':
+    if command == 'bhave:grid':
         test(app, args, True)
 
 def test(app, args, remote):
@@ -46,7 +46,7 @@ def test(app, args, remote):
     if not isTestFrameworkId(app.play_env["id"]): 
         app.play_env["id"] = 'test'
 
-    print "~ Running tests with webdriver"
+    print "~ Running bhaviours"
     print "~ Ctrl+C to stop"
     print "~ "
 
@@ -154,3 +154,20 @@ def test(app, args, remote):
         print "~"
         sys.exit(1)
         
+# This will be executed after any command (new, run...)
+def after(**kargs):
+    command = kargs.get("command")
+    app = kargs.get("app")
+    args = kargs.get("args")
+    env = kargs.get("env")
+
+    if command == "new":
+        appconf = open(os.path.join(app.path, 'conf/application.conf'), 'a')
+        appconf.write("\n")
+        appconf.write("# Bhave module configuration\n")
+        appconf.write("# ~~~~~\n")
+        appconf.write("bhave.local.selenium.server.on=true\n")
+        appconf.write("bhave.local.selenium.server.port=9001\n")
+        appconf.write("#bhave.chrome.driver.path=\n")
+        appconf.write("#\n")
+        appconf.write("# ~~~~~\n")
