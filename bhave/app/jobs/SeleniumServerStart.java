@@ -22,6 +22,7 @@ public class SeleniumServerStart extends Job {
 			String defaultChromeDriverPath = Play.modules.get("bhave").getRealFile().getAbsolutePath() + "/chromedriver";
 			
 			System.setProperty("webdriver.chrome.driver", Play.configuration.getProperty("bhave.chrome.driver.path", defaultChromeDriverPath));
+			System.out.println("Chromedriver should be here:" + System.getProperty("webdriver.chrome.driver"));
 			try {
 				RemoteControlConfiguration configuration = new RemoteControlConfiguration();
 				configuration.setPort(Integer.parseInt(Play.configuration.getProperty("bhave.local.selenium.server.port", "4444"), 10));

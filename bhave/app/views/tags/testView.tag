@@ -31,7 +31,7 @@
 	            <td class="languageCell">
 	            	<input size="30" class="language_input" data-bind="value: language, attr: {id: 'language_input_'+id(), 'data-id': id()}" />
 	            </td>
-	            <td>
+	            <td class="commandCell">
 	            	<input size="30" class="command_input" data-bind="value: command, attr: {id: 'command_input_'+id(), 'data-id': id()}" />
 	            </td>
 	            <td>

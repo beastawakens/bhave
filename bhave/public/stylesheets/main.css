@@ -444,3 +444,11 @@ nav a:active img {
 	-webkit-box-shadow: 0 0 100px rgba(255, 0, 144, 1);
 	-moz-box-shadow: 0 0 100px rgba(255, 0, 144, 1);
 }
+
+.commandCell {
+	display: none;
+}
+
+.languageCell {
+	text-align: right;
+}

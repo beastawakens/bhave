@@ -25,8 +25,8 @@ public class Dictionary extends Model {
 
 	}
 
-	public Dictionary(List<BTerm> findAll) {
-		this.terms = new ArrayList<BTerm>(findAll);
+	public Dictionary(List<BTerm> terms) {
+		this.terms = new ArrayList<BTerm>(terms);
 	}
 
 }

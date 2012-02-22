@@ -29,7 +29,7 @@ public class Bhave extends Controller {
 	}
 
 	public static void getDictionary() {
-		Dictionary dictionary = new Dictionary(BTerm.<BTerm>findAll());
+		Dictionary dictionary = new Dictionary(BTerm.find("byTestCopyIsNull").<BTerm>fetch());
 		renderJSON(dictionary);
 	}
 
