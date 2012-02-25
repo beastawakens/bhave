@@ -45,10 +45,6 @@
 		this.source = 'data:image/png;base64,' + png;
 	}
 
-	function Dictionary() {
-		var self = this;
-	}
-
 	TestState = {
 		FAIL: -1,
 		PENDING: 0,

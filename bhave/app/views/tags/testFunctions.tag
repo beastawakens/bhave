@@ -143,7 +143,9 @@
 		myTest.runBhaviours = function() {
 			var bhaviourString = "";
 			for (var i = 0; i < myTest.bhaviours().length; i++) {
-				bhaviourString += myTest.bhaviours()[i].command();
+
+				bhaviourString += new Translator(myTest.bhaviours()[i].syntax()).produceCommand();
+//				bhaviourString += myTest.bhaviours()[i].command();
 			}
 			var exec = new Function(bhaviourString);
 			exec();

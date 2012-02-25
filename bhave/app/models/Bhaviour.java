@@ -3,10 +3,11 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.*;
 
 import models.terms.BTerm;
 import play.db.jpa.Model;
@@ -24,6 +25,7 @@ public class Bhaviour extends Model {
 	public String language;
 	
 	@ManyToMany
+	@Cascade(value = {CascadeType.ALL})
 	public List<BTerm> syntax;
 	
 	

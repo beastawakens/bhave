@@ -1,6 +1,6 @@
 terms.BVerb(load):
     name: "Load"
-    command: "myTest.driver.get(~~page~~).then(function() {myTest.pass(~~id~~);}, function() {myTest.fail(~~id~~);});"
+    command: "myTest.driver.get('~~page~~').then(function() {myTest.pass(~~id~~);}, function() {myTest.fail(~~id~~);});"
     type: Verb
 terms.BConjunction(then):
     name: "Then"

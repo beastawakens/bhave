@@ -59,13 +59,6 @@ public class Tests extends Controller {
 	
 	private static Test createNewTest() {
 		Test test = new Test("New test", new ArrayList<Long>(), new ArrayList<Bhaviour>());
-		
-		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "myTest.driver.get('http://www.google.com').then(function() {myTest.pass(~~id~~);}, function() {myTest.fail(~~id~~);});"));
-		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "myTest.driver.takeScreenshot().then(function(png){var screenshot=ko.mapping.fromJSON(myTest.saveScreenshot('data:image/png;base64,'+png));myTest.screenshots.push(screenshot.id());myTest.pass(~~id~~);},function(){myTest.fail(~~id~~);});"));
-		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "myTest.driver.findElement(webdriver.By.name('q')).sendKeys('bhave').then(function() {myTest.pass(~~id~~);}, function() {myTest.fail(~~id~~);});"));
-		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "myTest.driver.findElement(webdriver.By.name('btnG')).click().then(function() {myTest.pass(~~id~~);}, function() {myTest.fail(~~id~~);});"));
-		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "myTest.driver.takeScreenshot().then(function(png){var screenshot=ko.mapping.fromJSON(myTest.saveScreenshot('data:image/png;base64,'+png));myTest.screenshots.push(screenshot.id());myTest.pass(~~id~~);},function(){myTest.fail(~~id~~);});"));
-		test.bhaviours.add(new Bhaviour(new ArrayList<BTerm>(), "", "myTest.driver.quit().then(function() {myTest.pass(~~id~~);}, function() {myTest.fail(~~id~~);});"));
 		test.save();
 		return test;
 	}
