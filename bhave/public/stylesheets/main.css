@@ -452,3 +452,7 @@ nav a:active img {
 .languageCell {
 	text-align: right;
 }
+
+.termCopy_true {
+	background-color: red;
+}

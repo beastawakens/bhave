@@ -59,14 +59,45 @@
 		};
 
 		self.produceCommand = function() {
-			var verb = self.findNext('Verb');
-			var currentCommand = self.replaceId(verb.command(), verb);
-			currentCommand = self.replaceObjects(currentCommand);
-			return currentCommand;
+			return self.replaceSynonyms(function() {
+				var verb = self.findNext('Verb');
+				var currentCommand = self.replaceId(verb.command(), verb);
+				currentCommand = self.replaceObjects(currentCommand);
+				return currentCommand;
+			});
 		}
 
 		self.replaceId = function(commandString, term) {
 			return commandString.replace(/~~id~~/g, term.id());
+		}
+
+		self.replaceSynonyms = function(callback) {
+			console.log(syntax);
+			var synonym = self.findNext('Synonym');
+			while (typeof synonym != 'undefined') {
+
+				var originalIds = synonym.to();
+
+				var preSynonymTerms = syntax.slice(0, index['Synonym']);
+				var postSynonymTerms = syntax.slice(index['Synonym']);
+				var originalTerms = [];
+
+				for (var i = 0; i < originalIds.length; i++) {
+				    $.get(getTermUrl({id: originalIds[i]}), function(termData) {
+				    	var term = ko.mapping.fromJS(termData);
+				    	console.log(term);
+						originalTerms[i] = term;						
+					});
+				}
+
+				syntax = preSynonymTerms.concat(originalTerms.concat(postSynonymTerms));
+				console.log(syntax);
+				
+				synonym = self.findNext('Synonym');
+			}
+
+			return callback();
+
 		}
 
 		self.replaceObjects = function(commandString) {
@@ -89,7 +120,7 @@
 		self.findNext = function(termType) {
 			for (var i = index[termType]; i < syntax.length; i++) {
 				if (syntax[i].type() == termType) {
-					index[termType] = i;
+					index[termType] = i+1;
 					return syntax[i]; 
 				}
 			}

@@ -27,4 +27,5 @@ DELETE  /@bhave/term/{id}                      Terms.delete
 
 GET     /@bhave/env                            Bhave.getEnv
 GET     /@bhave/dictionary                     Bhave.getDictionary
+GET     /@bhave/displayDictionary              Bhave.dictionary
 GET     /@bhave/{id}                           Tests.show

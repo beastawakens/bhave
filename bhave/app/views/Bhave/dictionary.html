@@ -1,0 +1,20 @@
+#{extends 'bhave-main.html' /}
+#{set title:'Bhave yourself' /}
+
+
+	<ul id="dictionaryContainer" class="glow">
+		#{list items:dictionary.terms, as:'term'}
+		    <li class="termRow termCopy_${term.testCopy}" id="term_${term.id}">${term.id} - ${term.name} - ${term.type} 
+		    		
+		    		#{if term.type == Synonym}
+			    		<ul>
+							#{list items:term.to, as:'original'}
+								<li>${original}</li>
+							#{/list}		    		
+			    		</ul>
+		    		#{/if}
+		    		
+		    
+		    </li>
+		#{/list}
+	</ul>

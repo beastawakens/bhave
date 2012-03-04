@@ -9,9 +9,10 @@ import play.test.Fixtures;
 public class DataLoader extends Job {
 	
 	public void doJob() {
-        if(BTerm.count() == 0) {
-            Fixtures.loadModels("default-dictionary.yml");
-        }
+		for (BTerm term : BTerm.find("byTestCopyIsNull").<BTerm>fetch()) {
+			term.delete();
+		}
+		Fixtures.loadModels("default-dictionary.yml");
     }
 
 }

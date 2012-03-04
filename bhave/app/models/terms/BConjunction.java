@@ -9,4 +9,11 @@ public class BConjunction extends BTerm {
 		super(name, BTermType.Conjunction);
 	}
 
+	@Override
+	public BConjunction createTestCopy() {
+		return (BConjunction) saveAsCopy(new BConjunction(name));
+	}
+	
+	
+
 }

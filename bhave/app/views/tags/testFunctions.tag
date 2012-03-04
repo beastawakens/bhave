@@ -11,7 +11,6 @@
 				var bhaviourId = newValue.split(':')[0];
 				var termId = newValue.split(':')[1];
 	
-				var getTermUrl = #{jsAction @Terms.get(':id') /}
 			    $.get(getTermUrl({id: termId}), function(termData) {
 
 			    	var term = ko.mapping.fromJS(termData);
@@ -100,8 +99,6 @@
 		}
 		
 		myTest.deleteScreenshot = function(id) {
-			var deleteScreenshotUrl = #{jsAction @Screenshots.deleteScreenshot(':testId', ':id') /}
-			
 			$.ajax(deleteScreenshotUrl({testId: myTest.id(), id: id}), {
 				type: "DELETE",
 				success: function() {

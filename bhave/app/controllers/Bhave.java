@@ -33,6 +33,11 @@ public class Bhave extends Controller {
 		renderJSON(dictionary);
 	}
 
+	public static void dictionary() {
+		Dictionary dictionary = new Dictionary(BTerm.<BTerm>findAll());
+		render(dictionary);
+	}
+
 	public static void dummy() {
 		renderText("");
 	}

@@ -9,4 +9,11 @@ public class BArticle extends BTerm {
 		super(name, BTermType.Article);
 	}
 
+	@Override
+	public BArticle createTestCopy() {
+		return (BArticle) saveAsCopy(new BArticle(name));
+	}
+	
+	
+
 }
