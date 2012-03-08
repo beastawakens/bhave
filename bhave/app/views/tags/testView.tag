@@ -5,7 +5,7 @@
 	</h3>
 	<table class="testTable">
 	    <tfoot>
-	    	<tr><td></td><td></td><td><input id="syntax_input" data-bind="value: syntaxInput" /></td><td><button data-bind="click: addBhaviour">Add</button></td></tr>
+	    	<tr><td></td><td></td><td><input id="syntax_input" data-bind="value: syntaxInput" /></td><td><button data-bind="click: addBhaviour"><i class="icon-plus"></i></button></td></tr>
 	    </tfoot>
 	    <tbody data-bind="foreach: bhaviours">
 	        <tr class="bhaviour_row" data-bind="attr: {'id': 'bhaviour_'+id()}">
@@ -25,17 +25,14 @@
 		            								'term': true
 		            							}">
 		            	</span>
-		            	<a data-bind="attr: {'id': 'term_delete_'+id()}, click: myTest.removeTerm.bind($data, id(), $parent.id())" class="termDelete"><img class="termDeleteImage" src="@{'/public/images/closeSmall.png'}"></a>
+		            	<i class="icon-remove-sign icon-large termDelete" data-bind="attr: {'id': 'term_delete_'+id()}, click: myTest.removeTerm.bind($data, id(), $parent.id())"></i>
 	            	</span>
 	            </td>
 	            <td class="languageCell">
-	            
-	            	
-	            
 	            	<input size="30" class="language_input" data-bind="hasfocus: isActive, value: language, attr: {id: 'language_input_'+id(), 'data-id': id()}" />
-	            	
+
 	            	<div class="definitionContainer">
-		            	<a data-bind="visible: isActive, attr: {'id': 'bhaviour_define_'+id()}, event: {mouseover: definition.active.bind($data, id())}" class="bhaviourDefine"><img class="bhaviourDefineImage" src="@{'/public/images/add.png'}"></a>
+		            	<i class="icon-plus-sign icon-large bhaviourDefine" data-bind="visible: isActive, attr: {'id': 'bhaviour_define_'+id()}, event: {mouseover: definition.active.bind($data, id())}"></i>
 		            	
 		            	#{definitionTool /}
 	            	</div>
@@ -44,11 +41,11 @@
 	            	<input size="30" class="command_input" data-bind="value: command, attr: {id: 'command_input_'+id(), 'data-id': id()}" />
 	            </td>
 	            <td>
-	            	<button data-bind="click: $root.removeBhaviour">Remove</button>
+	            	<button data-bind="click: $root.removeBhaviour"><i class="icon-trash"></i></button>
 	            </td>
 	        </tr>    
 	    </tbody>
 	</table>
-	<button data-bind="click: run">Run Test</button>
-	<button data-bind="click: saveTest">Save Test</button>
+	<button data-bind="click: run">Run <i class="icon-play"></i></button>
+	<button data-bind="click: saveTest">Save <i class="icon-file"></i></button>
 </div>
