@@ -34,12 +34,6 @@
 	    return bb.getBlob(mimeString);
 	}
 
-	function Bhaviour(syntax, language, command) {
-		this.syntax = ko.observableArray(syntax);
-		this.language = ko.observable(language);
-		this.command = ko.observable(command);
-	}
-	
 	function Screenshot(png) {
 		this.id;
 		this.source = 'data:image/png;base64,' + png;

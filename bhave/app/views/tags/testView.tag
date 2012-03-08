@@ -1,6 +1,6 @@
 <div class="glow">
 	<h3>
-		<span data-bind="text: id"></span> - </span><span data-bind="text: name, event: {dblclick: editName}, visible: !editingName()"></span>
+		<span id="testId" data-bind="text: id"></span> - </span><span id="testName" data-bind="text: name, event: {dblclick: editName}, visible: !editingName()"></span>
 		<input id="nameEdit" data-bind="value: name, valueUpdate: 'afterkeydown', visible: editingName, hasfocus: editingName, event: {blur: editName, keypress: editName} "/>
 	</h3>
 	<table class="testTable">
@@ -8,7 +8,7 @@
 	    	<tr><td></td><td></td><td><input id="syntax_input" data-bind="value: syntaxInput" /></td><td><button data-bind="click: addBhaviour">Add</button></td></tr>
 	    </tfoot>
 	    <tbody data-bind="foreach: bhaviours">
-	        <tr class="bhaviour_row" id="bhaviour_">
+	        <tr class="bhaviour_row" data-bind="attr: {'id': 'bhaviour_'+id()}">
 	            <td class="syntaxCell" data-bind="foreach: syntax">
 	            	<span class="termWrapper">
 		            	<span data-bind="	attr: {'id': 'term_'+id()},
@@ -29,7 +29,16 @@
 	            	</span>
 	            </td>
 	            <td class="languageCell">
-	            	<input size="30" class="language_input" data-bind="value: language, attr: {id: 'language_input_'+id(), 'data-id': id()}" />
+	            
+	            	
+	            
+	            	<input size="30" class="language_input" data-bind="hasfocus: isActive, value: language, attr: {id: 'language_input_'+id(), 'data-id': id()}" />
+	            	
+	            	<div class="definitionContainer">
+		            	<a data-bind="visible: isActive, attr: {'id': 'bhaviour_define_'+id()}, event: {mouseover: definition.active.bind($data, id())}" class="bhaviourDefine"><img class="bhaviourDefineImage" src="@{'/public/images/add.png'}"></a>
+		            	
+		            	#{definitionTool /}
+	            	</div>
 	            </td>
 	            <td class="commandCell">
 	            	<input size="30" class="command_input" data-bind="value: command, attr: {id: 'command_input_'+id(), 'data-id': id()}" />

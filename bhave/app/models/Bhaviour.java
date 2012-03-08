@@ -25,7 +25,6 @@ public class Bhaviour extends Model {
 	public String language;
 	
 	@ManyToMany
-	@Cascade(value = {CascadeType.ALL})
 	public List<BTerm> syntax;
 	
 	

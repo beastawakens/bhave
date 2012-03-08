@@ -25,7 +25,7 @@ body {
 	background-color: #262935;
 	color: #262935;
 	font-weight: bold;
-	font-size: x-large;
+	font-size: medium;
 }
 
 h1,h3 {
@@ -280,6 +280,7 @@ nav a:active img {
 	position: fixed;
 	text-align: center;
 	border: 2px solid black;
+	font-size: x-large;
 }
 #header:AFTER, #header:BEFORE {
 	content: ' ';
@@ -316,10 +317,27 @@ nav a:active img {
 	margin-right: auto;
 }
 
+#testId, #testName {
+	font-size: x-large;
+}
 #nameEdit {
 	font-family: monospace;
 	font-weight: bold;
 	font-size: x-large;
+	padding: 0px;
+	margin: 0px;
+}
+#ui-active-menuitem {
+	transition: none;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-o-transition: none;
+}
+
+#ui-active-menuitem:HOVER {
+	box-shadow: none;
+    -webkit-box-shadow: none; 
+    -moz-box-shadow: none; 
 }
 
 .deleteTest {
@@ -342,6 +360,7 @@ nav a:active img {
 	-webkit-transition: all 0.5s ease-in-out;
 	-moz-transition: all 0.5s ease-in-out;
 	-o-transition: all 0.5s ease-in-out;
+	font-size: 1.4em;
 }
 
 .term:HOVER {
@@ -411,7 +430,7 @@ nav a:active img {
 }
 
 .termWrapper:HOVER {
-	margin-right: -32px;
+	margin-right: -28px;
 }
 
 .termWrapper:HOVER .termDelete {
@@ -455,4 +474,73 @@ nav a:active img {
 
 .termCopy_true {
 	background-color: red;
+}
+
+.definitionContainer {
+	position: relative;
+	width: 0px;
+	float: right;
+}
+
+.bhaviourDefine {
+	position: absolute;
+	left: -125px;
+	top: -16px;
+}
+
+.definition_tool_container {
+	padding: 5px;
+	position: absolute;
+	text-align: center;
+	overflow: visible;
+	left: -375px;
+	top: -56px;
+	width: 500px;
+	height: 250px;
+}
+
+.definition_tool_container ul {
+	bottom: 0px;
+}
+
+.definition_tool_container ul li {
+	display: inline;
+	list-style-type: none;
+	background: white;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	padding: 3px;
+	margin: 3px;
+	width: 100%;
+	
+}
+
+.definition_object_container {
+	float: right;
+}
+
+.definition_synonym_container {
+	float: right;
+}
+
+#dictionaryContainer {
+	list-style-position: inside;
+}
+
+
+#dictionaryContainer ul {
+	list-style-position: inside;
+	margin-left: 20px;
+}
+
+code {
+	background: white;
+	font-weight: normal;
+	display: block;
+	font-size: 0.9em;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	padding: 4px;
 }

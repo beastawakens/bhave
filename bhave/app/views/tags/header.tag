@@ -3,6 +3,8 @@
 	&sect;
 	<a href="@{Tests.newTest()}">New test</a>
 	&sect;
+	<a href="@{Bhave.dictionary()}">Dictionary</a>
+	&sect;
 	<a href="http://bhave.org" target="_blank">Help</a>
 </div>
 

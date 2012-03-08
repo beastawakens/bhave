@@ -60,38 +60,43 @@
 
 		self.produceCommand = function() {
 			return self.replaceSynonyms(function() {
+				var currentCommand = "";
 				var verb = self.findNext('Verb');
-				var currentCommand = self.replaceId(verb.command(), verb);
-				currentCommand = self.replaceObjects(currentCommand);
+				while (typeof verb != 'undefined') {
+					currentCommand = self.replaceId(currentCommand, verb.command(), verb);
+					currentCommand = self.replaceObjects(currentCommand);
+
+					verb = self.findNext('Verb');
+				}
+				console.log(currentCommand);
 				return currentCommand;
 			});
 		}
 
-		self.replaceId = function(commandString, term) {
-			return commandString.replace(/~~id~~/g, term.id());
+		self.replaceId = function(currentCommand, commandString, term) {
+			return currentCommand + commandString.replace(/~~id~~/g, term.id());
 		}
 
 		self.replaceSynonyms = function(callback) {
-			console.log(syntax);
 			var synonym = self.findNext('Synonym');
 			while (typeof synonym != 'undefined') {
-
 				var originalIds = synonym.to();
 
-				var preSynonymTerms = syntax.slice(0, index['Synonym']);
+				var preSynonymTerms = syntax.slice(0, index['Synonym']-1);
 				var postSynonymTerms = syntax.slice(index['Synonym']);
 				var originalTerms = [];
 
 				for (var i = 0; i < originalIds.length; i++) {
-				    $.get(getTermUrl({id: originalIds[i]}), function(termData) {
-				    	var term = ko.mapping.fromJS(termData);
-				    	console.log(term);
-						originalTerms[i] = term;						
-					});
+					allTerms = myDictionary.terms();
+					for (var j = 0; j < allTerms.length; j++) {
+						if (allTerms[j].id() == originalIds[i]) {
+							originalTerms[i] = allTerms[j];	
+							originalTerms[i].id(synonym.id());					
+						}
+					}
 				}
 
 				syntax = preSynonymTerms.concat(originalTerms.concat(postSynonymTerms));
-				console.log(syntax);
 				
 				synonym = self.findNext('Synonym');
 			}

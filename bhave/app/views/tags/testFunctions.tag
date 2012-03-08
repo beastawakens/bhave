@@ -36,7 +36,7 @@
 				}
 			}
 		}
-		
+
 		myTest.editName = function(data, event) {
 			if (event.type == 'dblclick') {
 			  	myTest.editingName(true);
@@ -63,7 +63,7 @@
 		}
 		myTest.addBhaviour = function(bhaviour) {
 			$.getJSON("@{Bhaviours.create()}", function(bhaviourJson) {
-		    	var bhaviour = ko.mapping.fromJS(bhaviourJson);
+		    	var bhaviour = new Bhaviour(bhaviourJson);
 				myTest.bhaviours.push(bhaviour);
 				applyTranslation();
 		    });
@@ -113,7 +113,7 @@
 		
 		myTest.saveTest = function() {
 			var mapping = {
-			    'ignore': ["driverServer", "driverVersion", "driverPlatform", "driverJavascriptEnabled", "availableBrowsers", "availablePlatforms", "driverBrowserName"]
+			    'ignore': ["isActive", "definition", "driverServer", "driverVersion", "driverPlatform", "driverJavascriptEnabled", "availableBrowsers", "availablePlatforms", "driverBrowserName"]
 			}
 		
 			var unmapped = ko.mapping.toJSON(myTest, mapping);

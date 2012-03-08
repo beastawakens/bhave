@@ -1,20 +1,32 @@
 #{extends 'bhave-main.html' /}
 #{set title:'Bhave yourself' /}
 
+#{dictionary /}	
 
-	<ul id="dictionaryContainer" class="glow">
-		#{list items:dictionary.terms, as:'term'}
-		    <li class="termRow termCopy_${term.testCopy}" id="term_${term.id}">${term.id} - ${term.name} - ${term.type} 
-		    		
-		    		#{if term.type == Synonym}
-			    		<ul>
-							#{list items:term.to, as:'original'}
-								<li>${original}</li>
-							#{/list}		    		
-			    		</ul>
-		    		#{/if}
-		    		
-		    
-		    </li>
-		#{/list}
-	</ul>
+<script>
+	$(document).ready(function() {
+		
+		myDictionary = new Dictionary();
+	    $.getJSON("@{Bhave.getDictionary()}", function(dictionary) {
+	    	ko.mapping.fromJS(dictionary, {}, myDictionary);
+	    	ko.applyBindings(myDictionary);
+	    }); 
+	});
+</script>
+
+
+<ul id="dictionaryContainer" class="glow" data-bind="foreach: terms">
+    <li class="termRow" data-bind="attr: {'id': 'term_'+id()}">
+    	<span data-bind="text: id() + '. ' + name() + ' - ' + type()"></span>
+    	
+    	<ul data-bind="if: type()=='Synonym'">
+    		<li data-bind="text: to()"></li>
+    	</ul>
+    	<ul data-bind="if: type()=='Object'">
+    		<li data-bind="text: objectType() + ' - ' + value()"></li>
+    	</ul>
+    	<ul data-bind="if: type()=='Verb'">
+    		<li><code data-bind="text: command()"></code></li>
+    	</ul>
+    </li>
+</ul>

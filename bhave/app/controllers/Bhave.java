@@ -15,6 +15,8 @@ import models.terms.BTerm;
 import models.terms.BVerb;
 import play.mvc.Controller;
 
+import bhave.*;
+
 import com.google.gson.Gson;
 
 public class Bhave extends Controller {
@@ -30,7 +32,7 @@ public class Bhave extends Controller {
 
 	public static void getDictionary() {
 		Dictionary dictionary = new Dictionary(BTerm.find("byTestCopyIsNull").<BTerm>fetch());
-		renderJSON(dictionary);
+		renderJSON(dictionary, new BTermSerializer());
 	}
 
 	public static void dictionary() {

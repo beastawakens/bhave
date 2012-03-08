@@ -12,7 +12,7 @@ import models.terms.BTerm;
 import models.terms.BVerb;
 import models.terms.BObject.BObjectType;
 
-import bhave.BTermDeserializer;
+import bhave.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -75,7 +75,7 @@ public class Tests extends Controller {
 
 	public static void get(long id) {
 		Test test = Test.findById(id);
-		renderJSON(test);
+		renderJSON(test, new BTermSerializer());
 	}
 
 }
