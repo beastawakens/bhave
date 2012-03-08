@@ -1,6 +1,6 @@
-self: play -> bhave 0.7
+self: play -> bhave head
 
 require:
     - play 1.2.4
-    - org.seleniumhq.selenium -> selenium-java 2.19.0
-    - org.seleniumhq.selenium -> selenium-server 2.19.0
+    - org.seleniumhq.selenium -> selenium-java 2.20.0
+    - org.seleniumhq.selenium -> selenium-server 2.20.0
