@@ -39,6 +39,17 @@
 							},
 							elementAttribute: {
 								active:ko.observable(false)
+							},
+							makeActive: function(type) {
+								if (self.definition.terms.object.types[type].active()) {
+									return;
+								};
+								self.definition.terms.object.types.value.active(false);
+								self.definition.terms.object.types.page.active(false);
+								self.definition.terms.object.types.element.active(false);
+								self.definition.terms.object.types.pageAttribute.active(false);
+								self.definition.terms.object.types.elementAttribute.active(false);
+								self.definition.terms.object.types[type].active(true);
 							}
 						}
 					},
@@ -51,19 +62,28 @@
 					synonym: {
 						active:ko.observable(false),
 						terms: ko.observableArray()
+					},
+					makeActive: function(term) {
+						if (self.definition.terms[term].active()) {
+							return;
+						};
+						self.definition.terms.object.active(false);
+						self.definition.terms.article.active(false);
+						self.definition.terms.conjunction.active(false);
+						self.definition.terms.synonym.active(false);
+						self.definition.terms[term].active(true);
 					}
 				},
 				disable: function() {
-					console.log('double nice');
-
 					if (!e) var e = window.event;
-					console.log(e);
 					var tg = (window.event) ? e.srcElement : e.target;
-					if (tg.nodeName != 'DIV') return;
+					if (tg.className != 'definition_tool_container') return;
 					var reltg = (e.relatedTarget) ? e.relatedTarget : e.toElement;
 					while (reltg != tg && reltg.nodeName != 'BODY')
 						reltg= reltg.parentNode
 					if (reltg== tg) return;
+
+					self.definition.active(false);
 
 					// actually left area, do something
 				}

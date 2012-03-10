@@ -504,17 +504,20 @@ nav a:active img {
 	position: absolute;
 	text-align: center;
 	overflow: visible;
-	left: -375px;
-	top: -56px;
+	left: -271px;
+	top: -161px;
 	width: 500px;
 	height: 250px;
 }
+.definition_tool_container table tr {
+	height: 50px;
+}
 
-.definition_tool_container ul {
+.definition_tool_container table tr td ul {
 	bottom: 0px;
 }
 
-.definition_tool_container ul li {
+.definition_tool_container table tr td ul li {
 	display: inline;
 	list-style-type: none;
 	background: white;
