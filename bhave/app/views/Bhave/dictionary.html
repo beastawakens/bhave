@@ -14,7 +14,6 @@
 	});
 </script>
 
-
 <ul id="dictionaryContainer" class="glow" data-bind="foreach: terms">
     <li class="termRow" data-bind="attr: {'id': 'term_'+id()}">
     	<span data-bind="text: id() + '. ' + name() + ' - ' + type()"></span>
@@ -28,5 +27,7 @@
     	<ul data-bind="if: type()=='Verb'">
     		<li><code data-bind="text: command()"></code></li>
     	</ul>
+    	
+    	<button data-bind="click: $parent.deleteTerm"><i class="icon-trash"></i></button>
     </li>
 </ul>

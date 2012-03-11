@@ -7,7 +7,7 @@
 	<div id="testsContainer" class="glow">
 		<ul>
 			#{list items:tests, as:'test'}
-			    <li class="testRow" id="test_${test.id}"><a href="@{Tests.show(test.id)}">${test.name}</a><button class="deleteTest" onclick="deleteTest(${test.id})">Delete</button></li>
+			    <li class="testRow" id="test_${test.id}"><a href="@{Tests.show(test.id)}">${test.name}</a><button class="deleteTest" onclick="deleteTest(${test.id})"><i class="icon-trash"></i></button></li>
 			#{/list}
 		</ul>
 	</div>
