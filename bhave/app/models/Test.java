@@ -12,7 +12,7 @@ import com.google.gson.JsonObject;
 import play.db.jpa.Model;
 
 @Entity
-public class Test extends Model {
+public class Test extends BhaveModel {
 
 	public String name;
 	

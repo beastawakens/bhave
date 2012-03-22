@@ -52,9 +52,9 @@
     });
 
 	webdriver.promise.Application.getInstance().addListener('idle', function() { 
-		myTest.running(false);
 		if (myTest.lastSuccess() == TestState.PENDING) {
 //			console.log(webdriver.promise.Application.getInstance().getHistory());
+			myTest.running(false);
 			myTest.lastSuccess(TestState.SUCCESS);
 		}
 	}, false);

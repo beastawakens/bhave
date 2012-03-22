@@ -63,7 +63,7 @@
 				var currentCommand = "";
 				var verb = self.findNext('Verb');
 				while (typeof verb != 'undefined') {
-					currentCommand = self.replaceId(currentCommand, verb.command(), verb);
+					currentCommand = currentCommand + self.replaceId(verb.command(), verb);
 					currentCommand = self.replaceObjects(currentCommand);
 
 					verb = self.findNext('Verb');
@@ -73,8 +73,8 @@
 			});
 		}
 
-		self.replaceId = function(currentCommand, commandString, term) {
-			return currentCommand + commandString.replace(/~~id~~/g, term.id());
+		self.replaceId = function(valueString, term) {
+			return valueString.replace(/~~id~~/g, term.id());
 		}
 
 		self.replaceSynonyms = function(callback) {
@@ -110,7 +110,8 @@
 				commandString = commandString.replace(/~~page~~/g, self.findObject('Page').value());
 			}
 			if (commandString.indexOf("~~element~~") != -1) {
-				commandString = commandString.replace(/~~element~~/g, self.findObject('Element').value());
+				var element = self.findObject('Element');
+				commandString = commandString.replace(/~~element~~/g, self.replaceId(element.value(), element));
 			}
 			if (commandString.indexOf("~~attribute~~") != -1) {
 				commandString = commandString.replace(/~~attribute~~/g, self.findObject('Attribute').value());

@@ -8,7 +8,7 @@ import play.mvc.Controller;
 
 public class Screenshots extends Controller {
 
-	public static void saveScreenshot(Screenshot screenshot) {
+	public static void save(Screenshot screenshot) {
 		screenshot.save();
 		Test test = Test.findById(screenshot.testId);
 		if (test != null) {
@@ -21,7 +21,7 @@ public class Screenshots extends Controller {
 		}
 	} 
 	
-	public static void deleteScreenshot(Long testId, Long id) {
+	public static void delete(Long testId, Long id) {
 		Screenshot screenshot = Screenshot.findById(id);
 		Test test = Test.findById(testId);
 		if (screenshot != null && test != null) {
@@ -36,7 +36,7 @@ public class Screenshots extends Controller {
 		}
 	}
 
-	public static void loadScreenshot(Long testId, Long id) { 
+	public static void load(Long testId, Long id) { 
 		Screenshot screenshot = Screenshot.findById(id);
 		if (screenshot != null) {
 			response.setContentTypeIfNotSet(screenshot.source.type());
@@ -47,7 +47,7 @@ public class Screenshots extends Controller {
 		}
 	} 
 
-	public static void getScreenshotName(long id) { 
+	public static void getName(long id) { 
 		final Screenshot screenshot = Screenshot.findById(id); 
 		renderText(screenshot.name);
 	}

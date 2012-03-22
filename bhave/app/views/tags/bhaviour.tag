@@ -29,18 +29,111 @@
 							},
 							page: {
 								url: ko.observable("http://"),
-								active:ko.observable(false)
+								active:ko.observable(false),
+								add: function() {
+									var term = {
+											name: ko.observable(self.language()),
+											type: ko.observable('Object'),
+											testCopy: ko.observable(false),
+											objectType: ko.observable('Page'),
+											value: ko.observable(self.definition.terms.object.types.page.url())
+										}
+									self.definition.terms.object.types.value.value(self.definition.saveTerm(term));
+								}
 							},
 							element: {
-								active:ko.observable(false),
+								active: ko.observable(false),
+								defaultValue: 'myTest.driver.isElementPresent(webdriver.By.~~identifier~~(\'~~value~~\')).then(function(result){if(result){myTest.pass(~~id~~);}else{myTest.fail(~~id~~);}});myTest.driver.findElement(webdriver.By.~~identifier~~(\'~~value~~\'))',
+								makeTerm: function(value) {
+									return {
+										name: ko.observable(self.language()),
+										type: ko.observable('Object'),
+										testCopy: ko.observable(false),
+										objectType: ko.observable('Element'),
+										value: ko.observable(value)
+									}
+								},
+								addTerm: function(identifier) {
+									var value = self.definition.terms.object.types.element.defaultValue.replace(/~~identifier~~/g, identifier);
+									value = value.replace(/~~value~~/g, self.definition.terms.object.types.element.identifier[identifier].value());
+									var term = self.definition.terms.object.types.element.makeTerm(value);
+									self.definition.terms.object.types.element.identifier[identifier].value(self.definition.saveTerm(term));
+								},
+								makeActive: function(identifier) {
+									if (self.definition.terms.object.types.element.identifier[identifier].active()) {
+										return;
+									};
+									self.definition.terms.object.types.element.makeUnactive();
+									self.definition.terms.object.types.element.identifier[identifier].active(true);
+								},
+								makeUnactive: function() {
+									for (identifier in self.definition.terms.object.types.element.identifier) {
+										self.definition.terms.object.types.element.identifier[identifier].active(false);
+									}
+								},
 								identifier: {
 									id: {
 										active: ko.observable(false),
-										value: ko.observable()
+										value: ko.observable(),
+										add: function() {
+											self.definition.terms.object.types.element.addTerm('id');
+										}
 									},
 									name: {
 										active: ko.observable(false),
-										value: ko.observable()
+										value: ko.observable(),
+										add: function() {
+											self.definition.terms.object.types.element.addTerm('name');
+										}
+									},
+									className: {
+										active: ko.observable(false),
+										value: ko.observable(),
+										add: function() {
+											self.definition.terms.object.types.element.addTerm('className');
+										}
+									},
+									css: {
+										active: ko.observable(false),
+										value: ko.observable(),
+										add: function() {
+											self.definition.terms.object.types.element.addTerm('css');
+										}
+									},
+									js: {
+										active: ko.observable(false),
+										value: ko.observable(),
+										add: function() {
+											self.definition.terms.object.types.element.addTerm('js');
+										}
+									},
+									linkText: {
+										active: ko.observable(false),
+										value: ko.observable(),
+										add: function() {
+											self.definition.terms.object.types.element.addTerm('linkText');
+										}
+									},
+									partialLinkText: {
+										active: ko.observable(false),
+										value: ko.observable(),
+										add: function() {
+											self.definition.terms.object.types.element.addTerm('partialLinkText');
+										}
+									},
+									tagName: {
+										active: ko.observable(false),
+										value: ko.observable(),
+										add: function() {
+											self.definition.terms.object.types.element.addTerm('tagName');
+										}
+									},
+									xpath: {
+										active: ko.observable(false),
+										value: ko.observable(),
+										add: function() {
+											self.definition.terms.object.types.element.addTerm('xpath');
+										}
 									}
 								}
 							},
@@ -59,14 +152,16 @@
 							self.definition.terms.object.types[type].active(true);
 						},
 						makeUnactive: function() {
-							self.definition.terms.object.types.value.active(false);
-							self.definition.terms.object.types.page.active(false);
-							self.definition.terms.object.types.element.active(false);
-							self.definition.terms.object.types.pageAttribute.active(false);
-							self.definition.terms.object.types.elementAttribute.active(false);
+							self.definition.terms.object.types.element.makeUnactive();
+							for (type in self.definition.terms.object.types) {
+								self.definition.terms.object.types[type].active(false);
+							}
 						}
 					},
 					article: {
+						active:ko.observable(false)
+					},
+					subject: {
 						active:ko.observable(false)
 					},
 					conjunction: {
@@ -75,22 +170,21 @@
 					synonym: {
 						active:ko.observable(false),
 						terms: ko.observableArray()
-					},
-					makeActive: function(term) {
-						if (self.definition.terms[term].active()) {
-							return;
-						};
-						self.definition.makeUnactive();
-						self.definition.active(true);
-						self.definition.terms[term].active(true);
 					}
+				},
+				makeActive: function(term) {
+					if (self.definition.terms[term].active()) {
+						return;
+					};
+					self.definition.makeUnactive();
+					self.definition.active(true);
+					self.definition.terms[term].active(true);
 				},
 				makeUnactive: function() {
 					self.definition.terms.object.makeUnactive();
-					self.definition.terms.object.active(false);
-					self.definition.terms.article.active(false);
-					self.definition.terms.conjunction.active(false);
-					self.definition.terms.synonym.active(false);
+					for (term in self.definition.terms) {
+						self.definition.terms[term].active(false);
+					}
 				},
 				disable: function() {
 					if (!e) var e = window.event;

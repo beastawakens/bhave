@@ -10,5 +10,5 @@ commands.pyc
 chromedriver.log
 bhave-test/test-result/
 bhave-test/logs/
-
+bhave/test-result/*
 

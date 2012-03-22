@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -13,7 +14,7 @@ import models.terms.BTerm;
 import play.db.jpa.Model;
 
 @Entity
-public class Bhaviour extends Model {
+public class Bhaviour extends BhaveModel {
 
 	public Bhaviour(ArrayList<BTerm> syntax, String language, String command) {
 		this.syntax = syntax;
@@ -24,7 +25,7 @@ public class Bhaviour extends Model {
 	public String command;
 	public String language;
 	
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)	
 	public List<BTerm> syntax;
 	
 	

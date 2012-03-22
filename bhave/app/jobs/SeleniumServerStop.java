@@ -20,11 +20,15 @@ public class SeleniumServerStop extends Job {
 		Boolean localServerEnabled = Boolean.parseBoolean(Play.configuration.getProperty("bhave.local.selenium.server.on", "true"));
 		
 		if (localServerEnabled) {
-			try {
-				SeleniumHolder.server.stop();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			stop();
+		}
+	}
+
+	public void stop() {
+		try {
+			SeleniumHolder.server.stop();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 #{extends 'bhave-main.html' /}
 #{set title:'Bhave yourself' /}
 
+#{globalVars /}
 #{dictionary /}	
 
 <script>
@@ -22,7 +23,7 @@
     		<li data-bind="text: to()"></li>
     	</ul>
     	<ul data-bind="if: type()=='Object'">
-    		<li data-bind="text: objectType() + ' - ' + value()"></li>
+    		<li><span data-bind="text: objectType()"></span><code data-bind="text: value()"></code></li>
     	</ul>
     	<ul data-bind="if: type()=='Verb'">
     		<li><code data-bind="text: command()"></code></li>

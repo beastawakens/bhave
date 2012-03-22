@@ -7,7 +7,7 @@
 						<img class="screenshotThumbnail" data-bind="attr: {src: '/@bhave/screenshot/'+$parent.id()+'/'+$data}"/>
 					</a>
 					<br/>
-					<button data-bind="click: $parent.deleteScreenshot, text: 'Delete'"></button>
+					<button data-bind="click: $parent.deleteScreenshot"><i class="icon-trash"></i></button>
 				</div>
 			</li>
 		</ul>

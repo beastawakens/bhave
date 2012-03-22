@@ -87,7 +87,7 @@
 			fd.append("screenshot.source", blob);
 			fd.append("screenshot.name", myTest.name() + ' - ' + new Date().toUTCString() );
 			fd.append("screenshot.testId", myTest.id());
-			xhr.open('POST', '@{Screenshots.saveScreenshot()}', false);
+			xhr.open('POST', '@{Screenshots.save()}', false);
 			xhr.send(fd);
 			
 			if (xhr.status === 200) {
@@ -112,6 +112,7 @@
 		}
 		
 		myTest.saveTest = function() {
+			myTest.saving(true);
 			var mapping = {
 			    'ignore': ["isActive", "definition", "driverServer", "driverVersion", "driverPlatform", "driverJavascriptEnabled", "availableBrowsers", "availablePlatforms", "driverBrowserName"]
 			}
@@ -121,10 +122,10 @@
 			$.ajax("@{Tests.save}", {
 				data: unmapped,
 				type: "post", contentType: "application/json",
-				success: function(result) { myTest.id(result) }
+				success: function(result) { myTest.id(result); myTest.saving(false); }
 			});
-			
 		};
+		myTest.saving = ko.observable(false);
 		   
 		myTest.getDriver = function() {
 		   	myTest.client = new webdriver.http.CorsClient(myTest.driverServer());

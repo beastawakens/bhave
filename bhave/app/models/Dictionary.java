@@ -12,7 +12,7 @@ import play.db.jpa.JPABase;
 import play.db.jpa.Model;
 
 @Entity
-public class Dictionary extends Model {
+public class Dictionary extends BhaveModel {
 	
 	public static final String TERM_ID_SUBSTITUTION = "~~id~~";
 	public static final String PAGE_SUBSTITUTION = "~~page~~";

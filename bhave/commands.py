@@ -167,6 +167,7 @@ def after(**kargs):
         appconf.write("# Bhave module configuration\n")
         appconf.write("# ~~~~~\n")
         appconf.write("bhave.local.selenium.server.on=true\n")
+        appconf.write("%test.bhave.local.selenium.server.on=true\n")
         appconf.write("bhave.local.selenium.server.port=9001\n")
         appconf.write("#bhave.chrome.driver.path=\n")
         appconf.write("#\n")

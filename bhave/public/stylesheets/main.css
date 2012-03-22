@@ -159,7 +159,7 @@ option {
 
 .screenshotThumbnail {
 	max-width: 150px;
-	max-height: 200px;
+	max-height: 135px;
 	border: 1px solid black;
 }
 
@@ -506,22 +506,22 @@ nav a:active img {
 	position: absolute;
 	text-align: center;
 	overflow: visible;
-	left: -360px;
-	top: -161px;
-	width: 500px;
-	height: 150px;
+	left: -410px;
+	top: -160px;
+	width: 600px;
+	height: 145px;
 }
 
 .definition_tool_container table {
-	width: 474px;
+	width: 574px;
 }
 .definition_tool_container table tr {
-	height: 50px;
+	height: 35px;
 }
 .definition_tool_container table tr td ul {
 	bottom: 0px;
 	margin: 0 auto;
-	width: 474px;
+	width: 574px;
 }
 
 .definition_tool_container table tr td ul li {
@@ -575,4 +575,8 @@ code {
 	-moz-border-radius: 4px;
 	border-radius: 4px;
 	padding: 4px;
+}
+
+#addBhaviour {
+	float: right;
 }

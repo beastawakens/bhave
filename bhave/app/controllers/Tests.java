@@ -21,13 +21,9 @@ import play.mvc.Controller;
 
 public class Tests extends Controller {
 	
-	public static void list() {
-		List<Test> tests = Test.findAll();
-		render(tests);
-	}
-	
-	public static void newTest() {
-		Test test = createNewTest();
+	public static void create() {
+		Test test = new Test("New test", new ArrayList<Long>(), new ArrayList<Bhaviour>());
+		test.save();
 		redirect("Tests.show", test.id);
 	}
 	
@@ -49,18 +45,6 @@ public class Tests extends Controller {
 		renderArgs.put("testId", id);
 		renderArgs.put("testName", test.name);
 		render();
-	}
-	
-	//TODO: is anything using this anymore? delete it when test coverage is good.
-	public static void init() {
-		Test test = createNewTest();
-		renderJSON(test);
-	}
-	
-	private static Test createNewTest() {
-		Test test = new Test("New test", new ArrayList<Long>(), new ArrayList<Bhaviour>());
-		test.save();
-		return test;
 	}
 	
 	public static void delete(long id) {

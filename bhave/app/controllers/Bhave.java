@@ -21,10 +21,11 @@ import com.google.gson.Gson;
 
 public class Bhave extends Controller {
 	
-	public static void index() {
-		redirect("Tests.list");
+	public static void list() {
+		List<Test> tests = Test.findAll();
+		render(tests);
 	}
-
+	
 	public static void getEnv() {
 		Environment environment = new Environment();
 		renderJSON(environment);
@@ -35,7 +36,7 @@ public class Bhave extends Controller {
 		renderJSON(dictionary, new BTermSerializer());
 	}
 
-	public static void dictionary() {
+	public static void displayDictionary() {
 		Dictionary dictionary = new Dictionary(BTerm.<BTerm>findAll());
 		render(dictionary);
 	}

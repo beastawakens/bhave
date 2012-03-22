@@ -10,7 +10,7 @@ import play.db.jpa.Blob;
 import play.db.jpa.Model;
 
 @Entity
-public class Screenshot extends Model {
+public class Screenshot extends BhaveModel {
 	
 	public String name;
 	public Long testId;

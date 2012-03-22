@@ -4,12 +4,12 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.Entity;
 
-import models.Dictionary;
+import models.*;
 import models.terms.BObject.BObjectType;
 import play.db.jpa.Model;
 
 @Entity
-public abstract class BTerm extends Model {
+public abstract class BTerm extends BhaveModel {
 	
 	public enum BTermType {
 		Verb,

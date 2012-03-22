@@ -5,7 +5,7 @@
 	</h3>
 	<table class="testTable">
 	    <tfoot>
-	    	<tr><td></td><td></td><td><input id="syntax_input" data-bind="value: syntaxInput" /></td><td><button data-bind="click: addBhaviour"><i class="icon-plus"></i></button></td></tr>
+	    	<tr><td></td><td></td><td><input id="syntax_input" data-bind="value: syntaxInput" /></td><td><button data-bind="click: addBhaviour" id="addBhaviour"><i class="icon-plus"></i></button></td></tr>
 	    </tfoot>
 	    <tbody data-bind="foreach: bhaviours">
 	        <tr class="bhaviour_row" data-bind="attr: {'id': 'bhaviour_'+id()}">
@@ -46,6 +46,6 @@
 	        </tr>    
 	    </tbody>
 	</table>
-	<button data-bind="click: run">Run <i class="icon-play"></i></button>
-	<button data-bind="click: saveTest">Save <i class="icon-file"></i></button>
+	<button id="runTest" data-bind="click: run">Run <i data-bind="css: {'icon-play': !myTest.running(), 'icon-refresh': myTest.running()}"></i></button>
+	<button data-bind="click: saveTest">Save <i data-bind="css: {'icon-file': !myTest.saving(), 'icon-refresh': myTest.saving()}"></i></button>
 </div>
