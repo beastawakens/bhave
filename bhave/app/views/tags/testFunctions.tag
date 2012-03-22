@@ -6,35 +6,20 @@
 
 		myTest.syntaxInput = ko.observable();
 
-		myTest.syntaxInput.subscribe(function(newValue) {
-			if (newValue != '') {
-				var bhaviourId = newValue.split(':')[0];
-				var termId = newValue.split(':')[1];
-	
+		myTest.syntaxInput.subscribe(function(termId) {
+			if (termId != '') {
 			    $.get(getTermUrl({id: termId}), function(termData) {
-
 			    	var term = ko.mapping.fromJS(termData);
-
-					for (var i = 0; i<myTest.bhaviours().length; i++) {
-						if (myTest.bhaviours()[i].id() == bhaviourId) {
-							myTest.bhaviours()[i].syntax.push(term);
-							break;
-						}
-					}
+					myTest.syntax.push(term);
 				});
 			    myTest.syntaxInput('');
 			}
 		});
 
-		myTest.removeTerm = function(termId, bhaviourId) {
-			for (var i = 0; i<myTest.bhaviours().length; i++) {
-				if (myTest.bhaviours()[i].id() == bhaviourId) {
-					myTest.bhaviours()[i].syntax.remove(function(item) {
-						return item.id() == termId;
-					});
-					break;
-				}
-			}
+		myTest.removeTerm = function(termId) {
+			myTest.syntax.remove(function(item) {
+				return item.id() == termId;
+			});
 		}
 
 		myTest.editName = function(data, event) {
@@ -114,7 +99,18 @@
 		myTest.saveTest = function() {
 			myTest.saving(true);
 			var mapping = {
-			    'ignore': ["isActive", "definition", "driverServer", "driverVersion", "driverPlatform", "driverJavascriptEnabled", "availableBrowsers", "availablePlatforms", "driverBrowserName"]
+			    'ignore': [ "isActive",
+						    "definition",
+						    "driverServer",
+						    "driverVersion",
+						    "driverPlatform",
+						    "driverJavascriptEnabled",
+						    "availableBrowsers",
+						    "availablePlatforms",
+						    "driverBrowserName",
+						    "language",
+						    "command"
+						  ]
 			}
 		
 			var unmapped = ko.mapping.toJSON(myTest, mapping);
@@ -140,11 +136,7 @@
 		
 		myTest.runBhaviours = function() {
 			var bhaviourString = "";
-			for (var i = 0; i < myTest.bhaviours().length; i++) {
-
-				bhaviourString += new Translator(myTest.bhaviours()[i].syntax()).produceCommand();
-//				bhaviourString += myTest.bhaviours()[i].command();
-			}
+			bhaviourString += new Translator(myTest.syntax()).produceCommand();
 			var exec = new Function(bhaviourString);
 			exec();
 		};
@@ -162,6 +154,217 @@
 			myTest.passingTerms.push(termId);
 		}
 
+		myTest.language = ko.observable("");
+		myTest.command = ko.observable("");
+		myTest.isActive = ko.observable(true);
+		myTest.definition = {
+			active: ko.observable(false),
+			terms: {
+				object: {
+					active: ko.observable(false),
+					types: {
+						value: {
+							value: ko.observable(""),
+							active: ko.observable(false),
+							add: function() {
+								var term = {
+										name: ko.observable(myTest.language()),
+										type: ko.observable('Object'),
+										testCopy: ko.observable(false),
+										objectType: ko.observable('Value'),
+										value: ko.observable(myTest.definition.terms.object.types.value.value())
+									}
+								myTest.definition.terms.object.types.value.value(myTest.definition.saveTerm(term));
+							}
+						},
+						page: {
+							url: ko.observable("http://"),
+							active:ko.observable(false),
+							add: function() {
+								var term = {
+										name: ko.observable(myTest.language()),
+										type: ko.observable('Object'),
+										testCopy: ko.observable(false),
+										objectType: ko.observable('Page'),
+										value: ko.observable(myTest.definition.terms.object.types.page.url())
+									}
+								myTest.definition.terms.object.types.value.value(myTest.definition.saveTerm(term));
+							}
+						},
+						element: {
+							active: ko.observable(false),
+							defaultValue: 'myTest.driver.isElementPresent(webdriver.By.~~identifier~~(\'~~value~~\')).then(function(result){if(result){myTest.pass(~~id~~);}else{myTest.fail(~~id~~);}});myTest.driver.findElement(webdriver.By.~~identifier~~(\'~~value~~\'))',
+							makeTerm: function(value) {
+								return {
+									name: ko.observable(myTest.language()),
+									type: ko.observable('Object'),
+									testCopy: ko.observable(false),
+									objectType: ko.observable('Element'),
+									value: ko.observable(value)
+								}
+							},
+							addTerm: function(identifier) {
+								var value = myTest.definition.terms.object.types.element.defaultValue.replace(/~~identifier~~/g, identifier);
+								value = value.replace(/~~value~~/g, myTest.definition.terms.object.types.element.identifier[identifier].value());
+								var term = myTest.definition.terms.object.types.element.makeTerm(value);
+								myTest.definition.terms.object.types.element.identifier[identifier].value(myTest.definition.saveTerm(term));
+							},
+							makeActive: function(identifier) {
+								if (myTest.definition.terms.object.types.element.identifier[identifier].active()) {
+									return;
+								};
+								myTest.definition.terms.object.types.element.makeUnactive();
+								myTest.definition.terms.object.types.element.identifier[identifier].active(true);
+							},
+							makeUnactive: function() {
+								for (identifier in myTest.definition.terms.object.types.element.identifier) {
+									myTest.definition.terms.object.types.element.identifier[identifier].active(false);
+								}
+							},
+							identifier: {
+								id: {
+									active: ko.observable(false),
+									value: ko.observable(),
+									add: function() {
+										myTest.definition.terms.object.types.element.addTerm('id');
+									}
+								},
+								name: {
+									active: ko.observable(false),
+									value: ko.observable(),
+									add: function() {
+										myTest.definition.terms.object.types.element.addTerm('name');
+									}
+								},
+								className: {
+									active: ko.observable(false),
+									value: ko.observable(),
+									add: function() {
+										myTest.definition.terms.object.types.element.addTerm('className');
+									}
+								},
+								css: {
+									active: ko.observable(false),
+									value: ko.observable(),
+									add: function() {
+										myTest.definition.terms.object.types.element.addTerm('css');
+									}
+								},
+								js: {
+									active: ko.observable(false),
+									value: ko.observable(),
+									add: function() {
+										myTest.definition.terms.object.types.element.addTerm('js');
+									}
+								},
+								linkText: {
+									active: ko.observable(false),
+									value: ko.observable(),
+									add: function() {
+										myTest.definition.terms.object.types.element.addTerm('linkText');
+									}
+								},
+								partialLinkText: {
+									active: ko.observable(false),
+									value: ko.observable(),
+									add: function() {
+										myTest.definition.terms.object.types.element.addTerm('partialLinkText');
+									}
+								},
+								tagName: {
+									active: ko.observable(false),
+									value: ko.observable(),
+									add: function() {
+										myTest.definition.terms.object.types.element.addTerm('tagName');
+									}
+								},
+								xpath: {
+									active: ko.observable(false),
+									value: ko.observable(),
+									add: function() {
+										myTest.definition.terms.object.types.element.addTerm('xpath');
+									}
+								}
+							}
+						},
+						pageAttribute: {
+							active:ko.observable(false)
+						},
+						elementAttribute: {
+							active:ko.observable(false)
+						}
+					},
+					makeActive: function(type) {
+						if (myTest.definition.terms.object.types[type].active()) {
+							return;
+						};
+						myTest.definition.terms.object.makeUnactive();
+						myTest.definition.terms.object.types[type].active(true);
+					},
+					makeUnactive: function() {
+						myTest.definition.terms.object.types.element.makeUnactive();
+						for (type in myTest.definition.terms.object.types) {
+							myTest.definition.terms.object.types[type].active(false);
+						}
+					}
+				},
+				article: {
+					active:ko.observable(false)
+				},
+				subject: {
+					active:ko.observable(false)
+				},
+				conjunction: {
+					active: ko.observable(false)
+				},
+				synonym: {
+					active:ko.observable(false),
+					terms: ko.observableArray()
+				}
+			},
+			makeActive: function(term) {
+				if (myTest.definition.terms[term].active()) {
+					return;
+				};
+				myTest.definition.makeUnactive();
+				myTest.definition.active(true);
+				myTest.definition.terms[term].active(true);
+			},
+			makeUnactive: function() {
+				myTest.definition.terms.object.makeUnactive();
+				for (term in myTest.definition.terms) {
+					myTest.definition.terms[term].active(false);
+				}
+			},
+			disable: function() {
+				if (!e) var e = window.event;
+				var tg = (window.event) ? e.srcElement : e.target;
+				if (tg.className != 'definition_tool_container') return;
+				var reltg = (e.relatedTarget) ? e.relatedTarget : e.toElement;
+				while (reltg != tg && reltg.nodeName != 'BODY'){
+					reltg= reltg.parentNode;
+					if (reltg== tg) return;
+				}
+				myTest.definition.makeUnactive();
+				myTest.definition.active(false);
+			},
+			saveTerm: function(term) {
+				$.ajax("@{Terms.save}", {
+					data: ko.mapping.toJSON(term),
+					type: "post", contentType: "application/json",
+					success: function(termId) {
+						term.id = ko.observable(termId);
+						myDictionary.terms.push(term);
+						myTest.definition.makeUnactive();
+						myTest.definition.active(false);
+						myTest.isActive(true);
+						return '';
+					},
+					failure: function(error) {
+						return error;
+					}
+				});
+			}
+		}	
 	}
-
 </script>

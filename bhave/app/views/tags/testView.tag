@@ -5,10 +5,10 @@
 	</h3>
 	<table class="testTable">
 	    <tfoot>
-	    	<tr><td></td><td></td><td><input id="syntax_input" data-bind="value: syntaxInput" /></td><td><button data-bind="click: addBhaviour" id="addBhaviour"><i class="icon-plus"></i></button></td></tr>
+	    	<tr><td></td><td></td><td><input id="syntax_input" data-bind="value: syntaxInput" /></td><td></td></tr>
 	    </tfoot>
-	    <tbody data-bind="foreach: bhaviours">
-	        <tr class="bhaviour_row" data-bind="attr: {'id': 'bhaviour_'+id()}">
+	    <tbody>
+	        <tr class="bhaviour_row">
 	            <td class="syntaxCell" data-bind="foreach: syntax">
 	            	<span class="termWrapper">
 		            	<span data-bind="	attr: {'id': 'term_'+id()},
@@ -25,7 +25,7 @@
 		            								'term': true
 		            							}">
 		            	</span>
-		            	<i class="icon-remove-sign icon-large termDelete" data-bind="attr: {'id': 'term_delete_'+id()}, click: myTest.removeTerm.bind($data, id(), $parent.id())"></i>
+		            	<i class="icon-remove-sign icon-large termDelete" data-bind="attr: {'id': 'term_delete_'+id()}, click: myTest.removeTerm.bind($data, id())"></i>
 	            	</span>
 	            </td>
 	            <td class="languageCell">
@@ -41,7 +41,7 @@
 	            	<input size="30" class="command_input" data-bind="value: command, attr: {id: 'command_input_'+id(), 'data-id': id()}" />
 	            </td>
 	            <td>
-	            	<button data-bind="click: $root.removeBhaviour"><i class="icon-trash"></i></button>
+	            	
 	            </td>
 	        </tr>    
 	    </tbody>

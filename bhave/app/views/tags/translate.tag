@@ -33,8 +33,7 @@
 						return false;
 					},
 					select: function(event, ui) {
-						var behaviourId = $(this).attr('data-id');
-						$('#syntax_input').val(behaviourId + ':' + ui.item.value);
+						$('#syntax_input').val(ui.item.value);
 						$('#syntax_input').change();
 						$(this).val("");
 						return false;

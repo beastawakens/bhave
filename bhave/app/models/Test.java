@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import models.terms.*;
+
 import com.google.gson.JsonObject;
 
 import play.db.jpa.Model;
@@ -19,12 +21,12 @@ public class Test extends BhaveModel {
 	public ArrayList<Long> screenshots;
 
 	@OneToMany(cascade=CascadeType.ALL)
-	public List<Bhaviour> bhaviours;
+	public List<BTerm> syntax;
 	
-	public Test(String name, ArrayList<Long> screenshots, ArrayList<Bhaviour> bhaviours) {
+	public Test(String name, ArrayList<Long> screenshots, ArrayList<BTerm> syntax) {
 		this.name = name;
 		this.screenshots = screenshots;
-		this.bhaviours = bhaviours;
+		this.syntax = syntax;
 	}
 	
 }

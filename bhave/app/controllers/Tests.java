@@ -22,7 +22,7 @@ import play.mvc.Controller;
 public class Tests extends Controller {
 	
 	public static void create() {
-		Test test = new Test("New test", new ArrayList<Long>(), new ArrayList<Bhaviour>());
+		Test test = new Test("New test", new ArrayList<Long>(), new ArrayList<BTerm>());
 		test.save();
 		redirect("Tests.show", test.id);
 	}

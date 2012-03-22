@@ -19,15 +19,8 @@
 	    }); 
 
 	    myTest = new Test();
-	    var mapping = {
-	    	'bhaviours': {
-	    		create: function(options) {
-	    			return new Bhaviour(options.data);
-	    		}
-	    	}
-	    }
 	    $.getJSON("@{Tests.get(testId)}", function(testData) {
-	    	ko.mapping.fromJS(testData, mapping, myTest);
+	    	ko.mapping.fromJS(testData, {}, myTest);
 		    $.getJSON("@{Bhave.getEnv()}", function(envData) {
 		    	ko.mapping.fromJS(envData, {}, myTest);
 				ko.applyBindings(myTest);

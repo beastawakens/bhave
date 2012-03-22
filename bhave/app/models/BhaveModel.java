@@ -21,7 +21,7 @@ public class BhaveModel extends Model {
 	@PostPersist
 	@PostUpdate
 	public void postChange() {
-		Logger.info("Saving out to json");
+		Logger.info("Saving out to json:" + this.id + " " + this.getClass().getName());
 		Long id = this.id;
 		String type = this.getClass().getName();
 
