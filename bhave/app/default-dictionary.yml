@@ -1,6 +1,6 @@
 terms.BVerb(load):
     name: "Load"
-    command: "myTest.driver.get('~~page~~').then(function(){myTest.pass(~~id~~);},function(){myTest.fail(~~id~~);});"
+    command: "bhaviour.driver.get('~~page~~').then(function(){bhaviour.pass(~~id~~);},function(){bhaviour.fail(~~id~~);});"
     type: Verb
 terms.BConjunction(then):
     name: "Then"
@@ -10,11 +10,11 @@ terms.BArticle(the):
     type: Article
 terms.BVerb(screenshot):
     name: "Take screenshot"
-    command: "myTest.driver.takeScreenshot().then(function(png){var screenshot=ko.mapping.fromJSON(myTest.saveScreenshot('data:image/png;base64,'+png));myTest.screenshots.push(screenshot.id());myTest.pass(~~id~~);},function(){myTest.fail(~~id~~);});"
+    command: "bhaviour.driver.takeScreenshot().then(function(png){var screenshot=ko.mapping.fromJSON(bhaviour.saveScreenshot('data:image/png;base64,'+png));bhaviour.screenshots.push(screenshot.id());bhaviour.pass(~~id~~);},function(){bhaviour.fail(~~id~~);});"
     type: Verb
 terms.BVerb(finish):
     name: "Finish"
-    command: "myTest.driver.quit().then(function(){myTest.pass(~~id~~);},function(){myTest.fail(~~id~~);});"
+    command: "bhaviour.driver.quit().then(function(){bhaviour.pass(~~id~~);},function(){bhaviour.fail(~~id~~);});"
     type: Verb
 terms.BObject(google):
     name: "Google"
@@ -40,26 +40,26 @@ terms.BConjunction(Into):
     type: Conjunction
 terms.BVerb(type):
     name: "Type"
-    command: "~~element~~.sendKeys('~~value~~').then(function(){myTest.pass(~~id~~);},function(){myTest.fail(~~id~~);});"
+    command: "~~element~~.sendKeys('~~value~~').then(function(){bhaviour.pass(~~id~~);},function(){bhaviour.fail(~~id~~);});"
     type: Verb
 terms.BVerb(click):
     name: "Click"
-    command: "~~element~~.click().then(function(){myTest.pass(~~id~~);},function(){myTest.fail(~~id~~);});"
+    command: "~~element~~.click().then(function(){bhaviour.pass(~~id~~);},function(){bhaviour.fail(~~id~~);});"
     type: Verb
 terms.BObject(searchBox):
     name: "Search Box"
     objectType: Element
-    value: "myTest.driver.isElementPresent(webdriver.By.name('q')).then(function(result){if(result){myTest.pass(~~id~~);}else{myTest.fail(~~id~~);}});myTest.driver.findElement(webdriver.By.name('q'))"
+    value: "bhaviour.driver.isElementPresent(webdriver.By.name('q')).then(function(result){if(result){bhaviour.pass(~~id~~);}else{bhaviour.fail(~~id~~);}});bhaviour.driver.findElement(webdriver.By.name('q'))"
     type: Object
 terms.BObject(wrongBox):
     name: "Wrong Box"
     objectType: Element
-    value: "myTest.driver.isElementPresent(webdriver.By.name('qasdad')).then(function(result){if(result){myTest.pass(~~id~~);}else{myTest.fail(~~id~~);}});myTest.driver.findElement(webdriver.By.name('qasdad'))"
+    value: "bhaviour.driver.isElementPresent(webdriver.By.name('qasdad')).then(function(result){if(result){bhaviour.pass(~~id~~);}else{bhaviour.fail(~~id~~);}});bhaviour.driver.findElement(webdriver.By.name('qasdad'))"
     type: Object
 terms.BObject(searchButton):
     name: "Search Button"
     objectType: Element
-    value: "myTest.driver.isElementPresent(webdriver.By.name('btnG')).then(function(result){if(result){myTest.pass(~~id~~);}else{myTest.fail(~~id~~);}});myTest.driver.findElement(webdriver.By.name('btnG'))"
+    value: "bhaviour.driver.isElementPresent(webdriver.By.name('btnG')).then(function(result){if(result){bhaviour.pass(~~id~~);}else{bhaviour.fail(~~id~~);}});bhaviour.driver.findElement(webdriver.By.name('btnG'))"
     type: Object
 terms.BObject(bhaveValue):
     name: "\"bhave\""

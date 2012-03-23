@@ -7,7 +7,6 @@
 #{dictionary /}	
 #{translate /}	
 #{supportingFunctions /}	
-#{bhaviour /}	
 #{testFunctions /}
 	
 <script>
@@ -18,12 +17,12 @@
 	    	ko.mapping.fromJS(dictionary, {}, myDictionary);
 	    }); 
 
-	    myTest = new Test();
+	    bhaviour = new Bhaviour();
 	    $.getJSON("@{Tests.get(testId)}", function(testData) {
-	    	ko.mapping.fromJS(testData, {}, myTest);
+	    	ko.mapping.fromJS(testData, {}, bhaviour);
 		    $.getJSON("@{Bhave.getEnv()}", function(envData) {
-		    	ko.mapping.fromJS(envData, {}, myTest);
-				ko.applyBindings(myTest);
+		    	ko.mapping.fromJS(envData, {}, bhaviour);
+				ko.applyBindings(bhaviour);
 				applyTranslation();
 		    });
 	    }); 

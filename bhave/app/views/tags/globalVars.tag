@@ -1,5 +1,5 @@
 <script>
-	var myTest, myEnv, myRunner, myEditor, myEcosystem, screenshot, myDictionary;
+	var bhaviour, myEnv, myRunner, myEditor, myEcosystem, screenshot, myDictionary;
 
 	var deleteScreenshotUrl = #{jsAction @Screenshots.delete(':testId', ':id') /}
 	var getTermUrl = #{jsAction @Terms.get(':id') /}

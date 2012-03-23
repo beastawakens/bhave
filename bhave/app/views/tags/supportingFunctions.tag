@@ -46,23 +46,23 @@
 	}
 
 	webdriver.promise.Application.getInstance().on('uncaughtException', function(e) {
-		myTest.lastSuccess(TestState.FAIL);
-		myTest.failureMessage('Oh dear: ' + e);
-		myTest.running(false);
+		bhaviour.lastSuccess(TestState.FAIL);
+		bhaviour.failureMessage('Oh dear: ' + e);
+		bhaviour.running(false);
     });
 
 	webdriver.promise.Application.getInstance().addListener('idle', function() { 
-		if (myTest.lastSuccess() == TestState.PENDING) {
+		if (bhaviour.lastSuccess() == TestState.PENDING) {
 //			console.log(webdriver.promise.Application.getInstance().getHistory());
-			myTest.running(false);
-			myTest.lastSuccess(TestState.SUCCESS);
+			bhaviour.running(false);
+			bhaviour.lastSuccess(TestState.SUCCESS);
 		}
 	}, false);
 
 	webdriver.promise.Application.getInstance().addListener('scheduleTask', function() { 
 //		console.log(webdriver.promise.Application.getInstance().getSchedule());
-		myTest.lastSuccess(TestState.PENDING);
-		myTest.running(true);
+		bhaviour.lastSuccess(TestState.PENDING);
+		bhaviour.running(true);
 	}, false);
 	
 	

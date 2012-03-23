@@ -1,7 +1,7 @@
 <script>
 	function forElementToBePresent(findBy) { 
 		return function() { 
-			return myTest.driver.isElementPresent(findBy); 
+			return bhaviour.driver.isElementPresent(findBy); 
 		}; 
 	}
 	
@@ -19,7 +19,7 @@
 	
 	function forTitle(requiredTitle) {
 		return function() {
-			return myTest.driver.getTitle().then(function(currentTitle) {
+			return bhaviour.driver.getTitle().then(function(currentTitle) {
 				return currentTitle == requiredTitle;
 			});
 		}; 
