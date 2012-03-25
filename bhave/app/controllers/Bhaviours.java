@@ -1,26 +1,55 @@
 package controllers;
 
-import java.util.ArrayList;
+import java.util.*;
 
-import models.Bhaviour;
-import models.terms.BTerm;
-import play.mvc.Controller;
+import models.*;
+import models.terms.*;
+import play.mvc.*;
+import bhave.*;
+
+import com.google.gson.*;
 
 public class Bhaviours extends Controller {
 	
 	public static void create() {
-		Bhaviour bhaviour = new Bhaviour(new ArrayList<BTerm>(), "", "");
+		Bhaviour bhaviour = new Bhaviour("New Bhaviour", new ArrayList<Long>(), new ArrayList<BTerm>());
 		bhaviour.save();
-		renderJSON(bhaviour);
+		redirect("Bhaviours.show", bhaviour.id);
 	}
 	
-	public static void get(long id) {
+	public static void save(String body) {
+		Gson gson = new GsonBuilder().registerTypeAdapter(BTerm.class, new BTermDeserializer()).create();
+		Bhaviour bhaviour = gson.fromJson(body, Bhaviour.class);
+		if (bhaviour.id != null) {
+			bhaviour = bhaviour.merge();
+		}
+		bhaviour.save();
+		renderText(bhaviour.id);
+	} 
+	
+	public static void show(long id) {
+		Bhaviour bhaviour = Bhaviour.findById(id);
+		if (bhaviour == null) {
+			notFound();
+		}
+		renderArgs.put("bhaviourId", id);
+		renderArgs.put("bhaviourName", bhaviour.name);
+		render();
+	}
+	
+	public static void delete(long id) {
 		Bhaviour bhaviour = Bhaviour.findById(id);
 		if (bhaviour != null) {
-			renderJSON(bhaviour);
+			bhaviour.delete();
+			ok();
 		} else {
 			notFound();
 		}
+	}
+
+	public static void get(long id) {
+		Bhaviour bhaviour = Bhaviour.findById(id);
+		renderJSON(bhaviour, new BTermSerializer());
 	}
 
 }

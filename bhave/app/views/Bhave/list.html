@@ -1,13 +1,13 @@
 #{extends 'bhave-main.html' /}
 #{set title:'Bhave yourself' /}
 
-#{deleteTest /}
+#{deleteBhaviour /}
 
-#{if tests.size > 0}
-	<div id="testsContainer" class="glow">
+#{if bhaviours.size > 0}
+	<div id="bhavioursContainer" class="glow">
 		<ul>
-			#{list items:tests, as:'test'}
-			    <li class="testRow" id="test_${test.id}"><a href="@{Tests.show(test.id)}">${test.name}</a><button class="deleteTest" onclick="deleteTest(${test.id})"><i class="icon-trash"></i></button></li>
+			#{list items:bhaviours, as:'bhaviour'}
+			    <li class="bhaviourRow" id="bhaviour_${bhaviour.id}"><a href="@{Bhaviours.show(bhaviour.id)}">${bhaviour.name}</a><button class="deleteBhaviour" onclick="deleteBhaviour(${bhaviour.id})"><i class="icon-trash"></i></button></li>
 			#{/list}
 		</ul>
 	</div>

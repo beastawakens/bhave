@@ -1,29 +1,18 @@
 package controllers;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import models.Bhaviour;
+import models.*;
 import models.Dictionary;
-import models.Environment;
-import models.Screenshot;
-import models.Test;
-import models.terms.BObject;
-import models.terms.BSubject;
-import models.terms.BTerm;
-import models.terms.BVerb;
-import play.mvc.Controller;
-
+import models.terms.*;
+import play.mvc.*;
 import bhave.*;
-
-import com.google.gson.Gson;
 
 public class Bhave extends Controller {
 	
 	public static void list() {
-		List<Test> tests = Test.findAll();
-		render(tests);
+		List<Bhaviour> bhaviours = Bhaviour.findAll();
+		render(bhaviours);
 	}
 	
 	public static void getEnv() {
@@ -36,7 +25,7 @@ public class Bhave extends Controller {
 		renderJSON(dictionary, new BTermSerializer());
 	}
 
-	public static void displayDictionary() {
+	public static void dictionary() {
 		Dictionary dictionary = new Dictionary(BTerm.<BTerm>findAll());
 		render(dictionary);
 	}

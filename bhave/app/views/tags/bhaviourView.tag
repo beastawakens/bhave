@@ -1,9 +1,9 @@
 <div class="glow">
 	<h3>
-		<span id="testId" data-bind="text: id"></span> - </span><span id="testName" data-bind="text: name, event: {dblclick: editName}, visible: !editingName()"></span>
+		<span id="bhaviourId" data-bind="text: id"></span> - </span><span id="bhaviourName" data-bind="text: name, event: {dblclick: editName}, visible: !editingName()"></span>
 		<input id="nameEdit" data-bind="value: name, valueUpdate: 'afterkeydown', visible: editingName, hasfocus: editingName, event: {blur: editName, keypress: editName} "/>
 	</h3>
-	<table class="testTable">
+	<table class="bhaviourTable">
 	    <thead>
 	    	<tr>
 	    		<td class="languageCell">
@@ -47,6 +47,6 @@
 	        </tr>    
 	    </tbody>
 	</table>
-	<button id="runTest" data-bind="click: run">Run <i data-bind="css: {'icon-play': !running(), 'icon-refresh': running()}"></i></button>
-	<button data-bind="click: saveTest">Save <i data-bind="css: {'icon-file': !saving(), 'icon-refresh': saving()}"></i></button>
+	<button id="runBhaviour" data-bind="click: run">Run <i data-bind="css: {'icon-play': !running(), 'icon-refresh': running()}"></i></button>
+	<button id="saveBhaviour" data-bind="click: saveBhaviour">Save <i data-bind="css: {'icon-file': !saving(), 'icon-refresh': saving()}"></i></button>
 </div>

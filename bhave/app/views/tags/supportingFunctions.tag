@@ -39,29 +39,29 @@
 		this.source = 'data:image/png;base64,' + png;
 	}
 
-	TestState = {
+	BhaviourState = {
 		FAIL: -1,
 		PENDING: 0,
 		SUCCESS: 1
 	}
 
 	webdriver.promise.Application.getInstance().on('uncaughtException', function(e) {
-		bhaviour.lastSuccess(TestState.FAIL);
+		bhaviour.lastSuccess(BhaviourState.FAIL);
 		bhaviour.failureMessage('Oh dear: ' + e);
 		bhaviour.running(false);
     });
 
 	webdriver.promise.Application.getInstance().addListener('idle', function() { 
-		if (bhaviour.lastSuccess() == TestState.PENDING) {
+		if (bhaviour.lastSuccess() == BhaviourState.PENDING) {
 //			console.log(webdriver.promise.Application.getInstance().getHistory());
 			bhaviour.running(false);
-			bhaviour.lastSuccess(TestState.SUCCESS);
+			bhaviour.lastSuccess(BhaviourState.SUCCESS);
 		}
 	}, false);
 
 	webdriver.promise.Application.getInstance().addListener('scheduleTask', function() { 
 //		console.log(webdriver.promise.Application.getInstance().getSchedule());
-		bhaviour.lastSuccess(TestState.PENDING);
+		bhaviour.lastSuccess(BhaviourState.PENDING);
 		bhaviour.running(true);
 	}, false);
 	

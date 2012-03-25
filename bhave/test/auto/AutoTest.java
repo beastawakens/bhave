@@ -4,15 +4,12 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-import jobs.*;
-
+import models.*;
 
 import org.junit.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.remote.*;
-
-import bhave.*;
 
 import play.*;
 import play.test.*;
@@ -51,29 +48,29 @@ public class AutoTest extends FunctionalTest {
 			port = Play.configuration.getProperty("http.port");
 		}
 		
-		List<models.Test> tests = models.Test.findAll();
+		List<Bhaviour> bhaviours = Bhaviour.findAll();
 		Map<String, String> results = new HashMap<String, String>();
 		
-		Logger.info("Going to check " + tests.size() + " bhaviours");
+		Logger.info("Going to check " + bhaviours.size() + " bhaviours");
 
 		Boolean globalResult = true;
 		
-		for (Iterator iterator = tests.iterator(); iterator.hasNext();) {
-			models.Test test = (models.Test) iterator.next();
-			webdriver.get(protocol+"://localhost:" + port+"/@bhave/"+test.id);
-			WebElement runner = webdriver.findElement(By.id("runTest"));
+		for (Iterator iterator = bhaviours.iterator(); iterator.hasNext();) {
+			Bhaviour bhaviour = (Bhaviour) iterator.next();
+			webdriver.get(protocol+"://localhost:" + port+"/@bhave/"+bhaviour.id);
+			WebElement runner = webdriver.findElement(By.id("runBhaviour"));
 			if (runner.isEnabled()) {
 				runner.click();
 				try {
-					WebElement result = webdriver.findElement(By.id("testResultContainer"));
+					WebElement result = webdriver.findElement(By.id("bhaviourResultContainer"));
 					if (result.getAttribute("class").contains("passed")) {
-						results.put(test.id + ". " + test.name, "Passed");
+						results.put(bhaviour.id + ". " + bhaviour.name, "Passed");
 					} else {
-						results.put(test.id + ". " + test.name, "Failed - " + result.getText());
+						results.put(bhaviour.id + ". " + bhaviour.name, "Failed - " + result.getText());
 						globalResult = false;
 					}
 				} catch (NoSuchElementException e) {
-					results.put(test.id + ". " + test.name, "Failed - Timed out");
+					results.put(bhaviour.id + ". " + bhaviour.name, "Failed - Timed out");
 					globalResult = false;
 				}
 			}

@@ -1,8 +1,8 @@
-<div id="testResultContainer" class="glow"
-	data-bind="visible: lastSuccess() != TestState.PENDING,
-	text: (lastSuccess()==TestState.SUCCESS) ? 'All Good :)' : failureMessage(),
+<div id="bhaviourResultContainer" class="glow"
+	data-bind="visible: lastSuccess() != BhaviourState.PENDING,
+	text: (lastSuccess()==BhaviourState.SUCCESS) ? 'All Good :)' : failureMessage(),
 	class: {
-		'passed' : lastSuccess()==TestState.SUCCESS,
-		'failed' : lastSuccess()!=TestState.SUCCESS || lastSuccess()!=TestState.PENDING
+		'passed' : lastSuccess()==BhaviourState.SUCCESS,
+		'failed' : lastSuccess()!=BhaviourState.SUCCESS || lastSuccess()!=BhaviourState.PENDING
 	}">
 </div>

@@ -1,5 +1,5 @@
 #{extends 'bhave-main.html' /}
-#{set title:'Bhave: ' + testId + '. ' + testName /}
+#{set title:'Bhave: ' + bhaviourId + '. ' + bhaviourName /}
 
 #{globalVars /}	
 #{waitFunctions /}	
@@ -7,7 +7,8 @@
 #{dictionary /}	
 #{translate /}	
 #{supportingFunctions /}	
-#{testFunctions /}
+#{bhaviour /}
+#{keyboardShortcuts /}
 	
 <script>
 	$(document).ready(function() {
@@ -18,8 +19,8 @@
 	    }); 
 
 	    bhaviour = new Bhaviour();
-	    $.getJSON("@{Tests.get(testId)}", function(testData) {
-	    	ko.mapping.fromJS(testData, {}, bhaviour);
+	    $.getJSON("@{Bhaviours.get(bhaviourId)}", function(bhaviourData) {
+	    	ko.mapping.fromJS(bhaviourData, {}, bhaviour);
 		    $.getJSON("@{Bhave.getEnv()}", function(envData) {
 		    	ko.mapping.fromJS(envData, {}, bhaviour);
 				ko.applyBindings(bhaviour);
@@ -32,4 +33,4 @@
 #{envView /}
 #{screenshotView /}
 #{resultView /}
-#{testView /}
+#{bhaviourView /}

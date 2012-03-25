@@ -3,40 +3,42 @@ package controllers;
 import java.io.InputStream;
 
 import models.Screenshot;
-import models.Test;
+import models.Bhaviour;
 import play.mvc.Controller;
 
 public class Screenshots extends Controller {
 
 	public static void save(Screenshot screenshot) {
 		screenshot.save();
-		Test test = Test.findById(screenshot.testId);
-		if (test != null) {
-			test.screenshots.add(screenshot.id);
-			test = test.merge();
-			test.save();
+		Bhaviour bhaviour = Bhaviour.findById(screenshot.bhaviourId);
+		if (bhaviour != null) {
+			bhaviour.screenshots.add(screenshot.id);
+			bhaviour = bhaviour.merge();
+			bhaviour.save();
 			renderJSON(screenshot);
 		} else {
 			notFound();
 		}
 	} 
 	
-	public static void delete(Long testId, Long id) {
+	public static void delete(Long id) {
 		Screenshot screenshot = Screenshot.findById(id);
-		Test test = Test.findById(testId);
-		if (screenshot != null && test != null) {
+		if (screenshot != null) {
 			screenshot.source.getFile().delete();
 			screenshot.delete();
-			test.screenshots.remove(id);
-			test = test.merge();
-			test.save();
+			Bhaviour bhaviour = Bhaviour.findById(screenshot.bhaviourId);
+			if (bhaviour != null) {
+				bhaviour.screenshots.remove(id);
+				bhaviour = bhaviour.merge();
+				bhaviour.save();
+			}
 			ok();
 		} else {
 			notFound();
 		}
 	}
 
-	public static void load(Long testId, Long id) { 
+	public static void load(Long id) { 
 		Screenshot screenshot = Screenshot.findById(id);
 		if (screenshot != null) {
 			response.setContentTypeIfNotSet(screenshot.source.type());

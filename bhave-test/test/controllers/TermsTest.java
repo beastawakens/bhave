@@ -1,27 +1,19 @@
 package controllers;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
-import java.util.List;
+import java.util.*;
 
-import models.Bhaviour;
-import models.terms.BObject;
-import models.terms.BTerm;
+import models.terms.*;
 import models.terms.BObject.BObjectType;
-import models.terms.BVerb;
 
+import org.junit.*;
 import org.junit.Before;
-import org.junit.Test;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-
-import play.test.Fixtures;
-import play.test.FunctionalTest;
 
 import play.mvc.Http.Response;
+import play.test.*;
+
+import com.google.gson.*;
 
 public class TermsTest extends FunctionalTest {
 	

@@ -1,25 +1,21 @@
 package controllers;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
-import models.Bhaviour;
-import models.Screenshot;
+import models.*;
+import models.terms.*;
 
+import org.junit.*;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import play.mvc.Http.Response;
-import play.test.Fixtures;
-import play.test.FunctionalTest;
+import play.test.*;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 
 public class ScreenshotsTest extends FunctionalTest {
 	
@@ -32,7 +28,7 @@ public class ScreenshotsTest extends FunctionalTest {
 	public void passingAScreenshotToTheControllerStoresIt() throws Exception {
 		Map<String, String> parameters = new HashMap<String, String>();
 		Map<String, File> files = new HashMap<String, File>();
-		models.Test test = new models.Test("", new ArrayList<Long>(), new ArrayList<Bhaviour>());
+		Bhaviour test = new Bhaviour("", new ArrayList<Long>(), new ArrayList<BTerm>());
 		test.save();
 		String screenshotName = "name";
 		String screenshotTestId = test.id.toString();
@@ -47,7 +43,7 @@ public class ScreenshotsTest extends FunctionalTest {
 		Screenshot screenshot = Screenshot.find("byName", screenshotName).first();
 		
 		assertNotNull(screenshot);
-		assertThat(screenshot.testId, is(Long.valueOf(screenshotTestId)));
+		assertThat(screenshot.bhaviourId, is(Long.valueOf(screenshotTestId)));
 	}
 	
 	@Test
@@ -55,7 +51,7 @@ public class ScreenshotsTest extends FunctionalTest {
 		Map<String, String> parameters = new HashMap<String, String>();
 		Map<String, File> files = new HashMap<String, File>();
 		
-		models.Test test = new models.Test("", new ArrayList<Long>(), new ArrayList<Bhaviour>());
+		Bhaviour test = new Bhaviour("", new ArrayList<Long>(), new ArrayList<BTerm>());
 		test.save();
 		String screenshotName = "storeMyId";
 		String screenshotTestId = test.id.toString();
@@ -79,7 +75,7 @@ public class ScreenshotsTest extends FunctionalTest {
 		Map<String, String> parameters = new HashMap<String, String>();
 		Map<String, File> files = new HashMap<String, File>();
 		
-		models.Test test = new models.Test("", new ArrayList<Long>(), new ArrayList<Bhaviour>());
+		Bhaviour test = new Bhaviour("", new ArrayList<Long>(), new ArrayList<BTerm>());
 		test.save();
 		String screenshotName = "storeMyId";
 		String screenshotTestId = test.id.toString();
@@ -98,7 +94,7 @@ public class ScreenshotsTest extends FunctionalTest {
     	try {
     		screenshot = gson.fromJson(getContent(response), Screenshot.class);
     		assertThat(screenshot.name, is(screenshotName));
-    		assertThat(screenshot.testId, is(Long.valueOf(screenshotTestId)));
+    		assertThat(screenshot.bhaviourId, is(Long.valueOf(screenshotTestId)));
     	} catch (JsonSyntaxException jse) {
     		fail();
     	}
@@ -124,7 +120,7 @@ public class ScreenshotsTest extends FunctionalTest {
 	
 	@Test
 	public void tryingToDeleteAnInvalidScreenshotReturnsNotFound() throws Exception {
-		models.Test test = new models.Test("", new ArrayList<Long>(), new ArrayList<Bhaviour>());
+		Bhaviour test = new Bhaviour("", new ArrayList<Long>(), new ArrayList<BTerm>());
 		test.save();
 		String testId = String.valueOf(test.id);
 		String screenshotId = String.valueOf(Long.MAX_VALUE);
@@ -152,7 +148,7 @@ public class ScreenshotsTest extends FunctionalTest {
 		Map<String, String> parameters = new HashMap<String, String>();
 		Map<String, File> files = new HashMap<String, File>();
 		
-		models.Test test = new models.Test("", new ArrayList<Long>(), new ArrayList<Bhaviour>());
+		Bhaviour test = new Bhaviour("", new ArrayList<Long>(), new ArrayList<BTerm>());
 		test.save();
 		String screenshotName = "storeMyBlob";
 		String screenshotTestId = test.id.toString();

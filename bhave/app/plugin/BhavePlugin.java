@@ -29,7 +29,7 @@ public class BhavePlugin extends PlayPlugin {
     @Override
     public void onRoutesLoaded() {
         
-        Router.addRoute("GET", "/@bhave/{id}", "Tests.show");
+        Router.addRoute("GET", "/@bhave/{id}", "Bhaviours.show");
 
         Router.addRoute("GET", "/@bhave/autoTest", "Bhave.autoTest");
 
@@ -41,18 +41,13 @@ public class BhavePlugin extends PlayPlugin {
         Router.addRoute("GET", "/@bhave/term/{id}", "Terms.get");
         Router.addRoute("POST", "/@bhave/term", "Terms.save");
         
-        Router.addRoute("DELETE", "/@bhave/test/{id}", "Tests.delete");
-        Router.addRoute("GET", "/@bhave/test/{id}", "Tests.get");
-        Router.addRoute("GET", "/@bhave/test/new", "Tests.create");
-        Router.addRoute("POST", "/@bhave/test", "Tests.save");
-        
         Router.addRoute("DELETE", "/@bhave/bhaviour/{id}", "Bhaviours.delete");
         Router.addRoute("GET", "/@bhave/bhaviour/{id}", "Bhaviours.get");
         Router.addRoute("GET", "/@bhave/bhaviour/new", "Bhaviours.create");
         Router.addRoute("POST", "/@bhave/bhaviour", "Bhaviours.save");
         
-        Router.addRoute("DELETE", "/@bhave/screenshot/{testId}/{id}", "Screenshots.delete");
-        Router.addRoute("GET", "/@bhave/screenshot/{testId}/{id}", "Screenshots.load");
+        Router.addRoute("DELETE", "/@bhave/screenshot/{id}", "Screenshots.delete");
+        Router.addRoute("GET", "/@bhave/screenshot/{id}", "Screenshots.load");
         Router.addRoute("POST", "/@bhave/screenshot", "Screenshots.save");
         
         Router.addRoute("*", "/@bhave/dummy", "Bhave.dummy");

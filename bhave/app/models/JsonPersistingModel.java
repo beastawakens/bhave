@@ -16,7 +16,7 @@ import bhave.*;
 import com.google.gson.*;
 
 @MappedSuperclass
-public class BhaveModel extends Model {
+public class JsonPersistingModel extends Model {
 
 	@PostPersist
 	@PostUpdate

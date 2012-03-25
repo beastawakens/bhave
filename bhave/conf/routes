@@ -3,29 +3,19 @@
 # ~~~~
 
 # Home page
-GET     /@bhave                                Bhave.index
+GET     /@bhave/?                              Bhave.index
 *       /@bhave/dummy                          Bhave.dummy
 
 POST    /@bhave/screenshot                     Screenshots.saveScreenshot
-GET     /@bhave/screenshot/{testId}/{id}       Screenshots.loadScreenshot
-DELETE  /@bhave/screenshot/{testId}/{id}       Screenshots.deleteScreenshot
+GET     /@bhave/screenshot/{bhaviourId}/{id}   Screenshots.loadScreenshot
+DELETE  /@bhave/screenshot/{bhaviourId}/{id}   Screenshots.deleteScreenshot
 
 POST    /@bhave/bhaviour                       Bhaviours.save
 GET     /@bhave/bhaviour/new                   Bhaviours.create
 GET     /@bhave/bhaviour/{id}                  Bhaviours.get
 DELETE  /@bhave/bhaviour/{id}                  Bhaviours.delete
 
-POST    /@bhave                                Tests.save
-GET     /@bhave/new                            Tests.newTest
-GET     /@bhave/test/new                       Tests.init
-GET     /@bhave/test/{id}                      Tests.get
-DELETE  /@bhave/test/{id}                      Tests.delete
-
-POST    /@bhave/term/                          Terms.save
-GET     /@bhave/term/{id}                      Terms.get
-DELETE  /@bhave/term/{id}                      Terms.delete
-
 GET     /@bhave/env                            Bhave.getEnv
 GET     /@bhave/dictionary                     Bhave.getDictionary
 GET     /@bhave/displayDictionary              Bhave.dictionary
-GET     /@bhave/{id}                           Tests.show
+GET     /@bhave/{id}/?                         Bhaviours.show

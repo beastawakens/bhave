@@ -9,7 +9,7 @@ import models.terms.BObject.BObjectType;
 import play.db.jpa.Model;
 
 @Entity
-public abstract class BTerm extends BhaveModel {
+public abstract class BTerm extends JsonPersistingModel {
 	
 	public enum BTermType {
 		Verb,

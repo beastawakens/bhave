@@ -32,7 +32,7 @@
 			if (event.type == 'keypress') {
 				if (event.keyCode == '13') {
 					if (data.name() == null || data.name().trim() == '') {
-						data.name('Test');
+						data.name('Bhaviour');
 					}
 					this_.editingName(false);
 				}
@@ -43,17 +43,6 @@
 		
 		this_.editingName = ko.observable(false);
 		  	
-		this_.removeBhaviour = function(bhaviour) {
-			this_.bhaviours.remove(bhaviour)
-		}
-		this_.addBhaviour = function(bhaviour) {
-			$.getJSON("@{Bhaviours.create()}", function(bhaviourJson) {
-		    	var bhaviour = new Bhaviour(bhaviourJson);
-				this_.bhaviours.push(bhaviour);
-				applyTranslation();
-		    });
-		}
-
 		this_.running = ko.observable(false);
 		this_.lastSuccess = ko.observable(0);
 		this_.failureMessage = ko.observable();
@@ -71,7 +60,7 @@
 			var xhr = new XMLHttpRequest();
 			fd.append("screenshot.source", blob);
 			fd.append("screenshot.name", this_.name() + ' - ' + new Date().toUTCString() );
-			fd.append("screenshot.testId", this_.id());
+			fd.append("screenshot.bhaviourId", this_.id());
 			xhr.open('POST', '@{Screenshots.save()}', false);
 			xhr.send(fd);
 			
@@ -84,7 +73,7 @@
 		}
 		
 		this_.deleteScreenshot = function(id) {
-			$.ajax(deleteScreenshotUrl({testId: this_.id(), id: id}), {
+			$.ajax(deleteScreenshotUrl({id: id}), {
 				type: "DELETE",
 				success: function() {
 					$('#screenshotSmall_'+id).fadeOut('slow', function() {
@@ -96,7 +85,7 @@
 			});
 		}
 		
-		this_.saveTest = function() {
+		this_.saveBhaviour = function() {
 			this_.saving(true);
 			var mapping = {
 			    'ignore': [ "isActive",
@@ -115,7 +104,7 @@
 		
 			var unmapped = ko.mapping.toJSON(this_, mapping);
 			
-			$.ajax("@{Tests.save}", {
+			$.ajax("@{Bhaviours.save}", {
 				data: unmapped,
 				type: "post", contentType: "application/json",
 				success: function(result) { this_.id(result); this_.saving(false); }
@@ -144,7 +133,7 @@
 		this_.failedTerms = ko.observableArray();
 
 		this_.fail = function(termId) {
-			this_.lastSuccess(TestState.FAIL);
+			this_.lastSuccess(BhaviourState.FAIL);
 			this_.failedTerms.push(termId);
 		}
 

@@ -10,10 +10,10 @@ import play.db.jpa.Blob;
 import play.db.jpa.Model;
 
 @Entity
-public class Screenshot extends BhaveModel {
+public class Screenshot extends JsonPersistingModel {
 	
 	public String name;
-	public Long testId;
+	public Long bhaviourId;
 	@NoJsonExport
 	public Blob source;
 }
