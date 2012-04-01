@@ -1,0 +1,6 @@
+{
+    "command":"~~element~~.sendKeys(\u0027~~value~~\u0027).then(function(){bhaviour.pass(~~id~~);},function(){bhaviour.fail(~~id~~);});",
+    "name":"Type",
+    "type":"Verb",
+    "id":12
+}

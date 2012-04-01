@@ -1,0 +1,6 @@
+{
+    "command":"bhaviour.driver.get(\u0027~~page~~\u0027).then(function(){bhaviour.pass(~~id~~);},function(){bhaviour.fail(~~id~~);});",
+    "name":"Load",
+    "type":"Verb",
+    "id":1
+}

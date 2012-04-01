@@ -5,8 +5,10 @@ $("body").jkey('ctrl+s',function(){
 $("body").jkey('ctrl+enter',function(){
 	bhaviour.run();
 });
+$("body").jkey('ctrl+i',function(){
+	$(".language_input").focus();
+});
 $("body").jkey('ctrl+b',function(){
-	console.log("here");
 	window.location = "/@bhave/bhaviour/new";
 });
 

@@ -32,3 +32,8 @@
     	<button data-bind="click: $parent.deleteTerm"><i class="icon-trash"></i></button>
     </li>
 </ul>
+
+#{form @addTerm(), enctype:'multipart/form-data'}
+   <input type="file" name="attachment" multiple="multiple">
+   <input type="submit" name="submit" value="Upload">
+#{/form}

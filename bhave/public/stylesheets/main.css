@@ -318,7 +318,7 @@ nav a:active img {
 	margin-right: auto;
 }
 
-#testId, #testName {
+#bhaviourId, #bhaviourName {
 	font-size: x-large;
 }
 #nameEdit {
@@ -341,7 +341,7 @@ nav a:active img {
     -moz-box-shadow: none; 
 }
 
-.deleteTest {
+.deleteBhaviour {
 	margin-left: 50px;
 }
 
@@ -444,12 +444,11 @@ nav a:active img {
 	display: none;
 }
 
-.testTable {
+.bhaviourTable {
 	width: 100%;
 }
 
 .syntaxCell {
-	width: 50%;
 }
 
 .throbber {
@@ -467,12 +466,13 @@ nav a:active img {
 	-moz-box-shadow: 0 0 100px rgba(255, 0, 144, 1);
 }
 
-.commandCell {
+.command_input {
 	display: none;
 }
 
 .languageCell {
 	text-align: right;
+	width: 50%;
 }
 
 .termCopy_true {

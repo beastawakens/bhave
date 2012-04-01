@@ -5,11 +5,14 @@
 		var this_ = this;
 
 		this_.syntaxInput = ko.observable();
+		
+		this_.count = 0;
 
 		this_.syntaxInput.subscribe(function(termId) {
 			if (termId != '') {
 			    $.get(getTermUrl({id: termId}), function(termData) {
 			    	var term = ko.mapping.fromJS(termData);
+			    	term.count = this_.count++;
 					this_.syntax.push(term);
 				});
 			    this_.syntaxInput('');

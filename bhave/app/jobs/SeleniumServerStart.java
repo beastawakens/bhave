@@ -7,7 +7,7 @@ import org.openqa.selenium.server.SeleniumServer;
 
 import bhave.SeleniumHolder;
 
-import play.Play;
+import play.*;
 import play.jobs.Job;
 import play.jobs.OnApplicationStart;
 import play.vfs.VirtualFile;
@@ -19,6 +19,7 @@ public class SeleniumServerStart extends Job {
 		Boolean localServerEnabled = Boolean.parseBoolean(Play.configuration.getProperty("bhave.local.selenium.server.on", "true"));
 		
 		if (localServerEnabled) {
+			Logger.info("Local Selenium server enabled...");
 			start();
 		}
 	}
@@ -27,15 +28,16 @@ public class SeleniumServerStart extends Job {
 		String defaultChromeDriverPath = Play.modules.get("bhave").getRealFile().getAbsolutePath() + "/chromedriver";
 		
 		System.setProperty("webdriver.chrome.driver", Play.configuration.getProperty("bhave.chrome.driver.path", defaultChromeDriverPath));
-		System.out.println("Chromedriver should be here:" + System.getProperty("webdriver.chrome.driver"));
+		Logger.info("Chromedriver path set to: " + System.getProperty("webdriver.chrome.driver"));
 		try {
 			RemoteControlConfiguration configuration = new RemoteControlConfiguration();
 			configuration.setPort(Integer.parseInt(Play.configuration.getProperty("bhave.local.selenium.server.port", "4444"), 10));
+			Logger.info("Local Selenium server being started on port " + configuration.getPort());
 			SeleniumHolder.server = new SeleniumServer(configuration);
 			SeleniumHolder.server.boot();
 			SeleniumHolder.server.start();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.error("Something went wrong starting Selenium server", e);
 		}
 	}
 }

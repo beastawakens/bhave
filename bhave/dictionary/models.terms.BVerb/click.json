@@ -1,0 +1,6 @@
+{
+    "command":"~~element~~.click().then(function(){bhaviour.pass(~~id~~);},function(){bhaviour.fail(~~id~~);});",
+    "name":"Click",
+    "type":"Verb",
+    "id":13
+}

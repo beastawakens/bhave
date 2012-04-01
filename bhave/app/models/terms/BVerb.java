@@ -15,11 +15,4 @@ public class BVerb extends BTerm {
 		this.command = command;
 	}
 
-	@Override
-	public BVerb createTestCopy() {
-		return (BVerb) saveAsCopy(new BVerb(name, command));
-	}
-	
-	
-
 }

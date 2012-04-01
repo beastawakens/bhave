@@ -19,21 +19,11 @@ public class AutoTest extends FunctionalTest {
 	private static final long SELENIUM_TIMEOUT_IN_SECONDS = Long.valueOf(Play.configuration.getProperty("bhave.test.maxTime", "300"));
 	private RemoteWebDriver webdriver;
 	
-//	@BeforeClass
-//	public static void startServer() {
-//		SeleniumHolder.server.
-//	}
-//	
-//	@AfterClass
-//	public static void stopServer() {
-//		new SeleniumServerStop().stop();
-//	}
-
 	@Test
     public void autoTest() throws MalformedURLException {
     	Capabilities desiredCapabilities = new DesiredCapabilities("firefox", "", Platform.ANY);
 		
-		String seleniumServerUrl = Play.configuration.getProperty("bhave.selenium.server", "http://localhost:9001/wd/hub");
+		String seleniumServerUrl = getSeleniumServerUrl();
 		
 		CommandExecutor executor = new HttpCommandExecutor(new java.net.URL(seleniumServerUrl));
 		webdriver = new RemoteWebDriver(executor , desiredCapabilities);
@@ -78,4 +68,15 @@ public class AutoTest extends FunctionalTest {
 		
 		assertTrue(results.toString(), globalResult);
     }
+
+	public String getSeleniumServerUrl() {
+		String url;
+		if (Boolean.parseBoolean(Play.configuration.getProperty("bhave.local.selenium.server.on", "true"))) {
+			String port = Play.configuration.getProperty("bhave.local.selenium.server.port", "4444");
+			url = "http://localhost:"+port+"/wd/hub";
+		} else {
+			url = Play.configuration.getProperty("bhave.remote.selenium.server");
+		}
+		return url;
+	}
 }

@@ -1,0 +1,6 @@
+{
+    "command":"bhaviour.driver.takeScreenshot().then(function(png){var screenshot\u003dko.mapping.fromJSON(bhaviour.saveScreenshot(\u0027data:image/png;base64,\u0027+png));bhaviour.screenshots.push(screenshot.id());bhaviour.pass(~~id~~);},function(){bhaviour.fail(~~id~~);});",
+    "name":"Take screenshot",
+    "type":"Verb",
+    "id":4
+}

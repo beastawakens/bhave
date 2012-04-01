@@ -22,7 +22,6 @@ public abstract class BTerm extends JsonPersistingModel {
 
 	public String name;
 	public BTermType type;
-	public Boolean testCopy;
 
 	public BTerm(String name, BTermType type) {
 		this.name = name;
@@ -33,12 +32,4 @@ public abstract class BTerm extends JsonPersistingModel {
 		
 	}
 	
-	public abstract BTerm createTestCopy();
-
-	protected BTerm saveAsCopy(BTerm copy) {
-		copy.testCopy = true;
-		copy.save();
-		return copy;
-	}
-
 }

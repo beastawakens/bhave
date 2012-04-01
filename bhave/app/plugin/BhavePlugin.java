@@ -50,7 +50,6 @@ public class BhavePlugin extends PlayPlugin {
         Router.addRoute("GET", "/@bhave/screenshot/{id}", "Screenshots.load");
         Router.addRoute("POST", "/@bhave/screenshot", "Screenshots.save");
         
-        Router.addRoute("*", "/@bhave/dummy", "Bhave.dummy");
         Router.addRoute("GET", "/@bhave", "Bhave.list");
     }
 

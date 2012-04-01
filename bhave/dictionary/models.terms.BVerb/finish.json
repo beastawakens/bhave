@@ -1,0 +1,6 @@
+{
+    "command":"bhaviour.driver.quit().then(function(){bhaviour.pass(~~id~~);},function(){bhaviour.fail(~~id~~);});",
+    "name":"Finish",
+    "type":"Verb",
+    "id":5
+}

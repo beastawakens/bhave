@@ -73,7 +73,7 @@
 		}
 
 		self.replaceId = function(valueString, term) {
-			return valueString.replace(/~~id~~/g, term.id());
+			return valueString.replace(/~~id~~/g, term.count);
 		}
 
 		self.replaceSynonyms = function(callback) {

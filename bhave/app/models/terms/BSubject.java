@@ -9,11 +9,4 @@ public class BSubject extends BTerm {
 		super(name, BTermType.Subject);
 	}
 
-	@Override
-	public BSubject createTestCopy() {
-		return (BSubject) saveAsCopy(new BSubject(name));
-	}
-	
-	
-
 }

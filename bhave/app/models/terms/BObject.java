@@ -22,9 +22,4 @@ public class BObject extends BTerm {
 		this.value = value;
 	}
 	
-	@Override
-	public BObject createTestCopy() {
-		return (BObject) saveAsCopy(new BObject(name, objectType, value));
-	}
-
 }

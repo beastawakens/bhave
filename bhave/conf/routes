@@ -3,19 +3,5 @@
 # ~~~~
 
 # Home page
-GET     /@bhave/?                              Bhave.index
-*       /@bhave/dummy                          Bhave.dummy
 
-POST    /@bhave/screenshot                     Screenshots.saveScreenshot
-GET     /@bhave/screenshot/{bhaviourId}/{id}   Screenshots.loadScreenshot
-DELETE  /@bhave/screenshot/{bhaviourId}/{id}   Screenshots.deleteScreenshot
-
-POST    /@bhave/bhaviour                       Bhaviours.save
-GET     /@bhave/bhaviour/new                   Bhaviours.create
-GET     /@bhave/bhaviour/{id}                  Bhaviours.get
-DELETE  /@bhave/bhaviour/{id}                  Bhaviours.delete
-
-GET     /@bhave/env                            Bhave.getEnv
-GET     /@bhave/dictionary                     Bhave.getDictionary
-GET     /@bhave/displayDictionary              Bhave.dictionary
-GET     /@bhave/{id}/?                         Bhaviours.show
+# All 'bhave' routes loaded via 'BhavePlugin'

@@ -28,13 +28,6 @@ public class BhaveTest extends FunctionalTest {
 	}
 
     @Test
-    public void indexPageShouldRedirectToMainPageByDefault() {
-        Response response = GET("/");
-        assertThat(response.status, is(302));
-        assertThat(response.getHeader("location"), is("/@bhave"));
-    }
-    
-    @Test
 	public void getEnvShouldReturnEnvironmentAsJson() {
     	Environment currentEnvironment = new Environment();
 		Response response = GET("/@bhave/env");
@@ -57,10 +50,9 @@ public class BhaveTest extends FunctionalTest {
     }
 
     @Test
-    public void getDictionaryShouldReturnFullDictionaryAsJsonNotIncludingCopies() {
+    public void getDictionaryShouldReturnFullDictionaryAsJson() {
     	Fixtures.loadModels("default-dictionary.yml");
-    	BTerm termCopy = ((BTerm)BTerm.findAll().get(0)).createTestCopy();
-    	Dictionary currentDictionary = new Dictionary(BTerm.find("byTestCopyIsNull").<BTerm>fetch());
+    	Dictionary currentDictionary = new Dictionary(BTerm.<BTerm>findAll());
     	Response response = GET("/@bhave/dictionary");
     	assertIsOk(response);
     	assertContentType("application/json", response);
@@ -71,19 +63,9 @@ public class BhaveTest extends FunctionalTest {
     		System.out.println(getContent(response));
     		returnedDictionary = gson.create().fromJson(getContent(response), Dictionary.class);
     		assertEquals(currentDictionary.terms, returnedDictionary.terms);
-    		assertThat(returnedDictionary.terms.contains(termCopy), is(false));
     	} catch (JsonSyntaxException jse) {
     		fail();
     	}
     }
-    
-    @Test
-	public void dummyReturnsBlankPage() {
-    	Response response = GET("/dummy");
-    	assertIsOk(response);
-    	assertContentType("text/plain", response);
-    	assertThat("", is(getContent(response)));
-		
-	}
     
 }	

@@ -1,0 +1,7 @@
+{
+    "value":"bhaviour.driver.isElementPresent(webdriver.By.name(\u0027btnG\u0027)).then(function(result){if(result){bhaviour.pass(~~id~~);}else{bhaviour.fail(~~id~~);}});bhaviour.driver.findElement(webdriver.By.name(\u0027btnG\u0027))",
+    "objectType":"Element",
+    "name":"Search Button",
+    "type":"Object",
+    "id":8
+}

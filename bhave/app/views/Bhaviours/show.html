@@ -21,6 +21,9 @@
 	    bhaviour = new Bhaviour();
 	    $.getJSON("@{Bhaviours.get(bhaviourId)}", function(bhaviourData) {
 	    	ko.mapping.fromJS(bhaviourData, {}, bhaviour);
+	    	bhaviour.syntax().forEach(function(term, count) {
+	    		term.count = count;
+	    	});
 		    $.getJSON("@{Bhave.getEnv()}", function(envData) {
 		    	ko.mapping.fromJS(envData, {}, bhaviour);
 				ko.applyBindings(bhaviour);

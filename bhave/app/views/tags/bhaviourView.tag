@@ -14,11 +14,7 @@
 		            	
 		            	#{definitionTool /}
 	            	</div>
-	            </td>
-	            <td>
 	            	<input id="syntax_input" data-bind="value: syntaxInput" />
-	            </td>
-	            <td class="commandCell">
 	            	<input size="30" class="command_input" data-bind="value: command, attr: {id: 'command_input_'+id(), 'data-id': id()}" />
 	            </td>
 	    	</tr>
@@ -36,8 +32,8 @@
 		            								'term_Conjunction': type() == 'Conjunction',
 		            								'term_Article': type() == 'Article',
 		            								'term_Synonym': type() == 'Synonym',
-		            								'passingTerm': $root.passingTerms.indexOf(id()) > -1,
-		            								'failingTerm': $root.failedTerms.indexOf(id()) > -1,
+		            								'passingTerm': $root.passingTerms.indexOf(count) > -1,
+		            								'failingTerm': $root.failedTerms.indexOf(count) > -1,
 		            								'term': true
 		            							}">
 		            	</span>
