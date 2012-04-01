@@ -2,6 +2,7 @@ package controllers;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+import jobs.*;
 
 import models.Dictionary;
 import models.Environment;
@@ -51,7 +52,7 @@ public class BhaveTest extends FunctionalTest {
 
     @Test
     public void getDictionaryShouldReturnFullDictionaryAsJson() {
-    	Fixtures.loadModels("default-dictionary.yml");
+    	new DataLoader().doJob();
     	Dictionary currentDictionary = new Dictionary(BTerm.<BTerm>findAll());
     	Response response = GET("/@bhave/dictionary");
     	assertIsOk(response);
@@ -60,9 +61,9 @@ public class BhaveTest extends FunctionalTest {
     	gson.registerTypeAdapter(BTerm.class, new BTermDeserializer());
     	Dictionary returnedDictionary;
     	try {
-    		System.out.println(getContent(response));
     		returnedDictionary = gson.create().fromJson(getContent(response), Dictionary.class);
     		assertEquals(currentDictionary.terms, returnedDictionary.terms);
+    		assertThat(returnedDictionary.terms.size(), is(17));
     	} catch (JsonSyntaxException jse) {
     		fail();
     	}

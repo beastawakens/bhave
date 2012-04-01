@@ -43,7 +43,7 @@ public class Bhave extends Controller {
 	public static void addTerm(File[] attachments) {
 		for (File file : attachments) {
 			try {
-				BTerm term = DataLoader.readTermFromFile(file);
+				BTerm term = TermsLoader.readTermFromFile(file);
 				term = term.merge();
 				term.save();
 			} catch (JsonSyntaxException e) {

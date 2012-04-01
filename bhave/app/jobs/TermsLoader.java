@@ -19,7 +19,7 @@ import play.test.Fixtures;
 import play.vfs.*;
 
 @OnApplicationStart
-public class DataLoader extends Job {
+public class TermsLoader extends Job {
 	
 	private static final String TERM_CLASS_PREFIX = "models.terms.B";
 	private static final String TERMS_FOLDER_PREFIX = "models.terms";

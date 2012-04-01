@@ -67,6 +67,8 @@ public class AutoTest extends FunctionalTest {
 		}
 		
 		assertTrue(results.toString(), globalResult);
+		
+		webdriver.quit();
     }
 
 	public String getSeleniumServerUrl() {

@@ -11,4 +11,9 @@ chromedriver.log
 bhave-test/test-result/
 bhave-test/logs/
 bhave/test-result/*
+bhave-test/bhave/
+
+
+
+
 
