@@ -52,7 +52,7 @@ public class BhaveTest extends FunctionalTest {
 
     @Test
     public void getDictionaryShouldReturnFullDictionaryAsJson() {
-    	new DataLoader().doJob();
+    	new TermsLoader().doJob();
     	Dictionary currentDictionary = new Dictionary(BTerm.<BTerm>findAll());
     	Response response = GET("/@bhave/dictionary");
     	assertIsOk(response);

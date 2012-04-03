@@ -11,6 +11,8 @@ import play.vfs.*;
 
 public class BhavePlugin extends PlayPlugin {
 
+	private static final String BHAVE_MODULE = "bhave";
+
 	@Override
 	public void onApplicationStart() {
 		Logger.info("Now then, now then, make sure to Bhave yourself...");
@@ -20,8 +22,11 @@ public class BhavePlugin extends PlayPlugin {
     public void onLoad() {
         for (VirtualFile module : Play.modules.values()) {
             File modulePath = module.getRealFile();
-            if (!modulePath.getAbsolutePath().startsWith(Play.frameworkPath.getAbsolutePath()) && !Play.javaPath.contains(module.child("test"))) {
+            if (!modulePath.getAbsolutePath().startsWith(Play.frameworkPath.getAbsolutePath())
+            		&& module.getName().equalsIgnoreCase(BHAVE_MODULE)
+            		&& !Play.javaPath.contains(module.child("test"))) {
                 Play.javaPath.add(module.child("test"));
+                break;
             }
         }
     }
