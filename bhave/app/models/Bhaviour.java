@@ -18,7 +18,8 @@ public class Bhaviour extends JsonPersistingModel {
 	
 	public ArrayList<Long> screenshots;
 
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany
+	@OrderColumn
 	public List<BTerm> syntax;
 	
 	public Bhaviour(String name, ArrayList<Long> screenshots, ArrayList<BTerm> syntax) {

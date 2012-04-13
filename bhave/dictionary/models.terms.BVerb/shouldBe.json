@@ -1,0 +1,5 @@
+{
+    "command":"~~element~~..then(function(){bhaviour.pass(~~id~~);},function(){bhaviour.fail(~~id~~);});",
+    "name":"Should Be",
+    "type":"Verb"
+}

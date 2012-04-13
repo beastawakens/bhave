@@ -4,7 +4,7 @@
 			return bhaviour.driver.isElementPresent(findBy); 
 		}; 
 	}
-	
+
 	function toBe(input) {
 		return input;
 	}

@@ -8,6 +8,9 @@ function deleteBhaviour(id) {
 			console.log("bhaviour " + id + " removed");
 			$('#bhaviour_'+id).fadeOut('slow', function() {
 				$('#bhaviour_'+id).remove();
+				if ($('.bhaviourRow').size()==0) {
+					$('#bhavioursContainer').fadeOut('slow');
+				}
 			});
 		}
 	});

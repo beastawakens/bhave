@@ -40,20 +40,20 @@ public class Bhave extends Controller {
 		renderText("");
 	}
 	
-	public static void addTerm(File[] attachments) {
-		for (File file : attachments) {
+	public static void addTerm(File[] terms) throws InterruptedException {
+		for (File termFile : terms) {
 			try {
-				BTerm term = TermsLoader.readTermFromFile(file);
+				BTerm term = TermsLoader.readTermFromFile(termFile);
 				term = term.merge();
 				term.save();
 			} catch (JsonSyntaxException e) {
-				error(400, "Term file invalid: " + file.getName());
+				error(400, "Term file invalid: " + termFile.getName());
 			} catch (FileNotFoundException e) {
-				error(400, "Term file not found: " + file.getName());
+				error(400, "Term file not found: " + termFile.getName());
 			} catch (IOException e) {
-				error(503, "Cannot access file: " + file.getName());
+				error(503, "Cannot access file: " + termFile.getName());
 			} catch (ClassNotFoundException e) {
-				error(400, "Cannot determine type of Term from file: " + file.getName());
+				error(400, "Cannot determine type of Term from file: " + termFile.getName());
 			}
 		}
 		dictionary();

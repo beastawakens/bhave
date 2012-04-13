@@ -33,7 +33,7 @@
     </li>
 </ul>
 
-#{form @addTerm(), enctype:'multipart/form-data'}
-   <input type="file" name="attachment" multiple="multiple">
+#{form @Bhave.addTerm(), id:'uploadTerm', enctype:'multipart/form-data'}
+   <input type="file" name="terms" id="terms" draggable="true" multiple="multiple">
    <input type="submit" name="submit" value="Upload">
 #{/form}
