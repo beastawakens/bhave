@@ -166,7 +166,7 @@
 										objectType: ko.observable('Value'),
 										value: ko.observable(this_.definition.terms.object.types.value.value())
 									}
-								this_.definition.terms.object.types.value.value(this_.definition.saveTerm(term));
+								this_.definition.saveTerm(term);
 							}
 						},
 						page: {
@@ -180,7 +180,7 @@
 										objectType: ko.observable('Page'),
 										value: ko.observable(this_.definition.terms.object.types.page.url())
 									}
-								this_.definition.terms.object.types.value.value(this_.definition.saveTerm(term));
+								this_.definition.saveTerm(term);
 							}
 						},
 						element: {
@@ -280,10 +280,32 @@
 							}
 						},
 						pageAttribute: {
-							active:ko.observable(false)
+							value: ko.observable(""),
+							active:ko.observable(false),
+							add: function() {
+								var term = {
+										name: ko.observable(this_.language()),
+										type: ko.observable('Object'),
+										testCopy: ko.observable(false),
+										objectType: ko.observable('PageAttribute'),
+										value: ko.observable(this_.definition.terms.object.types.pageAttribute.value())
+									}
+								this_.definition.saveTerm(term);
+							}
 						},
 						elementAttribute: {
-							active:ko.observable(false)
+							value: ko.observable(""),
+							active:ko.observable(false),
+							add: function() {
+								var term = {
+										name: ko.observable(this_.language()),
+										type: ko.observable('Object'),
+										testCopy: ko.observable(false),
+										objectType: ko.observable('ElementAttribute'),
+										value: ko.observable(this_.definition.terms.object.types.elementAttribute.value())
+									}
+								this_.definition.saveTerm(term);
+							}
 						}
 					},
 					makeActive: function(type) {
@@ -301,17 +323,45 @@
 					}
 				},
 				article: {
-					active:ko.observable(false)
+					active:ko.observable(false),
+					add: function() {
+						var term = {
+								name: ko.observable(this_.language()),
+								type: ko.observable('Article')
+							}
+						this_.definition.saveTerm(term);
+					}
 				},
 				subject: {
-					active:ko.observable(false)
+					active:ko.observable(false),
+					add: function() {
+						var term = {
+								name: ko.observable(this_.language()),
+								type: ko.observable('Subject')
+							}
+						this_.definition.saveTerm(term);
+					}
 				},
 				conjunction: {
-					active: ko.observable(false)
+					active: ko.observable(false),
+					add: function() {
+						var term = {
+								name: ko.observable(this_.language()),
+								type: ko.observable('Conjunction')
+							}
+						this_.definition.saveTerm(term);
+					}
 				},
 				synonym: {
 					active:ko.observable(false),
-					terms: ko.observableArray()
+					terms: ko.observableArray(),
+					add: function() {
+						var term = {
+								name: ko.observable(this_.language()),
+								type: ko.observable('Synonym')
+							}
+						this_.definition.saveTerm(term);
+					}
 				}
 			},
 			makeActive: function(term) {
@@ -341,21 +391,23 @@
 				this_.definition.active(false);
 			},
 			saveTerm: function(term) {
-				$.ajax("@{Terms.save}", {
-					data: ko.mapping.toJSON(term),
-					type: "post", contentType: "application/json",
-					success: function(termId) {
-						term.id = ko.observable(termId);
-						myDictionary.terms.push(term);
-						this_.definition.makeUnactive();
-						this_.definition.active(false);
-						this_.isActive(true);
-						return '';
-					},
-					failure: function(error) {
-						return error;
-					}
-				});
+				if (typeof term.name != undefined && term.name != '') {
+					$.ajax("@{Terms.save}", {
+						data: ko.mapping.toJSON(term),
+						type: "post", contentType: "application/json",
+						success: function(termId) {
+							term.id = ko.observable(termId);
+							myDictionary.terms.push(term);
+							this_.definition.makeUnactive();
+							this_.definition.active(false);
+							this_.isActive(true);
+							return '';
+						},
+						failure: function(error) {
+							return error;
+						}
+					});
+				}
 			}
 		}	
 	}

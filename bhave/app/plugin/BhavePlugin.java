@@ -38,8 +38,8 @@ public class BhavePlugin extends PlayPlugin {
 
         Router.addRoute("GET", "/@bhave/autoTest", "Bhave.autoTest");
 
-        Router.addRoute("GET", "/@bhave/displayDictionary", "Bhave.displayDictionary");
-        Router.addRoute("GET", "/@bhave/dictionary", "Bhave.getDictionary");
+        Router.addRoute("GET", "/@bhave/dictionary", "Bhave.dictionary");
+        Router.addRoute("GET", "/@bhave/dictionary.json", "Bhave.getDictionary");
         Router.addRoute("GET", "/@bhave/env", "Bhave.getEnv");
         
         Router.addRoute("DELETE", "/@bhave/term/{id}", "Terms.delete");

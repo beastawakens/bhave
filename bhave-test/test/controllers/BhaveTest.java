@@ -54,7 +54,7 @@ public class BhaveTest extends FunctionalTest {
     public void getDictionaryShouldReturnFullDictionaryAsJson() {
     	new TermsLoader().doJob();
     	Dictionary currentDictionary = new Dictionary(BTerm.<BTerm>findAll());
-    	Response response = GET("/@bhave/dictionary");
+    	Response response = GET("/@bhave/dictionary.json");
     	assertIsOk(response);
     	assertContentType("application/json", response);
     	GsonBuilder gson = new GsonBuilder();
@@ -62,8 +62,8 @@ public class BhaveTest extends FunctionalTest {
     	Dictionary returnedDictionary;
     	try {
     		returnedDictionary = gson.create().fromJson(getContent(response), Dictionary.class);
-    		assertEquals(currentDictionary.terms, returnedDictionary.terms);
-    		assertThat(returnedDictionary.terms.size(), is(17));
+    		assertEquals(returnedDictionary.terms, currentDictionary.terms);
+    		assertThat(returnedDictionary.terms.size(), is(currentDictionary.terms.size()));
     	} catch (JsonSyntaxException jse) {
     		fail();
     	}

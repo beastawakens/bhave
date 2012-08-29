@@ -72,13 +72,13 @@
 			</ul>
 
 			<ul class="definition_object_elementAttribute_container" data-bind="slideVisible: definition.terms.object.types.elementAttribute.active(), attr: {'id': 'definitionObjectElementAttribute_'+id()}">
-				<li>Attribute: <input size="30" class="definition_object_elementAttribute_input" /></li>
-				<li class="definitionStore"><button><i class="icon-upload-alt"></i></button></li>
+				<li>Attribute: <input size="30" class="definition_object_elementAttribute_input" data-bind="value: definition.terms.object.types.elementAttribute.value" /></li>
+				<li class="definitionStore"><button data-bind="click: definition.terms.object.types.elementAttribute.add"><i class="icon-upload-alt"></i></button></li>
 			</ul>
 
 			<ul class="definition_object_pageAttribute_container" data-bind="slideVisible: definition.terms.object.types.pageAttribute.active(), attr: {'id': 'definitionObjectPageAttribute_'+id()}">
-				<li>Attribute: <input size="30" class="definition_object_pageAttribute_input" /></li>
-				<li class="definitionStore"><button><i class="icon-upload-alt"></i></button></li>
+				<li>Attribute: <input size="30" class="definition_object_pageAttribute_input" data-bind="value: definition.terms.object.types.pageAttribute.value" /></li>
+				<li class="definitionStore"><button data-bind="click: definition.terms.object.types.pageAttribute.add"><i class="icon-upload-alt"></i></button></li>
 			</ul>
 		</td></tr>
 		<tr><td>
@@ -92,19 +92,19 @@
 		
 			<ul class="definition_synonym_container" data-bind="slideVisible: definition.terms.synonym.active(), attr: {'id': 'definitionSynonym_'+id()}">
 				<li>To: <input size="30" class="language_input" /></li>
-				<li class="definitionStore"><button><i class="icon-upload-alt"></i></button></li>
+				<li class="definitionStore"><button data-bind="click: definition.terms.synonym.add"><i class="icon-upload-alt"></i></button></li>
 			</ul>
 
 			<ul class="definition_article_container" data-bind="slideVisible: definition.terms.article.active(), attr: {'id': 'definitionArticle_'+id()}">
-				<li class="definitionStore"><button>Article <i class="icon-upload-alt"></i></button></li>
+				<li class="definitionStore"><button data-bind="click: definition.terms.article.add">Article <i class="icon-upload-alt"></i></button></li>
 			</ul>
 
 			<ul class="definition_subject_container" data-bind="slideVisible: definition.terms.subject.active(), attr: {'id': 'definitionSubject_'+id()}">
-				<li class="definitionStore"><button>Subject <i class="icon-upload-alt"></i></button></li>
+				<li class="definitionStore"><button data-bind="click: definition.terms.subject.add">Subject <i class="icon-upload-alt"></i></button></li>
 			</ul>
 
 			<ul class="definition_conjunction_container" data-bind="slideVisible: definition.terms.conjunction.active(), attr: {'id': 'definitionConjunction_'+id()}">
-				<li class="definitionStore"><button>Conjunction <i class="icon-upload-alt"></i></button></li>
+				<li class="definitionStore"><button data-bind="click: definition.terms.conjunction.add">Conjunction <i class="icon-upload-alt"></i></button></li>
 			</ul>
 		</td></tr>
 		<tr><td>

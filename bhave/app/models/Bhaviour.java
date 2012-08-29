@@ -18,7 +18,7 @@ public class Bhaviour extends JsonPersistingModel {
 	
 	public ArrayList<Long> screenshots;
 
-	@OneToMany
+	@ManyToMany
 	@OrderColumn
 	public List<BTerm> syntax;
 	

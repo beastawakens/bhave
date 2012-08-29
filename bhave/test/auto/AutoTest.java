@@ -26,7 +26,7 @@ public class AutoTest extends FunctionalTest {
 		String seleniumServerUrl = getSeleniumServerUrl();
 		
 		CommandExecutor executor = new HttpCommandExecutor(new java.net.URL(seleniumServerUrl));
-		webdriver = new RemoteWebDriver(executor , desiredCapabilities);
+		webdriver = new RemoteWebDriver(executor, desiredCapabilities);
 		webdriver.manage().timeouts().implicitlyWait(SELENIUM_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
 		
 		String protocol = "http";

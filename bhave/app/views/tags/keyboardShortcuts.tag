@@ -11,6 +11,12 @@ $("body").jkey('ctrl+i',function(){
 $("body").jkey('ctrl+b',function(){
 	window.location = "/@bhave/bhaviour/new";
 });
+$("body").jkey('ctrl+d',function(){
+	window.location = "/@bhave/dictionary";
+});
+$("body").jkey('ctrl+a',function(){
+	window.location = "/@bhave";
+});
 
 
 </script>
